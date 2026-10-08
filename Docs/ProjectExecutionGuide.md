@@ -105,7 +105,7 @@ Codex then performs this sequence:
 
 ### Milestone 0 — Production foundation
 
-- Maintain a recoverable checkpoint strategy because the project currently has no Git repository
+- Maintain partial asset checkpoints alongside source-only Git (2026-10-08). Content is excluded by user decision; see GitManagement.md. Git alone does not recover the full project.
 - Establish the asset registry, presentation-data conventions, IDs, logging, and repeatable two-client validation
 - Confirm the portfolio scenario and first character/monster visual direction
 

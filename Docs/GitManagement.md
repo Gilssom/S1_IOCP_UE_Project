@@ -32,4 +32,9 @@ against every possible secret. Existing whitespace warnings retained, not reform
 Git/LFS installed and Private/push permissions independently checked through API.
 No LFS objects are staged. Source includes the supplied protobuf testing headers
 otherwise excluded by the inherited generic Testing rule. Commit/push verification
-will be reported after actual execution; full clone/restore is not performed.
+completed for baseline 4be9a045bc261e189529daa17713f8033b194654: push succeeded,
+ls-remote main exactly matched local HEAD, status clean, 711 tracked files,
+Content files 0 and LFS objects 0. Required lib blob size 17,131,848 bytes verified.
+Existing initial commit preserved; no force push. No full clone/restore or new
+build/PIE was performed for this configuration-only task. Completion documentation
+is a separate subsequent commit; see git log for its exact ID.
