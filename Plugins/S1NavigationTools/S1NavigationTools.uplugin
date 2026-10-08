@@ -1,0 +1,17 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "S1 Navigation Tools",
+	"Description": "Editor-only export of S1 Recast navigation data for the external IOCP server.",
+	"Category": "S1",
+	"EnabledByDefault": false,
+	"CanContainContent": false,
+	"Modules": [
+		{
+			"Name": "S1NavigationTools",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}

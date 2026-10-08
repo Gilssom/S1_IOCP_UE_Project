@@ -66,3 +66,37 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+# S1 source-only: preserve local assets, exclude them from Git.
+/Content/
+*.uasset
+*.umap
+*.ubulk
+*.uexp
+*.uptnl
+/Saved/
+/DerivedDataCache/
+**/Intermediate/
+**/Binaries/
+/.vs/
+/.idea/
+/.vscode/
+/.codex/
+/.aws/
+*.sln
+*.slnx
+*.suo
+*.user
+*.VC.db
+*.VC.opendb
+*.sql
+*.dump
+*.pem
+*.key
+.env
+.env.*
+credentials
+checkpoints/
+!Source/ProtobufCore/Lib/Win64/libprotobuf.lib
+!Source/ProtobufCore/Include/google/protobuf/testing/
+!Source/ProtobufCore/Include/google/protobuf/testing/**
