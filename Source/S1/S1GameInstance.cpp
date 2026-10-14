@@ -310,7 +310,7 @@ void US1GameInstance::HandleEnterGamePacket(
 	{
 		CombatContractVersion = Packet.combat_contract_version();
 		if(auto* Inventory=GetSubsystem<US1InventorySubsystem>())
-			Inventory->BeginSession(Packet.player().character_info().character_id(),Packet.loot_contract_version()==1,Packet.item_use_contract_version()==1);
+			Inventory->BeginSession(Packet.player().character_info().character_id(),Packet.loot_contract_version()==1,Packet.item_use_contract_version()==1,Packet.inventory_move_contract_version()==1);
 		if(auto* Flow=GetSubsystem<US1LevelFlowSubsystem>())
 			Flow->GetLootState().Reset(Packet.loot_presentation_version()==1);
 		HandleSpawn(Packet);

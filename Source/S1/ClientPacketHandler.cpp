@@ -242,3 +242,5 @@ bool Handle_S_ITEM_USE_RESULT(PacketSessionRef& session,Protocol::S_ITEM_USE_RES
 {if(auto* Network=GetNetworkSubsystem(session)){Network->NotifyItemUseResultPacket(pkt);return true;}return false;}
 bool Handle_S_PLAYER_HEALED(PacketSessionRef& session,Protocol::S_PLAYER_HEALED& pkt)
 {if(auto* Network=GetNetworkSubsystem(session)){Network->NotifyPlayerHealedPacket(pkt);return true;}return false;}
+bool Handle_S_INVENTORY_MOVE_RESULT(PacketSessionRef& session,Protocol::S_INVENTORY_MOVE_RESULT& pkt)
+{if(auto* Network=GetNetworkSubsystem(session)){Network->NotifyInventoryMoveResultPacket(pkt);return true;}return false;}

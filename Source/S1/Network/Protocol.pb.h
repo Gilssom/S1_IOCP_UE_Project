@@ -48,7 +48,7 @@ struct TableStruct_Protocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[33]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[35]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -68,6 +68,9 @@ extern C_CREATE_CHARACTERDefaultTypeInternal _C_CREATE_CHARACTER_default_instanc
 class C_ENTER_GAME;
 struct C_ENTER_GAMEDefaultTypeInternal;
 extern C_ENTER_GAMEDefaultTypeInternal _C_ENTER_GAME_default_instance_;
+class C_INVENTORY_MOVE;
+struct C_INVENTORY_MOVEDefaultTypeInternal;
+extern C_INVENTORY_MOVEDefaultTypeInternal _C_INVENTORY_MOVE_default_instance_;
 class C_INVENTORY_QUERY;
 struct C_INVENTORY_QUERYDefaultTypeInternal;
 extern C_INVENTORY_QUERYDefaultTypeInternal _C_INVENTORY_QUERY_default_instance_;
@@ -110,6 +113,9 @@ extern S_DESPAWNDefaultTypeInternal _S_DESPAWN_default_instance_;
 class S_ENTER_GAME;
 struct S_ENTER_GAMEDefaultTypeInternal;
 extern S_ENTER_GAMEDefaultTypeInternal _S_ENTER_GAME_default_instance_;
+class S_INVENTORY_MOVE_RESULT;
+struct S_INVENTORY_MOVE_RESULTDefaultTypeInternal;
+extern S_INVENTORY_MOVE_RESULTDefaultTypeInternal _S_INVENTORY_MOVE_RESULT_default_instance_;
 class S_INVENTORY_SNAPSHOT;
 struct S_INVENTORY_SNAPSHOTDefaultTypeInternal;
 extern S_INVENTORY_SNAPSHOTDefaultTypeInternal _S_INVENTORY_SNAPSHOT_default_instance_;
@@ -161,6 +167,7 @@ template<> ::Protocol::C_CHAT* Arena::CreateMaybeMessage<::Protocol::C_CHAT>(Are
 template<> ::Protocol::C_COMBAT_ACTION* Arena::CreateMaybeMessage<::Protocol::C_COMBAT_ACTION>(Arena*);
 template<> ::Protocol::C_CREATE_CHARACTER* Arena::CreateMaybeMessage<::Protocol::C_CREATE_CHARACTER>(Arena*);
 template<> ::Protocol::C_ENTER_GAME* Arena::CreateMaybeMessage<::Protocol::C_ENTER_GAME>(Arena*);
+template<> ::Protocol::C_INVENTORY_MOVE* Arena::CreateMaybeMessage<::Protocol::C_INVENTORY_MOVE>(Arena*);
 template<> ::Protocol::C_INVENTORY_QUERY* Arena::CreateMaybeMessage<::Protocol::C_INVENTORY_QUERY>(Arena*);
 template<> ::Protocol::C_ITEM_PICKUP* Arena::CreateMaybeMessage<::Protocol::C_ITEM_PICKUP>(Arena*);
 template<> ::Protocol::C_ITEM_USE* Arena::CreateMaybeMessage<::Protocol::C_ITEM_USE>(Arena*);
@@ -175,6 +182,7 @@ template<> ::Protocol::S_CREATE_CHARACTER* Arena::CreateMaybeMessage<::Protocol:
 template<> ::Protocol::S_DAMAGE_RESULT* Arena::CreateMaybeMessage<::Protocol::S_DAMAGE_RESULT>(Arena*);
 template<> ::Protocol::S_DESPAWN* Arena::CreateMaybeMessage<::Protocol::S_DESPAWN>(Arena*);
 template<> ::Protocol::S_ENTER_GAME* Arena::CreateMaybeMessage<::Protocol::S_ENTER_GAME>(Arena*);
+template<> ::Protocol::S_INVENTORY_MOVE_RESULT* Arena::CreateMaybeMessage<::Protocol::S_INVENTORY_MOVE_RESULT>(Arena*);
 template<> ::Protocol::S_INVENTORY_SNAPSHOT* Arena::CreateMaybeMessage<::Protocol::S_INVENTORY_SNAPSHOT>(Arena*);
 template<> ::Protocol::S_ITEM_PICKUP_RESULT* Arena::CreateMaybeMessage<::Protocol::S_ITEM_PICKUP_RESULT>(Arena*);
 template<> ::Protocol::S_ITEM_USE_RESULT* Arena::CreateMaybeMessage<::Protocol::S_ITEM_USE_RESULT>(Arena*);
@@ -962,6 +970,7 @@ class C_ENTER_GAME final :
     kLootContractVersionFieldNumber = 2,
     kLootPresentationVersionFieldNumber = 3,
     kItemUseContractVersionFieldNumber = 4,
+    kInventoryMoveContractVersionFieldNumber = 5,
   };
   // uint64 character_id = 1;
   void clear_character_id();
@@ -999,6 +1008,15 @@ class C_ENTER_GAME final :
   void _internal_set_item_use_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // uint32 inventory_move_contract_version = 5;
+  void clear_inventory_move_contract_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 inventory_move_contract_version() const;
+  void set_inventory_move_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_inventory_move_contract_version() const;
+  void _internal_set_inventory_move_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.C_ENTER_GAME)
  private:
   class _Internal;
@@ -1010,6 +1028,7 @@ class C_ENTER_GAME final :
   ::PROTOBUF_NAMESPACE_ID::uint32 loot_contract_version_;
   ::PROTOBUF_NAMESPACE_ID::uint32 loot_presentation_version_;
   ::PROTOBUF_NAMESPACE_ID::uint32 item_use_contract_version_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 inventory_move_contract_version_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -1129,6 +1148,7 @@ class S_ENTER_GAME final :
     kLootContractVersionFieldNumber = 4,
     kLootPresentationVersionFieldNumber = 5,
     kItemUseContractVersionFieldNumber = 6,
+    kInventoryMoveContractVersionFieldNumber = 7,
   };
   // .Protocol.ObjectInfo player = 2;
   bool has_player() const;
@@ -1193,6 +1213,15 @@ class S_ENTER_GAME final :
   void _internal_set_item_use_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // uint32 inventory_move_contract_version = 7;
+  void clear_inventory_move_contract_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 inventory_move_contract_version() const;
+  void set_inventory_move_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_inventory_move_contract_version() const;
+  void _internal_set_inventory_move_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.S_ENTER_GAME)
  private:
   class _Internal;
@@ -1206,6 +1235,7 @@ class S_ENTER_GAME final :
   ::PROTOBUF_NAMESPACE_ID::uint32 loot_contract_version_;
   ::PROTOBUF_NAMESPACE_ID::uint32 loot_presentation_version_;
   ::PROTOBUF_NAMESPACE_ID::uint32 item_use_contract_version_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 inventory_move_contract_version_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -5817,6 +5847,412 @@ class S_PLAYER_HEALED final :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
+// -------------------------------------------------------------------
+
+class C_INVENTORY_MOVE final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C_INVENTORY_MOVE) */ {
+ public:
+  inline C_INVENTORY_MOVE() : C_INVENTORY_MOVE(nullptr) {}
+  ~C_INVENTORY_MOVE() override;
+  explicit constexpr C_INVENTORY_MOVE(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C_INVENTORY_MOVE(const C_INVENTORY_MOVE& from);
+  C_INVENTORY_MOVE(C_INVENTORY_MOVE&& from) noexcept
+    : C_INVENTORY_MOVE() {
+    *this = ::std::move(from);
+  }
+
+  inline C_INVENTORY_MOVE& operator=(const C_INVENTORY_MOVE& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C_INVENTORY_MOVE& operator=(C_INVENTORY_MOVE&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C_INVENTORY_MOVE& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C_INVENTORY_MOVE* internal_default_instance() {
+    return reinterpret_cast<const C_INVENTORY_MOVE*>(
+               &_C_INVENTORY_MOVE_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    33;
+
+  friend void swap(C_INVENTORY_MOVE& a, C_INVENTORY_MOVE& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C_INVENTORY_MOVE* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C_INVENTORY_MOVE* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C_INVENTORY_MOVE* New() const final {
+    return new C_INVENTORY_MOVE();
+  }
+
+  C_INVENTORY_MOVE* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<C_INVENTORY_MOVE>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const C_INVENTORY_MOVE& from);
+  void MergeFrom(const C_INVENTORY_MOVE& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C_INVENTORY_MOVE* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C_INVENTORY_MOVE";
+  }
+  protected:
+  explicit C_INVENTORY_MOVE(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kItemInstanceIdFieldNumber = 2,
+    kSourceSlotFieldNumber = 3,
+    kDestinationSlotFieldNumber = 4,
+    kExpectedInventoryVersionFieldNumber = 5,
+    kContractVersionFieldNumber = 6,
+  };
+  // bytes request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // uint64 item_instance_id = 2;
+  void clear_item_instance_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 item_instance_id() const;
+  void set_item_instance_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_item_instance_id() const;
+  void _internal_set_item_instance_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 source_slot = 3;
+  void clear_source_slot();
+  ::PROTOBUF_NAMESPACE_ID::uint32 source_slot() const;
+  void set_source_slot(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_source_slot() const;
+  void _internal_set_source_slot(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 destination_slot = 4;
+  void clear_destination_slot();
+  ::PROTOBUF_NAMESPACE_ID::uint32 destination_slot() const;
+  void set_destination_slot(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_destination_slot() const;
+  void _internal_set_destination_slot(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint64 expected_inventory_version = 5;
+  void clear_expected_inventory_version();
+  ::PROTOBUF_NAMESPACE_ID::uint64 expected_inventory_version() const;
+  void set_expected_inventory_version(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_expected_inventory_version() const;
+  void _internal_set_expected_inventory_version(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 contract_version = 6;
+  void clear_contract_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 contract_version() const;
+  void set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_contract_version() const;
+  void _internal_set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C_INVENTORY_MOVE)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 item_instance_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 source_slot_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 destination_slot_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 expected_inventory_version_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 contract_version_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_INVENTORY_MOVE_RESULT final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_INVENTORY_MOVE_RESULT) */ {
+ public:
+  inline S_INVENTORY_MOVE_RESULT() : S_INVENTORY_MOVE_RESULT(nullptr) {}
+  ~S_INVENTORY_MOVE_RESULT() override;
+  explicit constexpr S_INVENTORY_MOVE_RESULT(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_INVENTORY_MOVE_RESULT(const S_INVENTORY_MOVE_RESULT& from);
+  S_INVENTORY_MOVE_RESULT(S_INVENTORY_MOVE_RESULT&& from) noexcept
+    : S_INVENTORY_MOVE_RESULT() {
+    *this = ::std::move(from);
+  }
+
+  inline S_INVENTORY_MOVE_RESULT& operator=(const S_INVENTORY_MOVE_RESULT& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_INVENTORY_MOVE_RESULT& operator=(S_INVENTORY_MOVE_RESULT&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_INVENTORY_MOVE_RESULT& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_INVENTORY_MOVE_RESULT* internal_default_instance() {
+    return reinterpret_cast<const S_INVENTORY_MOVE_RESULT*>(
+               &_S_INVENTORY_MOVE_RESULT_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    34;
+
+  friend void swap(S_INVENTORY_MOVE_RESULT& a, S_INVENTORY_MOVE_RESULT& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_INVENTORY_MOVE_RESULT* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_INVENTORY_MOVE_RESULT* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_INVENTORY_MOVE_RESULT* New() const final {
+    return new S_INVENTORY_MOVE_RESULT();
+  }
+
+  S_INVENTORY_MOVE_RESULT* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_INVENTORY_MOVE_RESULT>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_INVENTORY_MOVE_RESULT& from);
+  void MergeFrom(const S_INVENTORY_MOVE_RESULT& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_INVENTORY_MOVE_RESULT* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_INVENTORY_MOVE_RESULT";
+  }
+  protected:
+  explicit S_INVENTORY_MOVE_RESULT(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kCharacterIdFieldNumber = 2,
+    kItemInstanceIdFieldNumber = 3,
+    kSourceSlotFieldNumber = 4,
+    kDestinationSlotFieldNumber = 5,
+    kInventoryVersionFieldNumber = 6,
+    kDecisionFieldNumber = 7,
+    kReasonFieldNumber = 8,
+  };
+  // bytes request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // uint64 character_id = 2;
+  void clear_character_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 character_id() const;
+  void set_character_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_character_id() const;
+  void _internal_set_character_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 item_instance_id = 3;
+  void clear_item_instance_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 item_instance_id() const;
+  void set_item_instance_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_item_instance_id() const;
+  void _internal_set_item_instance_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 source_slot = 4;
+  void clear_source_slot();
+  ::PROTOBUF_NAMESPACE_ID::uint32 source_slot() const;
+  void set_source_slot(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_source_slot() const;
+  void _internal_set_source_slot(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 destination_slot = 5;
+  void clear_destination_slot();
+  ::PROTOBUF_NAMESPACE_ID::uint32 destination_slot() const;
+  void set_destination_slot(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_destination_slot() const;
+  void _internal_set_destination_slot(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint64 inventory_version = 6;
+  void clear_inventory_version();
+  ::PROTOBUF_NAMESPACE_ID::uint64 inventory_version() const;
+  void set_inventory_version(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_inventory_version() const;
+  void _internal_set_inventory_version(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 decision = 7;
+  void clear_decision();
+  ::PROTOBUF_NAMESPACE_ID::uint32 decision() const;
+  void set_decision(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_decision() const;
+  void _internal_set_decision(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 reason = 8;
+  void clear_reason();
+  ::PROTOBUF_NAMESPACE_ID::uint32 reason() const;
+  void set_reason(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_reason() const;
+  void _internal_set_reason(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_INVENTORY_MOVE_RESULT)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 character_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 item_instance_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 source_slot_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 destination_slot_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 inventory_version_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 decision_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 reason_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
 // ===================================================================
 
 
@@ -6330,6 +6766,26 @@ inline void C_ENTER_GAME::set_item_use_contract_version(::PROTOBUF_NAMESPACE_ID:
   // @@protoc_insertion_point(field_set:Protocol.C_ENTER_GAME.item_use_contract_version)
 }
 
+// uint32 inventory_move_contract_version = 5;
+inline void C_ENTER_GAME::clear_inventory_move_contract_version() {
+  inventory_move_contract_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_ENTER_GAME::_internal_inventory_move_contract_version() const {
+  return inventory_move_contract_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_ENTER_GAME::inventory_move_contract_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_ENTER_GAME.inventory_move_contract_version)
+  return _internal_inventory_move_contract_version();
+}
+inline void C_ENTER_GAME::_internal_set_inventory_move_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  inventory_move_contract_version_ = value;
+}
+inline void C_ENTER_GAME::set_inventory_move_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_inventory_move_contract_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_ENTER_GAME.inventory_move_contract_version)
+}
+
 // -------------------------------------------------------------------
 
 // S_ENTER_GAME
@@ -6511,6 +6967,26 @@ inline void S_ENTER_GAME::_internal_set_item_use_contract_version(::PROTOBUF_NAM
 inline void S_ENTER_GAME::set_item_use_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_item_use_contract_version(value);
   // @@protoc_insertion_point(field_set:Protocol.S_ENTER_GAME.item_use_contract_version)
+}
+
+// uint32 inventory_move_contract_version = 7;
+inline void S_ENTER_GAME::clear_inventory_move_contract_version() {
+  inventory_move_contract_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_ENTER_GAME::_internal_inventory_move_contract_version() const {
+  return inventory_move_contract_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_ENTER_GAME::inventory_move_contract_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_ENTER_GAME.inventory_move_contract_version)
+  return _internal_inventory_move_contract_version();
+}
+inline void S_ENTER_GAME::_internal_set_inventory_move_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  inventory_move_contract_version_ = value;
+}
+inline void S_ENTER_GAME::set_inventory_move_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_inventory_move_contract_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_ENTER_GAME.inventory_move_contract_version)
 }
 
 // -------------------------------------------------------------------
@@ -9561,9 +10037,351 @@ inline void S_PLAYER_HEALED::set_room_event_sequence(::PROTOBUF_NAMESPACE_ID::ui
   // @@protoc_insertion_point(field_set:Protocol.S_PLAYER_HEALED.room_event_sequence)
 }
 
+// -------------------------------------------------------------------
+
+// C_INVENTORY_MOVE
+
+// bytes request_id = 1;
+inline void C_INVENTORY_MOVE::clear_request_id() {
+  request_id_.ClearToEmpty();
+}
+inline const std::string& C_INVENTORY_MOVE::request_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_INVENTORY_MOVE.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_INVENTORY_MOVE::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ request_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_INVENTORY_MOVE.request_id)
+}
+inline std::string* C_INVENTORY_MOVE::mutable_request_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.C_INVENTORY_MOVE.request_id)
+  return _internal_mutable_request_id();
+}
+inline const std::string& C_INVENTORY_MOVE::_internal_request_id() const {
+  return request_id_.Get();
+}
+inline void C_INVENTORY_MOVE::_internal_set_request_id(const std::string& value) {
+  
+  request_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* C_INVENTORY_MOVE::_internal_mutable_request_id() {
+  
+  return request_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* C_INVENTORY_MOVE::release_request_id() {
+  // @@protoc_insertion_point(field_release:Protocol.C_INVENTORY_MOVE.request_id)
+  return request_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void C_INVENTORY_MOVE::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  request_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), request_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_INVENTORY_MOVE.request_id)
+}
+
+// uint64 item_instance_id = 2;
+inline void C_INVENTORY_MOVE::clear_item_instance_id() {
+  item_instance_id_ = uint64_t{0u};
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 C_INVENTORY_MOVE::_internal_item_instance_id() const {
+  return item_instance_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 C_INVENTORY_MOVE::item_instance_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_INVENTORY_MOVE.item_instance_id)
+  return _internal_item_instance_id();
+}
+inline void C_INVENTORY_MOVE::_internal_set_item_instance_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  item_instance_id_ = value;
+}
+inline void C_INVENTORY_MOVE::set_item_instance_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_item_instance_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_INVENTORY_MOVE.item_instance_id)
+}
+
+// uint32 source_slot = 3;
+inline void C_INVENTORY_MOVE::clear_source_slot() {
+  source_slot_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_INVENTORY_MOVE::_internal_source_slot() const {
+  return source_slot_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_INVENTORY_MOVE::source_slot() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_INVENTORY_MOVE.source_slot)
+  return _internal_source_slot();
+}
+inline void C_INVENTORY_MOVE::_internal_set_source_slot(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  source_slot_ = value;
+}
+inline void C_INVENTORY_MOVE::set_source_slot(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_source_slot(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_INVENTORY_MOVE.source_slot)
+}
+
+// uint32 destination_slot = 4;
+inline void C_INVENTORY_MOVE::clear_destination_slot() {
+  destination_slot_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_INVENTORY_MOVE::_internal_destination_slot() const {
+  return destination_slot_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_INVENTORY_MOVE::destination_slot() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_INVENTORY_MOVE.destination_slot)
+  return _internal_destination_slot();
+}
+inline void C_INVENTORY_MOVE::_internal_set_destination_slot(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  destination_slot_ = value;
+}
+inline void C_INVENTORY_MOVE::set_destination_slot(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_destination_slot(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_INVENTORY_MOVE.destination_slot)
+}
+
+// uint64 expected_inventory_version = 5;
+inline void C_INVENTORY_MOVE::clear_expected_inventory_version() {
+  expected_inventory_version_ = uint64_t{0u};
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 C_INVENTORY_MOVE::_internal_expected_inventory_version() const {
+  return expected_inventory_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 C_INVENTORY_MOVE::expected_inventory_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_INVENTORY_MOVE.expected_inventory_version)
+  return _internal_expected_inventory_version();
+}
+inline void C_INVENTORY_MOVE::_internal_set_expected_inventory_version(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  expected_inventory_version_ = value;
+}
+inline void C_INVENTORY_MOVE::set_expected_inventory_version(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_expected_inventory_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_INVENTORY_MOVE.expected_inventory_version)
+}
+
+// uint32 contract_version = 6;
+inline void C_INVENTORY_MOVE::clear_contract_version() {
+  contract_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_INVENTORY_MOVE::_internal_contract_version() const {
+  return contract_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_INVENTORY_MOVE::contract_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_INVENTORY_MOVE.contract_version)
+  return _internal_contract_version();
+}
+inline void C_INVENTORY_MOVE::_internal_set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  contract_version_ = value;
+}
+inline void C_INVENTORY_MOVE::set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_contract_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_INVENTORY_MOVE.contract_version)
+}
+
+// -------------------------------------------------------------------
+
+// S_INVENTORY_MOVE_RESULT
+
+// bytes request_id = 1;
+inline void S_INVENTORY_MOVE_RESULT::clear_request_id() {
+  request_id_.ClearToEmpty();
+}
+inline const std::string& S_INVENTORY_MOVE_RESULT::request_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_INVENTORY_MOVE_RESULT.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S_INVENTORY_MOVE_RESULT::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ request_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S_INVENTORY_MOVE_RESULT.request_id)
+}
+inline std::string* S_INVENTORY_MOVE_RESULT::mutable_request_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_INVENTORY_MOVE_RESULT.request_id)
+  return _internal_mutable_request_id();
+}
+inline const std::string& S_INVENTORY_MOVE_RESULT::_internal_request_id() const {
+  return request_id_.Get();
+}
+inline void S_INVENTORY_MOVE_RESULT::_internal_set_request_id(const std::string& value) {
+  
+  request_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* S_INVENTORY_MOVE_RESULT::_internal_mutable_request_id() {
+  
+  return request_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* S_INVENTORY_MOVE_RESULT::release_request_id() {
+  // @@protoc_insertion_point(field_release:Protocol.S_INVENTORY_MOVE_RESULT.request_id)
+  return request_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void S_INVENTORY_MOVE_RESULT::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  request_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), request_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_INVENTORY_MOVE_RESULT.request_id)
+}
+
+// uint64 character_id = 2;
+inline void S_INVENTORY_MOVE_RESULT::clear_character_id() {
+  character_id_ = uint64_t{0u};
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_INVENTORY_MOVE_RESULT::_internal_character_id() const {
+  return character_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_INVENTORY_MOVE_RESULT::character_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_INVENTORY_MOVE_RESULT.character_id)
+  return _internal_character_id();
+}
+inline void S_INVENTORY_MOVE_RESULT::_internal_set_character_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  character_id_ = value;
+}
+inline void S_INVENTORY_MOVE_RESULT::set_character_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_character_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_INVENTORY_MOVE_RESULT.character_id)
+}
+
+// uint64 item_instance_id = 3;
+inline void S_INVENTORY_MOVE_RESULT::clear_item_instance_id() {
+  item_instance_id_ = uint64_t{0u};
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_INVENTORY_MOVE_RESULT::_internal_item_instance_id() const {
+  return item_instance_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_INVENTORY_MOVE_RESULT::item_instance_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_INVENTORY_MOVE_RESULT.item_instance_id)
+  return _internal_item_instance_id();
+}
+inline void S_INVENTORY_MOVE_RESULT::_internal_set_item_instance_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  item_instance_id_ = value;
+}
+inline void S_INVENTORY_MOVE_RESULT::set_item_instance_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_item_instance_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_INVENTORY_MOVE_RESULT.item_instance_id)
+}
+
+// uint32 source_slot = 4;
+inline void S_INVENTORY_MOVE_RESULT::clear_source_slot() {
+  source_slot_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_INVENTORY_MOVE_RESULT::_internal_source_slot() const {
+  return source_slot_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_INVENTORY_MOVE_RESULT::source_slot() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_INVENTORY_MOVE_RESULT.source_slot)
+  return _internal_source_slot();
+}
+inline void S_INVENTORY_MOVE_RESULT::_internal_set_source_slot(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  source_slot_ = value;
+}
+inline void S_INVENTORY_MOVE_RESULT::set_source_slot(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_source_slot(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_INVENTORY_MOVE_RESULT.source_slot)
+}
+
+// uint32 destination_slot = 5;
+inline void S_INVENTORY_MOVE_RESULT::clear_destination_slot() {
+  destination_slot_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_INVENTORY_MOVE_RESULT::_internal_destination_slot() const {
+  return destination_slot_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_INVENTORY_MOVE_RESULT::destination_slot() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_INVENTORY_MOVE_RESULT.destination_slot)
+  return _internal_destination_slot();
+}
+inline void S_INVENTORY_MOVE_RESULT::_internal_set_destination_slot(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  destination_slot_ = value;
+}
+inline void S_INVENTORY_MOVE_RESULT::set_destination_slot(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_destination_slot(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_INVENTORY_MOVE_RESULT.destination_slot)
+}
+
+// uint64 inventory_version = 6;
+inline void S_INVENTORY_MOVE_RESULT::clear_inventory_version() {
+  inventory_version_ = uint64_t{0u};
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_INVENTORY_MOVE_RESULT::_internal_inventory_version() const {
+  return inventory_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_INVENTORY_MOVE_RESULT::inventory_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_INVENTORY_MOVE_RESULT.inventory_version)
+  return _internal_inventory_version();
+}
+inline void S_INVENTORY_MOVE_RESULT::_internal_set_inventory_version(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  inventory_version_ = value;
+}
+inline void S_INVENTORY_MOVE_RESULT::set_inventory_version(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_inventory_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_INVENTORY_MOVE_RESULT.inventory_version)
+}
+
+// uint32 decision = 7;
+inline void S_INVENTORY_MOVE_RESULT::clear_decision() {
+  decision_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_INVENTORY_MOVE_RESULT::_internal_decision() const {
+  return decision_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_INVENTORY_MOVE_RESULT::decision() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_INVENTORY_MOVE_RESULT.decision)
+  return _internal_decision();
+}
+inline void S_INVENTORY_MOVE_RESULT::_internal_set_decision(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  decision_ = value;
+}
+inline void S_INVENTORY_MOVE_RESULT::set_decision(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_decision(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_INVENTORY_MOVE_RESULT.decision)
+}
+
+// uint32 reason = 8;
+inline void S_INVENTORY_MOVE_RESULT::clear_reason() {
+  reason_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_INVENTORY_MOVE_RESULT::_internal_reason() const {
+  return reason_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_INVENTORY_MOVE_RESULT::reason() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_INVENTORY_MOVE_RESULT.reason)
+  return _internal_reason();
+}
+inline void S_INVENTORY_MOVE_RESULT::_internal_set_reason(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  reason_ = value;
+}
+inline void S_INVENTORY_MOVE_RESULT::set_reason(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_reason(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_INVENTORY_MOVE_RESULT.reason)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

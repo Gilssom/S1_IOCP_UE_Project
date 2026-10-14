@@ -16,6 +16,7 @@
 #include "S1CharacterMovementComponent.h"
 #include "AbilitySystemComponent.h"
 #include "Combat/S1KnightCombatComponent.h"
+#include "UI/S1EntityHealthComponent.h"
 
 // Sets default values
 AS1Player::AS1Player(const FObjectInitializer& ObjectInitializer)
@@ -31,6 +32,9 @@ AS1Player::AS1Player(const FObjectInitializer& ObjectInitializer)
 	HealthLabel->SetHorizontalAlignment(EHTA_Center);
 	HealthLabel->SetWorldSize(22.f);
 	HealthLabel->SetText(FText::FromString(TEXT("Knight 100/100")));
+	EntityHealth = CreateDefaultSubobject<US1EntityHealthComponent>(TEXT("EntityHealth"));
+	EntityHealth->SetupAttachment(GetRootComponent());
+	EntityHealth->SetRelativeLocation(FVector(0.f,0.f,185.f));
 
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -201,6 +205,8 @@ void AS1Player::SetMoveState(Protocol::MoveState State)
 void AS1Player::BeginPlay()
 {
 	Super::BeginPlay();
+	HealthLabel->SetVisibility(bShowHealthDebugText);
+	EntityHealth->SetPresentationEnabled(IsMyPlayer());
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
 
@@ -279,6 +285,7 @@ void AS1Player::SetPlayerInfo(const Protocol::PosInfo& Info)
 
 void AS1Player::ApplyServerHealth(uint32 CurrentHp, uint32 MaxHp, bool bDead)
 {
+	if(EntityHealth)EntityHealth->SetServerView(CurrentHp,MaxHp,bDead,FText::FromString(TEXT("Knight")));
 	if (HealthLabel != nullptr)
 	{
 		HealthLabel->SetText(FText::FromString(FString::Printf(

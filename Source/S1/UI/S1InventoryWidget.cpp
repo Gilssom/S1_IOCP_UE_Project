@@ -14,9 +14,13 @@
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "Components/ScrollBox.h"
+#include "Components/UniformGridPanel.h"
+#include "UI/S1InventorySlotWidget.h"
 
 FReply US1InventoryWidget::NativeOnPreviewKeyDown(const FGeometry& Geometry,const FKeyEvent& Event)
 {
+ if(!IsDesignTime()&&bRetryRequest&&Event.GetKey()==EKeys::R)
+ {HandleUse();return FReply::Handled();}
  if(!IsDesignTime()&&(Event.GetKey()==EKeys::I||Event.GetKey()==EKeys::Escape))
  {HandleClose();return FReply::Handled();}
  return Super::NativeOnPreviewKeyDown(Geometry,Event);
@@ -25,6 +29,7 @@ FReply US1InventoryWidget::NativeOnPreviewKeyDown(const FGeometry& Geometry,cons
 void US1InventoryWidget::NativeConstruct()
 {
  Super::NativeConstruct();
+ if(InventoryGrid)SetVisibility(ESlateVisibility::SelfHitTestInvisible);
  if(UseButton)UseButton->OnClicked.AddUniqueDynamic(this,&US1InventoryWidget::HandleUse);
  if(CloseButton)CloseButton->OnClicked.AddUniqueDynamic(this,&US1InventoryWidget::HandleClose);
  if(Register1)Register1->OnClicked.AddUniqueDynamic(this,&US1InventoryWidget::HandleRegister1);
@@ -50,6 +55,8 @@ void US1InventoryWidget::NativePreConstruct()
 }
 void US1InventoryWidget::ClearRows()
 {
+ for(const auto& Cell:GridSlots)if(Cell){Cell->OnSelected.Unbind();Cell->OnUseRequested.Unbind();}
+ GridSlots.Reset();if(InventoryGrid)InventoryGrid->ClearChildren();
  for(const auto& Row:StackRows)if(Row)Row->OnSelected.Unbind();
  StackRows.Reset();if(StackEntryList)StackEntryList->ClearChildren();
 }
@@ -86,12 +93,13 @@ void US1InventoryWidget::RefreshUMG()
   if(PotionIcon->GetBrush().GetResourceObject()!=IconTexture)PotionIcon->SetBrushFromTexture(IconTexture,false);
  }
  const auto* Selected=DisplayEntries.FindByPredicate([this](const auto& E){return E.ItemId==SelectedItem;});
- if(SelectionLabel)SelectionLabel->SetText(FText::FromString(bRetryRequest?TEXT("미확정: 원래 사용 요청 재확인"):
+ if(SelectionLabel)SelectionLabel->SetText(FText::FromString(bRetryRequest?TEXT("미확정: R키로 원래 사용 요청 재확인"):
   Selected?FString::Printf(TEXT("선택: 슬롯 %u · x%u"),Selected->Slot+1,Selected->Count):TEXT("선택 없음")));
  if(UseLabel)UseLabel->SetText(FText::FromString(bRetryRequest?TEXT("같은 사용 요청 재확인"):TEXT("선택 포션 사용 (+50 HP)")));
  if(UseButton)UseButton->SetIsEnabled(bUseAllowed&&(SelectedItem!=0||bRetryRequest));
  UButton* Registers[4]={Register1,Register2,Register3,Register4};
  for(auto* Button:Registers)if(Button)Button->SetIsEnabled(bUseAllowed&&!bRetryRequest&&SelectedItem!=0);
+ if(InventoryGrid){RefreshGrid();return;}
  if(!StackEntryList||!StackEntryClass)return;
  bool bRebuild=StackRows.Num()!=DisplayEntries.Num();
  if(!bRebuild)for(int32 I=0;I<StackRows.Num();++I)
@@ -110,6 +118,34 @@ void US1InventoryWidget::RefreshUMG()
  }
  for(int32 I=0;I<FMath::Min(StackRows.Num(),DisplayEntries.Num());++I)
   StackRows[I]->SetEntry(DisplayEntries[I],DisplayEntries[I].ItemId==SelectedItem,!bRetryRequest);
+}
+
+void US1InventoryWidget::RefreshGrid()
+{
+ if(!InventoryGrid||!GridSlotClass)return;
+ if(GridSlots.Num()!=80)
+ {
+  ClearRows();
+  for(int32 I=0;I<80;++I)
+  {
+   auto* Cell=CreateWidget<US1InventorySlotWidget>(this,GridSlotClass);
+   if(!Cell)continue;
+   Cell->OnSelected.BindUObject(this,&US1InventoryWidget::SelectEntry);
+   Cell->OnUseRequested.BindUObject(this,&US1InventoryWidget::UseEntry);
+   GridSlots.Add(Cell);InventoryGrid->AddChildToUniformGrid(Cell,I/8,I%8);
+  }
+ }
+ for(int32 I=0;I<GridSlots.Num();++I)
+ {
+  const auto* Entry=DisplayEntries.FindByPredicate([I](const auto& E){return E.Slot==static_cast<uint32>(I);});
+  GridSlots[I]->SetSlot(Entry?*Entry:FS1InventoryEntryView{0,0,static_cast<uint32>(I)},bUseAllowed&&!bRetryRequest,I>=20,this);
+ }
+}
+void US1InventoryWidget::UseEntry(uint64 ItemId)
+{
+ if(IsDesignTime()||!bUseAllowed||bRetryRequest)return;
+ if(!DisplayEntries.ContainsByPredicate([ItemId](const auto& E){return E.ItemId==ItemId&&E.Count>0;}))return;
+ SelectedItem=ItemId;OnUseRequested.ExecuteIfBound(ItemId);
 }
 
 FReply US1InventoryWidget::NativeOnKeyDown(const FGeometry& Geometry,const FKeyEvent& Event)

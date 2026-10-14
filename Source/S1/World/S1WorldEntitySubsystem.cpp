@@ -300,6 +300,8 @@ bool US1WorldEntitySubsystem::ApplyMonsterUpdate(const Protocol::S_MONSTER_UPDAT
 		Packet.pos_info().z()), Packet.pos_info().yaw());
 	Monster->ApplyServerState(static_cast<int32>(Packet.state()), Packet.current_hp(),
 		Packet.max_hp());
+	Monster->SetLocalCombatTarget(MyPlayer && Packet.target_object_id()==MyPlayer->GetPlayerInfo()->object_id()
+		&& (Packet.state()==Protocol::MONSTER_STATE_CHASE || Packet.state()==Protocol::MONSTER_STATE_ATTACK));
 	return true;
 }
 
@@ -311,6 +313,7 @@ bool US1WorldEntitySubsystem::ApplyMonsterAttack(const Protocol::S_MONSTER_ATTAC
 		return false;
 	}
 	Found->Get()->PlayServerAttack(Packet.action_instance_id(), Packet.facing_yaw());
+	Found->Get()->SetLocalCombatTarget(MyPlayer && Packet.target_object_id()==MyPlayer->GetPlayerInfo()->object_id());
 	return true;
 }
 
@@ -340,12 +343,15 @@ bool US1WorldEntitySubsystem::ApplyDamageResult(const Protocol::S_DAMAGE_RESULT&
 		if (IsValid(Found->Get()))
 		{
 			Found->Get()->ApplyServerHealth(Packet.current_hp(), Packet.max_hp());
+			if(MyPlayer && Packet.source_object_id()==MyPlayer->GetPlayerInfo()->object_id())Found->Get()->NotifyLocalCombatHit();
 			TryPlayCombatImpact(Packet, Found->Get());
 			return true;
 		}
 	}
 	if (Players.Contains(Packet.target_object_id()))
 	{
+		if(MyPlayer && Packet.target_object_id()==MyPlayer->GetPlayerInfo()->object_id())
+			if(auto* Source=Monsters.Find(Packet.source_object_id());Source && IsValid(Source->Get()))Source->Get()->NotifyLocalCombatHit();
 		if(Packet.current_hp()==0){DeadPlayers.Add(Packet.target_object_id());ClearHealingEffects(Packet.target_object_id());}
 		if (AS1Player* Player = Players[Packet.target_object_id()].Get())
 		{

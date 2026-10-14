@@ -293,6 +293,8 @@ void US1NetworkSubsystem::NotifyInventorySnapshotPacket(const Protocol::S_INVENT
 
 void US1NetworkSubsystem::NotifyItemUseResultPacket(const Protocol::S_ITEM_USE_RESULT& Packet)
 {check(IsInGameThread());OnItemUseResultPacket.Broadcast(Packet);}
+void US1NetworkSubsystem::NotifyInventoryMoveResultPacket(const Protocol::S_INVENTORY_MOVE_RESULT& Packet)
+{check(IsInGameThread());OnInventoryMoveResultPacket.Broadcast(Packet);}
 void US1NetworkSubsystem::NotifyPlayerHealedPacket(const Protocol::S_PLAYER_HEALED& Packet)
 {check(IsInGameThread());OnPlayerHealedPacket.Broadcast(Packet);}
 

@@ -10,6 +10,7 @@ class US1DuskAnimInstance;
 class UTextRenderComponent;
 class UMaterialInterface;
 class UMaterialInstanceDynamic;
+class US1EntityHealthComponent;
 
 // Visual representation only. The IOCP Room owns movement, actions, and HP.
 UCLASS()
@@ -29,12 +30,19 @@ public:
 	void ApplyServerHealth(uint32 CurrentHp, uint32 MaxHp);
 	void ApplyServerTransform(const FVector& Location, float Yaw);
 	void PlayServerAttack(uint64 ActionInstanceId, float FacingYaw);
+	void SetLocalCombatTarget(bool bTargetsLocalPlayer);
+	void NotifyLocalCombatHit();
 
 private:
 	US1DuskAnimInstance* GetDuskAnimInstance() const;
 	void ApplyPresentationState(int32 State);
 	void ApplyBlueprintTuning();
 	void RefreshLabel();
+	void RefreshHealthVisibility();
+	UPROPERTY(EditDefaultsOnly, Category="Dusk|HP",meta=(ClampMin="0.0"))
+	float HealthBarCombatExitDelay=3.f;
+	bool bInLocalCombat=false;
+	double HealthBarVisibleUntil=-1.0;
 	void UpdateDeathFade(float DeltaSeconds);
 	friend class FS1DuskDeathPresentationTest;
 
@@ -75,6 +83,10 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Dusk|Presentation")
 	TObjectPtr<UTextRenderComponent> StatusLabel;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Dusk|HP",meta=(AllowPrivateAccess="true"))
+	TObjectPtr<US1EntityHealthComponent> EntityHealth;
+	UPROPERTY(EditDefaultsOnly, Category="Dusk|HP")
+	bool bShowHealthDebugText=false;
 
 	UPROPERTY()
 	TObjectPtr<UAnimSequence> IdleSequence;

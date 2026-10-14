@@ -21,7 +21,8 @@ bool FS1InventoryWidgetBlueprintTest::RunTest(const FString& Parameters)
  auto RowClass=LoadClass<US1InventoryStackWidget>(nullptr,TEXT("/Game/S1/UI/WBP_S1InventoryStackRow.WBP_S1InventoryStackRow_C"));
  if(!TestNotNull(TEXT("Saved window class"),MainClass)||!TestNotNull(TEXT("Saved row class"),RowClass))return false;
  auto* Instance=NewObject<UGameInstance>();auto* Coordinator=NewObject<US1InventorySubsystem>(Instance);
- TestTrue(TEXT("Exact subsystem class reference"),Coordinator->GetInventoryWidgetClass().Get()==MainClass);
+ auto GridClass=LoadClass<US1InventoryWidget>(nullptr,TEXT("/Game/S1/UI/WBP_S1InventoryGrid.WBP_S1InventoryGrid_C"));
+ TestTrue(TEXT("Coordinator selects new grid; legacy intent contract still valid"),GridClass&&Coordinator->GetInventoryWidgetClass().Get()==GridClass);
  auto* World=UWorld::CreateWorld(EWorldType::Game,false);
  if(!TestNotNull(TEXT("Transient presentation world"),World))return false;
  GEngine->CreateNewWorldContext(EWorldType::Game).SetCurrentWorld(World);

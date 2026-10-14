@@ -12,6 +12,7 @@
 class UAbilitySystemComponent;
 class US1KnightCombatComponent;
 class UTextRenderComponent;
+class US1EntityHealthComponent;
 
 UCLASS()
 class S1_API AS1Player : public ACharacter, public IAbilitySystemInterface
@@ -52,6 +53,11 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Combat|Presentation")
 	TObjectPtr<UTextRenderComponent> HealthLabel;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Combat|HP")
+	TObjectPtr<US1EntityHealthComponent> EntityHealth;
+	UPROPERTY(EditDefaultsOnly, Category="Combat|HP")
+	bool bShowHealthDebugText = false;
 
 	void ApplyRemoteAnimationMoveState(Protocol::MoveState State);
 

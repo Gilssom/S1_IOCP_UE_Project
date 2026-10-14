@@ -45,6 +45,8 @@ enum : uint16
 	PKT_C_ITEM_USE = 1030,
 	PKT_S_ITEM_USE_RESULT = 1031,
 	PKT_S_PLAYER_HEALED = 1032,
+	PKT_C_INVENTORY_MOVE = 1033,
+	PKT_S_INVENTORY_MOVE_RESULT = 1034,
 };
 
 // Custom Handler
@@ -71,6 +73,7 @@ bool Handle_S_ITEM_PICKUP_RESULT(PacketSessionRef& session, Protocol::S_ITEM_PIC
 bool Handle_S_INVENTORY_SNAPSHOT(PacketSessionRef& session, Protocol::S_INVENTORY_SNAPSHOT& pkt);
 bool Handle_S_ITEM_USE_RESULT(PacketSessionRef& session, Protocol::S_ITEM_USE_RESULT& pkt);
 bool Handle_S_PLAYER_HEALED(PacketSessionRef& session, Protocol::S_PLAYER_HEALED& pkt);
+bool Handle_S_INVENTORY_MOVE_RESULT(PacketSessionRef& session, Protocol::S_INVENTORY_MOVE_RESULT& pkt);
 
 class ClientPacketHandler
 {
@@ -101,6 +104,7 @@ public:
 		GPacketHandler[PKT_S_INVENTORY_SNAPSHOT] = [](PacketSessionRef& session, BYTE* buffer, int32 len){ return HandlePacket<Protocol::S_INVENTORY_SNAPSHOT>(Handle_S_INVENTORY_SNAPSHOT, session, buffer, len); };
 		GPacketHandler[PKT_S_ITEM_USE_RESULT] = [](PacketSessionRef& session, BYTE* buffer, int32 len){ return HandlePacket<Protocol::S_ITEM_USE_RESULT>(Handle_S_ITEM_USE_RESULT, session, buffer, len); };
 		GPacketHandler[PKT_S_PLAYER_HEALED] = [](PacketSessionRef& session, BYTE* buffer, int32 len){ return HandlePacket<Protocol::S_PLAYER_HEALED>(Handle_S_PLAYER_HEALED, session, buffer, len); };
+		GPacketHandler[PKT_S_INVENTORY_MOVE_RESULT] = [](PacketSessionRef& session, BYTE* buffer, int32 len){ return HandlePacket<Protocol::S_INVENTORY_MOVE_RESULT>(Handle_S_INVENTORY_MOVE_RESULT, session, buffer, len); };
 	}
 
 	static bool HandlePacket(PacketSessionRef& session, BYTE* buffer, int32 len)
@@ -119,6 +123,7 @@ public:
 	static SendBufferRef MakeSendBuffer(Protocol::C_ITEM_PICKUP& pkt) { return MakeSendBuffer(pkt, PKT_C_ITEM_PICKUP); }
 	static SendBufferRef MakeSendBuffer(Protocol::C_INVENTORY_QUERY& pkt) { return MakeSendBuffer(pkt, PKT_C_INVENTORY_QUERY); }
 	static SendBufferRef MakeSendBuffer(Protocol::C_ITEM_USE& pkt) { return MakeSendBuffer(pkt, PKT_C_ITEM_USE); }
+	static SendBufferRef MakeSendBuffer(Protocol::C_INVENTORY_MOVE& pkt) { return MakeSendBuffer(pkt, PKT_C_INVENTORY_MOVE); }
 
 private:
 	template<typename PacketType, typename ProcessFunc>

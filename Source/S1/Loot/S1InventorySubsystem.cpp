@@ -27,7 +27,7 @@ US1InventorySubsystem::US1InventorySubsystem()
 {
  static ConstructorHelpers::FClassFinder<US1QuickSlotWidget> WidgetAsset(TEXT("/Game/S1/UI/WBP_S1QuickSlots"));
  QuickSlotWidgetClass=WidgetAsset.Class;
- static ConstructorHelpers::FClassFinder<US1InventoryWidget> InventoryAsset(TEXT("/Game/S1/UI/WBP_S1Inventory"));
+ static ConstructorHelpers::FClassFinder<US1InventoryWidget> InventoryAsset(TEXT("/Game/S1/UI/WBP_S1InventoryGrid"));
  InventoryWidgetClass=InventoryAsset.Class;
 }
 
@@ -38,17 +38,18 @@ void US1InventorySubsystem::Initialize(FSubsystemCollectionBase& Collection)
  Network->OnItemPickupResultPacket.AddUObject(this,&US1InventorySubsystem::HandlePickup);
  Network->OnInventorySnapshotPacket.AddUObject(this,&US1InventorySubsystem::HandleInventory);
  Network->OnItemUseResultPacket.AddUObject(this,&US1InventorySubsystem::HandleUse);
+ Network->OnInventoryMoveResultPacket.AddUObject(this,&US1InventorySubsystem::HandleMove);
  TickHandle=FTSTicker::GetCoreTicker().AddTicker(FTickerDelegate::CreateUObject(this,&US1InventorySubsystem::Tick),0.1f);
 }
 void US1InventorySubsystem::Deinitialize()
 {
  ResetSession();FTSTicker::GetCoreTicker().RemoveTicker(TickHandle);
  if(auto* Network=GetGameInstance()->GetSubsystem<US1NetworkSubsystem>())
- {Network->OnItemPickupResultPacket.RemoveAll(this);Network->OnInventorySnapshotPacket.RemoveAll(this);Network->OnItemUseResultPacket.RemoveAll(this);}
+ {Network->OnItemPickupResultPacket.RemoveAll(this);Network->OnInventorySnapshotPacket.RemoveAll(this);Network->OnItemUseResultPacket.RemoveAll(this);Network->OnInventoryMoveResultPacket.RemoveAll(this);}
  Super::Deinitialize();
 }
-void US1InventorySubsystem::BeginSession(uint64 Character,bool bSupported,bool bUseSupported)
-{ResetSession();CharacterId=Character;bEnabled=bSupported&&Character!=0;bUseEnabled=bEnabled&&bUseSupported;State.Reset(Character);Status=TEXT("서버 인벤토리 조회 대기");LoadQuickSlots();}
+void US1InventorySubsystem::BeginSession(uint64 Character,bool bSupported,bool bUseSupported,bool bMoveSupported)
+{ResetSession();CharacterId=Character;bEnabled=bSupported&&Character!=0;bUseEnabled=bEnabled&&bUseSupported;bMoveEnabled=bEnabled&&bMoveSupported;State.Reset(Character);Status=TEXT("서버 인벤토리 조회 대기");LoadQuickSlots();}
 void US1InventorySubsystem::ResetSession()
 {
  CloseInventory();CharacterId=0;bEnabled=false;bInitialQuery=false;bQueryPending=false;
@@ -57,6 +58,7 @@ void US1InventorySubsystem::ResetSession()
  bPickupUnconfirmed=false;QueryRequest.clear();PickupRequest.clear();PickupDrop.clear();PendingKey.Reset();
  State.Reset();Status.Reset();
  UseRequest.clear();UseItem=0;bUseEnabled=false;bUseUnconfirmed=false;
+ MoveRequest.clear();MoveItem=0;MoveVersion=0;bMoveEnabled=false;bMoveReconciling=false;
 }
 AS1MyPlayer* US1InventorySubsystem::LocalPlayer() const
 {
@@ -114,6 +116,8 @@ bool US1InventorySubsystem::Tick(float Delta)
  RefreshQuickView();
  if(!bInitialQuery){bInitialQuery=true;QueryInventory();}
  const double Now=FPlatformTime::Seconds();
+ if(!MoveRequest.empty()&&Now-MoveAt>5.&&!bMoveReconciling)
+ {bMoveReconciling=true;bQueryPending=false;Status=TEXT("이동 응답 지연: 서버 위치 재조회 (재전송 없음)");QueryInventory();}
  if(bQueryPending&&Now-QueryAt>5.)
  {bQueryPending=false;Status=TEXT("조회 응답 지연: I로 다시 조회");RefreshView();}
  if(!PickupRequest.empty()&&!bPickupUnconfirmed&&Now-PickupAt>5.)
@@ -126,6 +130,7 @@ bool US1InventorySubsystem::Tick(float Delta)
 }
 void US1InventorySubsystem::RequestPickup()
 {
+ if(!MoveRequest.empty())return;
  auto* Player=LocalPlayer();auto* PC=Player?Cast<APlayerController>(Player->GetController()):nullptr;
  if(!bEnabled||!PC||PC->bShowMouseCursor||IsInventoryOpen()||PC->IsPaused()||
   Player->GetCharacterMovement()->MovementMode==MOVE_None)return;
@@ -175,7 +180,11 @@ void US1InventorySubsystem::HandleInventory(const Protocol::S_INVENTORY_SNAPSHOT
 {
  if(!bEnabled||!bQueryPending||Packet.request_id()!=QueryRequest||Packet.character_id()!=CharacterId)return;
  bQueryPending=false;
- if(State.Apply(Packet))Status=bUseEnabled?TEXT("서버 확정 수량: 스택 선택 후 사용"):TEXT("서버 확정 수량 (사용 계약 미지원)");
+ if(State.Apply(Packet))
+ {
+  if(bMoveReconciling){MoveRequest.clear();MoveItem=0;bMoveReconciling=false;}
+  Status=bUseEnabled?TEXT("서버 확정 수량: 스택 선택 후 사용"):TEXT("서버 확정 수량 (사용 계약 미지원)");
+ }
  else Status=Packet.success()?TEXT("과거 또는 잘못된 목록 무시: I로 다시 조회"):TEXT("서버 조회 실패: I로 다시 조회");
  RefreshView();
  UE_LOG(LogTemp,Log,TEXT("Inventory snapshot. Success[%d] Version[%llu] DisplayCount[%lld]"),Packet.success(),Packet.inventory_version(),State.GetCount());
@@ -186,6 +195,7 @@ void US1InventorySubsystem::ToggleInventory()
  auto* Flow=GetGameInstance()->GetSubsystem<US1LevelFlowSubsystem>();auto* Player=LocalPlayer();
  auto* PC=Player?Cast<APlayerController>(Player->GetController()):nullptr;
  if(!bEnabled||!Flow||!Flow->IsMainLevelReady()||!PC||PC->IsPaused())return;
+ if(!InventoryWidgetClass)InventoryWidgetClass=LoadClass<US1InventoryWidget>(nullptr,TEXT("/Game/S1/UI/WBP_S1InventoryGrid.WBP_S1InventoryGrid_C"));
  InventoryWidget=CreateWidget<US1InventoryWidget>(PC,InventoryWidgetClass.Get()?InventoryWidgetClass.Get():US1InventoryWidget::StaticClass());
  if(!InventoryWidget)return;
  InventoryWidget->SetIsFocusable(true);
@@ -217,7 +227,42 @@ void US1InventorySubsystem::RefreshView()
  for(const auto& Entry:State.GetEntries())
   if(Entry.item_definition_id()==20001)Entries.Add({Entry.item_instance_id(),Entry.count(),Entry.slot_index()});
  const bool bPending=!UseRequest.empty();
- InventoryWidget->SetUseView(Entries,bUseEnabled&&(bPending?bUseUnconfirmed:State.ReadyForUse()&&!bQueryPending&&PickupRequest.empty()),bPending&&bUseUnconfirmed);
+ InventoryWidget->SetUseView(Entries,MoveRequest.empty()&&bUseEnabled&&(bPending?bUseUnconfirmed:State.ReadyForUse()&&!bQueryPending&&PickupRequest.empty()),bPending&&bUseUnconfirmed);
+}
+
+bool US1InventorySubsystem::RequestMoveItem(uint64 ItemId,uint32 SourceSlot,uint32 Destination,uint64 Version,US1InventoryWidget* Source)
+{
+ if(!bMoveEnabled||!Source||Source!=InventoryWidget||SourceSlot>=20||Destination>=20||SourceSlot==Destination||
+  !State.ReadyForUse()||Version!=State.GetVersion()||bQueryPending||!MoveRequest.empty()||!UseRequest.empty()||!PickupRequest.empty())return false;
+ const auto& Entries=State.GetEntries();
+ if(!Entries.ContainsByPredicate([&](const auto& E){return E.item_instance_id()==ItemId&&E.slot_index()==SourceSlot&&E.count()>0;})||
+  Entries.ContainsByPredicate([&](const auto& E){return E.slot_index()==Destination;}))return false;
+ auto* Network=GetGameInstance()->GetSubsystem<US1NetworkSubsystem>();
+ auto* Flow=GetGameInstance()->GetSubsystem<US1LevelFlowSubsystem>();
+ auto* Player=LocalPlayer();auto* PC=Player?Cast<APlayerController>(Player->GetController()):nullptr;
+ if(!Network||!Network->IsConnected()||!Flow||!Flow->IsMainLevelReady()||!PC||PC->IsPaused())return false;
+ MoveRequest=NewRequest();MoveItem=ItemId;MoveSource=SourceSlot;MoveDestination=Destination;MoveVersion=Version;
+ bMoveReconciling=false;MoveAt=FPlatformTime::Seconds();
+ Protocol::C_INVENTORY_MOVE Packet;Packet.set_request_id(MoveRequest);Packet.set_item_instance_id(ItemId);
+ Packet.set_source_slot(SourceSlot);Packet.set_destination_slot(Destination);Packet.set_expected_inventory_version(Version);Packet.set_contract_version(1);
+ Status=TEXT("슬롯 이동 저장 중");Network->SendPacket(ClientPacketHandler::MakeSendBuffer(Packet));RefreshView();
+ UE_LOG(LogTemp,Log,TEXT("Inventory move requested. Item[%llu] From[%u] To[%u] Version[%llu] Request[%s]"),
+  ItemId,SourceSlot,Destination,Version,*FString::FromHexBlob(reinterpret_cast<const uint8*>(MoveRequest.data()),16));
+ return true;
+}
+void US1InventorySubsystem::HandleMove(const Protocol::S_INVENTORY_MOVE_RESULT& Packet)
+{
+ if(!bMoveEnabled||MoveRequest.empty()||Packet.request_id()!=MoveRequest||Packet.character_id()!=CharacterId||
+  Packet.item_instance_id()!=MoveItem||Packet.source_slot()!=MoveSource||Packet.destination_slot()!=MoveDestination||
+  Packet.decision()<1||Packet.decision()>3||Packet.reason()>7)return;
+ if(Packet.decision()==1&&(Packet.reason()!=0||Packet.inventory_version()!=MoveVersion+1))return;
+ if(Packet.decision()==2&&Packet.reason()==0)return;
+ UE_LOG(LogTemp,Log,TEXT("Inventory move result. Item[%llu] From[%u] To[%u] Decision[%u] Reason[%u] Version[%llu] Request[%s]"),
+  MoveItem,MoveSource,MoveDestination,Packet.decision(),Packet.reason(),Packet.inventory_version(),
+  *FString::FromHexBlob(reinterpret_cast<const uint8*>(MoveRequest.data()),16));
+ if(Packet.decision()==1)State.RequireVersion(Packet.inventory_version());
+ // All outcomes reconcile by a fresh snapshot; an uncertain response is not a rejection.
+ bMoveReconciling=true;bQueryPending=false;QueryInventory();
 }
 
 void US1InventorySubsystem::LoadQuickSlots()
@@ -241,17 +286,32 @@ void US1InventorySubsystem::SaveQuickSlots()
 }
 void US1InventorySubsystem::RegisterQuickSlot(int32 Slot,uint64 ItemId)
 {
+ if(!MoveRequest.empty())return;
  if(!IsInventoryOpen()||!bUseEnabled||!State.ReadyForUse()||bQueryPending||!UseRequest.empty()||!PickupRequest.empty())return;
  if(!State.GetEntries().ContainsByPredicate([ItemId](const auto& Entry){return Entry.item_instance_id()==ItemId&&Entry.item_definition_id()==20001&&Entry.count()>0;}))return;
  if(QuickSlots.Set(Slot,20001)){Status=FString::Printf(TEXT("퀵슬롯 %d 등록"),Slot+1);SaveQuickSlots();RefreshView();}
 }
 void US1InventorySubsystem::ClearQuickSlot(int32 Slot)
 {
- if(!IsInventoryOpen())return;
+ if(!IsInventoryOpen())
+ {
+  auto* Player=LocalPlayer();auto* PC=Player?Cast<APlayerController>(Player->GetController()):nullptr;
+  auto* Flow=GetGameInstance()->GetSubsystem<US1LevelFlowSubsystem>();
+  if(!bEnabled||!CharacterId||!PC||!PC->IsLocalController()||!PC->bShowMouseCursor||!Flow||!Flow->IsMainLevelReady()||PC->IsPaused())return;
+ }
  if(QuickSlots.Set(Slot,0)){Status=FString::Printf(TEXT("퀵슬롯 %d 해제"),Slot+1);SaveQuickSlots();RefreshView();}
+}
+bool US1InventorySubsystem::RegisterQuickSlotDrag(int32 Slot,uint64 ItemId,US1InventoryWidget* Source)
+{
+ if(!MoveRequest.empty())return false;
+ if(!Source||Source!=InventoryWidget||Slot<0||Slot>=4||!bUseEnabled||!State.ReadyForUse()||
+  bQueryPending||!UseRequest.empty()||!PickupRequest.empty())return false;
+ if(!State.GetEntries().ContainsByPredicate([ItemId](const auto& E){return E.item_instance_id()==ItemId&&E.item_definition_id()==20001&&E.count()>0;}))return false;
+ RegisterQuickSlot(Slot,ItemId);return true;
 }
 bool US1InventorySubsystem::CanUseQuickSlot() const
 {
+ if(!MoveRequest.empty())return false;
  auto* Player=LocalPlayer();auto* PC=Player?Cast<APlayerController>(Player->GetController()):nullptr;
  auto* Flow=GetGameInstance()->GetSubsystem<US1LevelFlowSubsystem>();
  auto* Network=GetGameInstance()->GetSubsystem<US1NetworkSubsystem>();
@@ -282,6 +342,8 @@ void US1InventorySubsystem::RequestQuickSlot(int32 Slot)
 void US1InventorySubsystem::RefreshQuickView()
 {
  if(!QuickWidget)return;
+ auto* Player=LocalPlayer();auto* PC=Player?Cast<APlayerController>(Player->GetController()):nullptr;
+ QuickWidget->SetVisibility(IsInventoryOpen()||(PC&&PC->bShowMouseCursor)?ESlateVisibility::SelfHitTestInvisible:ESlateVisibility::HitTestInvisible);
  FString Label;
  if(!bUseEnabled)Label=TEXT("미지원");
  else if(!UseRequest.empty())Label=bUseUnconfirmed?TEXT("미확정 (I)"):TEXT("처리 중");
@@ -295,6 +357,7 @@ void US1InventorySubsystem::RefreshQuickView()
 
 void US1InventorySubsystem::RequestUseItem(uint64 ItemId)
 {
+ if(!MoveRequest.empty())return;
  auto* Player=LocalPlayer();auto* Flow=GetGameInstance()->GetSubsystem<US1LevelFlowSubsystem>();
  auto* Network=GetGameInstance()->GetSubsystem<US1NetworkSubsystem>();
  auto* PC=Player?Cast<APlayerController>(Player->GetController()):nullptr;

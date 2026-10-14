@@ -9,6 +9,11 @@
 #include "Blueprint/WidgetTree.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "Components/PanelWidget.h"
+#include "Loot/S1InventorySubsystem.h"
+#include "UI/S1InventoryDragOperation.h"
+#include "InputCoreTypes.h"
+#include "Engine/GameInstance.h"
 
 void US1QuickSlotWidget::SetView(const TArray<int32>& Slots,int64 Count,const FString& State,bool bReady)
 {Definitions=Slots;Quantity=FMath::Max<int64>(0,Count);Status=State;bUsable=bReady;ApplyUMGView(Definitions,Quantity,Status,bUsable);}
@@ -66,3 +71,29 @@ TSharedRef<SWidget> US1QuickSlotWidget::RebuildWidget()
 }
 void US1QuickSlotWidget::ReleaseSlateResources(bool bReleaseChildren)
 {Super::ReleaseSlateResources(bReleaseChildren);Brush.SetResourceObject(nullptr);Icon=nullptr;}
+
+int32 US1QuickSlotWidget::SlotAtPosition(const FVector2D& Position) const
+{
+ const UImage* Icons[4]={Icon1,Icon2,Icon3,Icon4};
+ for(int32 I=0;I<4;++I)
+  if(Icons[I]&&Icons[I]->GetParent()&&Icons[I]->GetParent()->GetCachedGeometry().IsUnderLocation(Position))return I;
+ return INDEX_NONE;
+}
+FReply US1QuickSlotWidget::NativeOnMouseButtonDown(const FGeometry& Geometry,const FPointerEvent& Event)
+{
+ if(!IsDesignTime()&&Event.GetEffectingButton()==EKeys::RightMouseButton)
+ {
+  const int32 I=SlotAtPosition(Event.GetScreenSpacePosition());
+  if(I!=INDEX_NONE)
+  {if(auto* GI=GetGameInstance())GI->GetSubsystem<US1InventorySubsystem>()->ClearQuickSlot(I);return FReply::Handled();}
+ }
+ return Super::NativeOnMouseButtonDown(Geometry,Event);
+}
+bool US1QuickSlotWidget::NativeOnDrop(const FGeometry& Geometry,const FDragDropEvent& Event,UDragDropOperation* Operation)
+{
+ auto* Drag=Cast<US1InventoryDragOperation>(Operation);
+ const int32 I=SlotAtPosition(Event.GetScreenSpacePosition());
+ if(IsDesignTime()||!Drag||I==INDEX_NONE)return false;
+ auto* GI=GetGameInstance();auto* Coordinator=GI?GI->GetSubsystem<US1InventorySubsystem>():nullptr;
+ return Coordinator&&Coordinator->RegisterQuickSlotDrag(I,Drag->ItemId,Drag->SourceWindow.Get());
+}

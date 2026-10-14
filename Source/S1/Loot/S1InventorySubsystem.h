@@ -18,11 +18,13 @@ class S1_API US1InventorySubsystem : public UGameInstanceSubsystem
  friend class FS1PickupCoordinatorTest;
  friend class FS1PotionUseCoordinatorTest;
  friend class FS1QuickSlotCoordinatorTest;
+ friend class FS1InventoryGridTest;
+ friend class FS1InventoryMoveCoordinatorTest;
 public:
  US1InventorySubsystem();
  virtual void Initialize(FSubsystemCollectionBase& Collection) override;
  virtual void Deinitialize() override;
- void BeginSession(uint64 Character,bool bSupported,bool bUseSupported=false);
+ void BeginSession(uint64 Character,bool bSupported,bool bUseSupported=false,bool bMoveSupported=false);
  void ResetSession();
  void RequestPickup();
  void RequestUseItem(uint64 ItemId);
@@ -31,6 +33,9 @@ public:
  bool IsInventoryOpen() const {return InventoryWidget!=nullptr;}
  void RequestQuickSlot(int32 Slot);
  void RegisterQuickSlot(int32 Slot,uint64 ItemId);
+ bool RegisterQuickSlotDrag(int32 Slot,uint64 ItemId,US1InventoryWidget* Source);
+ bool RequestMoveItem(uint64 ItemId,uint32 SourceSlot,uint32 Destination,uint64 Version,US1InventoryWidget* Source);
+ uint64 GetInventoryVersion() const {return State.GetVersion();}
  void ClearQuickSlot(int32 Slot);
  TSubclassOf<US1QuickSlotWidget> GetQuickSlotWidgetClass() const {return QuickSlotWidgetClass;}
  TSubclassOf<US1InventoryWidget> GetInventoryWidgetClass() const {return InventoryWidgetClass;}
@@ -41,6 +46,7 @@ private:
  void HandlePickup(const Protocol::S_ITEM_PICKUP_RESULT& Packet);
  void HandleInventory(const Protocol::S_INVENTORY_SNAPSHOT& Packet);
  void HandleUse(const Protocol::S_ITEM_USE_RESULT& Packet);
+ void HandleMove(const Protocol::S_INVENTORY_MOVE_RESULT& Packet);
  void RefreshView();
  void RefreshQuickView();
  void LoadQuickSlots();
@@ -67,4 +73,9 @@ private:
  std::string UseRequest;
  uint64 UseItem=0;
  double UseAt=0;
+ bool bMoveEnabled=false,bMoveReconciling=false;
+ std::string MoveRequest;
+ uint64 MoveItem=0,MoveVersion=0;
+ uint32 MoveSource=0,MoveDestination=0;
+ double MoveAt=0;
 };

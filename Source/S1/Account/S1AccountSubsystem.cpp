@@ -196,6 +196,7 @@ void US1AccountSubsystem::EnterCharacter(int64 CharacterId)
 	Packet.set_loot_presentation_version(1);
 	Packet.set_loot_contract_version(1); // Activated only by the server's negotiated response.
 	Packet.set_item_use_contract_version(1);
+	Packet.set_inventory_move_contract_version(1);
 
 	NetworkSubsystem->SendPacket(
 		ClientPacketHandler::MakeSendBuffer(Packet));

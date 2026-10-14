@@ -32,6 +32,7 @@ namespace Protocol
 	class S_INVENTORY_SNAPSHOT;
 	class S_ITEM_USE_RESULT;
 	class S_PLAYER_HEALED;
+	class S_INVENTORY_MOVE_RESULT;
 }
 
 UENUM(BlueprintType)
@@ -92,6 +93,7 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1ItemPickupResultPacket, const Protocol:
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1InventorySnapshotPacket, const Protocol::S_INVENTORY_SNAPSHOT&);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1ItemUseResultPacket, const Protocol::S_ITEM_USE_RESULT&);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1PlayerHealedPacket, const Protocol::S_PLAYER_HEALED&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1InventoryMoveResultPacket, const Protocol::S_INVENTORY_MOVE_RESULT&);
 
 UCLASS()
 class S1_API US1NetworkSubsystem : public UGameInstanceSubsystem
@@ -140,6 +142,7 @@ public:
 	void NotifyInventorySnapshotPacket(const Protocol::S_INVENTORY_SNAPSHOT& Packet);
 	void NotifyItemUseResultPacket(const Protocol::S_ITEM_USE_RESULT& Packet);
 	void NotifyPlayerHealedPacket(const Protocol::S_PLAYER_HEALED& Packet);
+	void NotifyInventoryMoveResultPacket(const Protocol::S_INVENTORY_MOVE_RESULT& Packet);
 
 	FOnS1ConnectionStateChanged OnConnectionStateChanged;
 	FOnS1LoginPacket OnLoginPacket;
@@ -164,6 +167,7 @@ public:
 	FOnS1InventorySnapshotPacket OnInventorySnapshotPacket;
 	FOnS1ItemUseResultPacket OnItemUseResultPacket;
 	FOnS1PlayerHealedPacket OnPlayerHealedPacket;
+	FOnS1InventoryMoveResultPacket OnInventoryMoveResultPacket;
 
 private:
 	bool TickNetwork(float DeltaTime);

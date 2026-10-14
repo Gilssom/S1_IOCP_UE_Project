@@ -10,6 +10,7 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Materials/MaterialInterface.h"
 #include "UObject/ConstructorHelpers.h"
+#include "UI/S1EntityHealthComponent.h"
 
 AS1DuskMinion::AS1DuskMinion()
 {
@@ -62,11 +63,17 @@ AS1DuskMinion::AS1DuskMinion()
 	StatusLabel->SetHorizontalAlignment(EHTA_Center);
 	StatusLabel->SetWorldSize(24.f);
 	StatusLabel->SetText(FText::FromString(TEXT("Dusk")));
+	EntityHealth=CreateDefaultSubobject<US1EntityHealthComponent>(TEXT("EntityHealth"));
+	EntityHealth->SetupAttachment(GetRootComponent());
+	EntityHealth->SetRelativeLocation(FVector(0.f,0.f,150.f));
+	EntityHealth->bHideOnDeath=true;
+	EntityHealth->SetPresentationEnabled(false);
 }
 
 void AS1DuskMinion::BeginPlay()
 {
 	Super::BeginPlay();
+	StatusLabel->SetVisibility(bShowHealthDebugText);
 	// Restore the blended class only if an older Blueprint serialized SingleNode mode.
 	if (GetMesh()->GetAnimClass() != DuskAnimationClass)
 	{
@@ -103,6 +110,7 @@ void AS1DuskMinion::ApplyBlueprintTuning()
 
 void AS1DuskMinion::Tick(float DeltaSeconds)
 {
+	RefreshHealthVisibility();
 	Super::Tick(DeltaSeconds);
 	UpdateDeathFade(DeltaSeconds);
 	const bool bAttackPresentationActive = GetWorld() != nullptr &&
@@ -283,6 +291,8 @@ void AS1DuskMinion::PlayServerAttack(uint64 ActionInstanceId, float FacingYaw)
 
 void AS1DuskMinion::RefreshLabel()
 {
+	RefreshHealthVisibility();
+	if(EntityHealth)EntityHealth->SetServerView(Hp,HpMax,VisualState==5||Hp==0,FText::FromString(TEXT("Dusk")));
 	if (StatusLabel == nullptr)
 	{
 		return;
@@ -292,4 +302,22 @@ void AS1DuskMinion::RefreshLabel()
 		VisualState == 5 ? TEXT(" [DEAD]") : TEXT("");
 	StatusLabel->SetText(FText::FromString(FString::Printf(
 		TEXT("Dusk %u/%u%s"), Hp, HpMax, StateText)));
+}
+
+void AS1DuskMinion::SetLocalCombatTarget(bool bTargetsLocalPlayer)
+{
+	if(bInLocalCombat && !bTargetsLocalPlayer && GetWorld())
+		HealthBarVisibleUntil=GetWorld()->GetTimeSeconds()+HealthBarCombatExitDelay;
+	bInLocalCombat=bTargetsLocalPlayer;
+	RefreshHealthVisibility();
+}
+void AS1DuskMinion::NotifyLocalCombatHit()
+{
+	if(GetWorld())HealthBarVisibleUntil=GetWorld()->GetTimeSeconds()+HealthBarCombatExitDelay;
+	RefreshHealthVisibility();
+}
+void AS1DuskMinion::RefreshHealthVisibility()
+{
+	const bool bRecentHit=GetWorld() && GetWorld()->GetTimeSeconds()<HealthBarVisibleUntil;
+	if(EntityHealth)EntityHealth->SetPresentationEnabled(bInLocalCombat||bRecentHit);
 }
