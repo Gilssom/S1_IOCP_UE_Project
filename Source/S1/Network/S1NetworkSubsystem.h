@@ -33,6 +33,9 @@ namespace Protocol
 	class S_ITEM_USE_RESULT;
 	class S_PLAYER_HEALED;
 	class S_INVENTORY_MOVE_RESULT;
+	class S_INVENTORY_STACK_ACTION_RESULT;
+	class S_INVENTORY_DISCARD_RESULT;
+	class S_PLAYER_FIELD_DROP_RESULT;
 }
 
 UENUM(BlueprintType)
@@ -94,6 +97,9 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1InventorySnapshotPacket, const Protocol
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1ItemUseResultPacket, const Protocol::S_ITEM_USE_RESULT&);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1PlayerHealedPacket, const Protocol::S_PLAYER_HEALED&);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1InventoryMoveResultPacket, const Protocol::S_INVENTORY_MOVE_RESULT&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1InventoryStackResultPacket, const Protocol::S_INVENTORY_STACK_ACTION_RESULT&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1InventoryDiscardResultPacket, const Protocol::S_INVENTORY_DISCARD_RESULT&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1PlayerFieldDropResultPacket, const Protocol::S_PLAYER_FIELD_DROP_RESULT&);
 
 UCLASS()
 class S1_API US1NetworkSubsystem : public UGameInstanceSubsystem
@@ -143,6 +149,9 @@ public:
 	void NotifyItemUseResultPacket(const Protocol::S_ITEM_USE_RESULT& Packet);
 	void NotifyPlayerHealedPacket(const Protocol::S_PLAYER_HEALED& Packet);
 	void NotifyInventoryMoveResultPacket(const Protocol::S_INVENTORY_MOVE_RESULT& Packet);
+	void NotifyInventoryStackResultPacket(const Protocol::S_INVENTORY_STACK_ACTION_RESULT& Packet);
+	void NotifyInventoryDiscardResultPacket(const Protocol::S_INVENTORY_DISCARD_RESULT& Packet);
+	void NotifyPlayerFieldDropResultPacket(const Protocol::S_PLAYER_FIELD_DROP_RESULT& Packet);
 
 	FOnS1ConnectionStateChanged OnConnectionStateChanged;
 	FOnS1LoginPacket OnLoginPacket;
@@ -168,6 +177,9 @@ public:
 	FOnS1ItemUseResultPacket OnItemUseResultPacket;
 	FOnS1PlayerHealedPacket OnPlayerHealedPacket;
 	FOnS1InventoryMoveResultPacket OnInventoryMoveResultPacket;
+	FOnS1InventoryStackResultPacket OnInventoryStackResultPacket;
+	FOnS1InventoryDiscardResultPacket OnInventoryDiscardResultPacket;
+	FOnS1PlayerFieldDropResultPacket OnPlayerFieldDropResultPacket;
 
 private:
 	bool TickNetwork(float DeltaTime);

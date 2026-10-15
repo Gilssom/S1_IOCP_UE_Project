@@ -7,6 +7,7 @@ struct FS1LootPresentation
 {
  FString Key;
  uint64 OwnerCharacterId=0;
+ uint32 SourceKind=0,Count=1;
  FVector Floor=FVector::ZeroVector;
  uint64 ExpiresUtcMs=0;
 };

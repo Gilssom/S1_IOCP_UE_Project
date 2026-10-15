@@ -30,7 +30,7 @@ FReply US1InventorySlotWidget::NativeOnMouseButtonDown(const FGeometry& Geometry
 }
 FReply US1InventorySlotWidget::NativeOnMouseButtonDoubleClick(const FGeometry& Geometry,const FPointerEvent& Event)
 {
- if(!IsDesignTime()&&Event.GetEffectingButton()==EKeys::LeftMouseButton&&bAvailable&&!bLocked&&Entry.ItemId)
+ if(!IsDesignTime()&&Event.GetEffectingButton()==EKeys::LeftMouseButton&&!Event.IsShiftDown()&&!Event.IsControlDown()&&bAvailable&&!bLocked&&Entry.ItemId)
   OnUseRequested.ExecuteIfBound(Entry.ItemId);
  return FReply::Handled();
 }
@@ -39,16 +39,17 @@ void US1InventorySlotWidget::NativeOnDragDetected(const FGeometry& Geometry,cons
  Out=nullptr;if(IsDesignTime()||!bAvailable||bLocked||!Entry.ItemId||!SourceWindow.IsValid())return;
  auto* Drag=NewObject<US1InventoryDragOperation>();Drag->ItemId=Entry.ItemId;Drag->SourceWindow=SourceWindow;Drag->Pivot=EDragPivot::CenterCenter;
  Drag->SourceSlot=Entry.Slot;
+ Drag->bSplit=Event.IsShiftDown();Drag->bSwap=!Drag->bSplit&&Event.IsControlDown();
  if(auto* GI=GetGameInstance())Drag->InventoryVersion=GI->GetSubsystem<US1InventorySubsystem>()->GetInventoryVersion();
  if(auto* Ghost=CreateWidget<US1InventorySlotWidget>(this,GetClass()))
  {Ghost->SetSlot(Entry,false,false,nullptr);Ghost->SetVisibility(ESlateVisibility::HitTestInvisible);Drag->DefaultDragVisual=Ghost;}
  Out=Drag;
- // Cancellation/outside drop never mutates inventory. Only a validated cell drop moves.
+ // Cancellation never mutates. Outside-panel receiver opens explicit confirmation only.
 }
 bool US1InventorySlotWidget::NativeOnDrop(const FGeometry&,const FDragDropEvent&,UDragDropOperation* Operation)
 {
  auto* Drag=Cast<US1InventoryDragOperation>(Operation);
- if(IsDesignTime()||!Drag||bLocked||!bAvailable||Entry.ItemId||!SourceWindow.IsValid()||Drag->SourceWindow!=SourceWindow)return false;
+ if(IsDesignTime()||!Drag||bLocked||!bAvailable||!SourceWindow.IsValid()||Drag->SourceWindow!=SourceWindow)return false;
  auto* GI=GetGameInstance();auto* Coordinator=GI?GI->GetSubsystem<US1InventorySubsystem>():nullptr;
- return Coordinator&&Coordinator->RequestMoveItem(Drag->ItemId,Drag->SourceSlot,Entry.Slot,Drag->InventoryVersion,SourceWindow.Get());
+ return Coordinator&&Coordinator->HandleInventoryDrop(Drag->ItemId,Drag->SourceSlot,Entry.Slot,Entry.ItemId,Drag->InventoryVersion,SourceWindow.Get(),Drag->bSplit,Drag->bSwap);
 }

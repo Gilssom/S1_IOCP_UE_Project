@@ -12,5 +12,7 @@ public:
  UPROPERTY() uint64 ItemId=0;
  UPROPERTY() uint32 SourceSlot=0;
  UPROPERTY() uint64 InventoryVersion=0;
+ UPROPERTY() bool bSplit=false;
+ UPROPERTY() bool bSwap=false;
  UPROPERTY() TWeakObjectPtr<US1InventoryWidget> SourceWindow;
 };

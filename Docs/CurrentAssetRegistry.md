@@ -1,5 +1,80 @@
 # S1 Current Asset Registry
 
+2026-10-14 keycap art Candidate (external, not imported/not Active):
+UIResources/KeycapFantasy_v1/Keycap_Blank_v1.png,1254×1254 RGBA,corner alpha0/
+center253 verified. Built-in image_gen original blank square navy/silver/gold
+keycap using own InventoryFantasy_v1/Button_Frame_v1.png as style reference.
+No baked text: separately overlay existing KeyText. README records full prompt,
+UI texture/import settings,44-48px starting size and optional9slice suggestion.
+No WBP/Content import/runtime configuration changed; small-size/DPI/PIE fit
+not verified. Suitable candidate for new WBP_S1LootPickupPrompt KeyBadge art.
+
+2026-10-14 pickup prompt Active (user-reported play acceptance):
+/Game/S1/UI/WBP_S1LootPickupPrompt, parentS1LootPickupWidget,8widgets/3bindings,
+new native UMG design, no imported art. MCP warnings-as-errors compile passed;
+only this new asset saved and checkpoint hash verified. Existing UI/maps/Terra
+were clean and not saved. Screen WidgetComponent replaces old TextRender hint;
+private/public candidate/pending/server authority policies unchanged. Designer
+owns fonts/colors/layout; Potion Presentation Pickup UI exposes height/screen
+offset. Final Editor/game builds,26automatic tests and Windows package passed;
+archived exe loads new generated class (known Auth focusError1 separately).
+Fresh GUI MCP readback same parent/8widgets/3bindings/clean; asset editor opened.
+User subsequently reported this UI testing complete; agent-controlled PIE and
+packaged2client gameplay not claimed. See LootPickupUIImplementation.md.
+
+2026-10-14 player-public field-drop source integration (pending new runtime
+validation): reuses WBP_S1InventoryDiscardDialog and existing potion mesh/Niagara
+without new art. Native confirmation warns anyone can pickup /30s expiry;
+quantity is passed to world presentation. Monster drops remain owner-only.
+MCP readback: parentS1InventoryDiscardWidget,13widgets/5inherited, dirtyfalse.
+No asset saved in this feature yet. Game/Editor/server final builds and25automatic
+tests passed (known Q warning1); GameDB3table migration applied, server supported1.
+Windows package/archived class-load smoke passed (known Auth focusError1).
+Live MCP reconnected; affected BP warnings-as-errors compile passed, clean
+before/after (14widgets/7inherited in latest readback). No save performed.
+Rendered1-/2PIE remains pending.
+Old permanent-discard acceptance below is historical,
+not new field-drop validation. See PlayerFieldDropImplementation.md.
+
+2026-10-14 overhead name/HP art Candidate (external, not imported/not Active):
+UIResources/OverheadFantasy_v1 Nameplate_v1.png / HP_Track_v1.png / HP_Fill_v1.png,
+all2172x724, built-in image_gen original navy/silver/gold style referencing own
+inventory button. Corner alpha0/center253 verified; large transparent vertical
+padding remains (crop-only image_gen edit failed to remove it; original selected).
+README records manual alpha-preserving crop need, binding-safe placement/tint
+guide, prompts and limitations. Read-only MCP WBP_S1EntityHealth parent correct,
+8widgets/dirtyfalse; NameText/HealthBar/HealthText intact. No binary/code/server/
+visibility policy changes, Content import or rendered acceptance claimed.
+
+2026-10-14 permanent discard: /Game/S1/UI/WBP_S1InventoryDiscardDialog is created
+and native-wired, Active after user-reported requested PIE acceptance. Parent
+/Script/S1.S1InventoryDiscardWidget,14widgets/5bindings, warnings-as-errors compile
+passed and only this asset saved clean. Native UMG/no new imported art.
+Existing grid/split/quickslot user designs remain SHA-identical to this task's
+checkpoint. Latest Editor build and25automatic tests passed (discard warnings0/
+errors0, existing Qwarning1). Windows package passed; actual cook registry and
+archived exe class-load smoke confirm inclusion (existing Auth focusError1).
+Server final Debug link passed and new server/editor launched. User confirmed
+the requested1-/2-client PIE checklist: outside-drop partial/full deletion,
+single-item confirmation, No/Esc/I cancellation, reconnect persistence and
+quickslot/move/swap/merge/split regression. This is user-reported, not inferred
+from startup; packaged gameplay and injected-failure checks remain unverified.
+See InventoryDiscardImplementation.md for evidence and remaining gates.
+
+2026-10-14 split UI: /Game/S1/UI/WBP_S1InventorySplitDialog (parentS1InventorySplitWidget)
+new runtime-wired editable quantity modal,14widgets/4bindings. Initial soft native
+class reference omitted it from cooked registry despite packaging exit0. Replaced
+with hard native class reference after asset creation; game/editor builds and final
+24automatic tests/package passed. Actual cook registry and archived exe generated-class
+load confirm inclusion; headless smoke has existing Auth focusError1. Compile/warnings-as-errors
+and selective save clean; actual saved-class
+automation passed. Existing grid/slot/quick-slot binaries SHA unchanged. Supports
+approved Shift split / Ctrl swap / normalmerge via IOCP;20slots/99cap unchanged.
+User confirmed requested PIE split/quantity/cancel, swap, merge, reconnect persistence
+and existing quick-slot/potion use on2026-10-14. Client count unspecified; packaged
+gameplay and injected-failure acceptance remain pending. InventoryStackOperationsImplementation.md
+records code,checkpoint,provenance(nativeUMG/no new imported art) and evidence.
+
 2026-10-12 external inventory-title art candidate (not imported / not Active):
 InventoryTitle_KO_v1.png2132x738 in UIResources/InventoryFantasy_v1, original built-in
 image_gen Korean lettering '인벤토리' with silver/gold ornament, outer alpha0 verified.

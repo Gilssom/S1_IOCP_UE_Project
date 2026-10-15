@@ -47,6 +47,12 @@ enum : uint16
 	PKT_S_PLAYER_HEALED = 1032,
 	PKT_C_INVENTORY_MOVE = 1033,
 	PKT_S_INVENTORY_MOVE_RESULT = 1034,
+	PKT_C_INVENTORY_STACK_ACTION = 1035,
+	PKT_S_INVENTORY_STACK_ACTION_RESULT = 1036,
+	PKT_C_INVENTORY_DISCARD = 1037,
+	PKT_S_INVENTORY_DISCARD_RESULT = 1038,
+	PKT_C_PLAYER_FIELD_DROP = 1039,
+	PKT_S_PLAYER_FIELD_DROP_RESULT = 1040,
 };
 
 // Custom Handler
@@ -74,6 +80,9 @@ bool Handle_S_INVENTORY_SNAPSHOT(PacketSessionRef& session, Protocol::S_INVENTOR
 bool Handle_S_ITEM_USE_RESULT(PacketSessionRef& session, Protocol::S_ITEM_USE_RESULT& pkt);
 bool Handle_S_PLAYER_HEALED(PacketSessionRef& session, Protocol::S_PLAYER_HEALED& pkt);
 bool Handle_S_INVENTORY_MOVE_RESULT(PacketSessionRef& session, Protocol::S_INVENTORY_MOVE_RESULT& pkt);
+bool Handle_S_INVENTORY_STACK_ACTION_RESULT(PacketSessionRef& session, Protocol::S_INVENTORY_STACK_ACTION_RESULT& pkt);
+bool Handle_S_INVENTORY_DISCARD_RESULT(PacketSessionRef& session, Protocol::S_INVENTORY_DISCARD_RESULT& pkt);
+bool Handle_S_PLAYER_FIELD_DROP_RESULT(PacketSessionRef& session, Protocol::S_PLAYER_FIELD_DROP_RESULT& pkt);
 
 class ClientPacketHandler
 {
@@ -105,6 +114,9 @@ public:
 		GPacketHandler[PKT_S_ITEM_USE_RESULT] = [](PacketSessionRef& session, BYTE* buffer, int32 len){ return HandlePacket<Protocol::S_ITEM_USE_RESULT>(Handle_S_ITEM_USE_RESULT, session, buffer, len); };
 		GPacketHandler[PKT_S_PLAYER_HEALED] = [](PacketSessionRef& session, BYTE* buffer, int32 len){ return HandlePacket<Protocol::S_PLAYER_HEALED>(Handle_S_PLAYER_HEALED, session, buffer, len); };
 		GPacketHandler[PKT_S_INVENTORY_MOVE_RESULT] = [](PacketSessionRef& session, BYTE* buffer, int32 len){ return HandlePacket<Protocol::S_INVENTORY_MOVE_RESULT>(Handle_S_INVENTORY_MOVE_RESULT, session, buffer, len); };
+		GPacketHandler[PKT_S_INVENTORY_STACK_ACTION_RESULT] = [](PacketSessionRef& session, BYTE* buffer, int32 len){ return HandlePacket<Protocol::S_INVENTORY_STACK_ACTION_RESULT>(Handle_S_INVENTORY_STACK_ACTION_RESULT, session, buffer, len); };
+		GPacketHandler[PKT_S_INVENTORY_DISCARD_RESULT] = [](PacketSessionRef& session, BYTE* buffer, int32 len){ return HandlePacket<Protocol::S_INVENTORY_DISCARD_RESULT>(Handle_S_INVENTORY_DISCARD_RESULT, session, buffer, len); };
+		GPacketHandler[PKT_S_PLAYER_FIELD_DROP_RESULT] = [](PacketSessionRef& session, BYTE* buffer, int32 len){ return HandlePacket<Protocol::S_PLAYER_FIELD_DROP_RESULT>(Handle_S_PLAYER_FIELD_DROP_RESULT, session, buffer, len); };
 	}
 
 	static bool HandlePacket(PacketSessionRef& session, BYTE* buffer, int32 len)
@@ -124,6 +136,9 @@ public:
 	static SendBufferRef MakeSendBuffer(Protocol::C_INVENTORY_QUERY& pkt) { return MakeSendBuffer(pkt, PKT_C_INVENTORY_QUERY); }
 	static SendBufferRef MakeSendBuffer(Protocol::C_ITEM_USE& pkt) { return MakeSendBuffer(pkt, PKT_C_ITEM_USE); }
 	static SendBufferRef MakeSendBuffer(Protocol::C_INVENTORY_MOVE& pkt) { return MakeSendBuffer(pkt, PKT_C_INVENTORY_MOVE); }
+	static SendBufferRef MakeSendBuffer(Protocol::C_INVENTORY_STACK_ACTION& pkt) { return MakeSendBuffer(pkt, PKT_C_INVENTORY_STACK_ACTION); }
+	static SendBufferRef MakeSendBuffer(Protocol::C_INVENTORY_DISCARD& pkt) { return MakeSendBuffer(pkt, PKT_C_INVENTORY_DISCARD); }
+	static SendBufferRef MakeSendBuffer(Protocol::C_PLAYER_FIELD_DROP& pkt) { return MakeSendBuffer(pkt, PKT_C_PLAYER_FIELD_DROP); }
 
 private:
 	template<typename PacketType, typename ProcessFunc>

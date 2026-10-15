@@ -794,6 +794,7 @@ class LootDropInfo final :
     kExpiresUtcMsFieldNumber = 8,
     kZFieldNumber = 7,
     kDefinitionVersionFieldNumber = 9,
+    kSourceKindFieldNumber = 10,
   };
   // bytes drop_id = 1;
   void clear_drop_id();
@@ -881,6 +882,15 @@ class LootDropInfo final :
   void _internal_set_definition_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // uint32 source_kind = 10;
+  void clear_source_kind();
+  ::PROTOBUF_NAMESPACE_ID::uint32 source_kind() const;
+  void set_source_kind(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_source_kind() const;
+  void _internal_set_source_kind(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.LootDropInfo)
  private:
   class _Internal;
@@ -897,6 +907,7 @@ class LootDropInfo final :
   ::PROTOBUF_NAMESPACE_ID::uint64 expires_utc_ms_;
   float z_;
   ::PROTOBUF_NAMESPACE_ID::uint32 definition_version_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 source_kind_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Struct_2eproto;
 };
@@ -1822,6 +1833,26 @@ inline void LootDropInfo::_internal_set_definition_version(::PROTOBUF_NAMESPACE_
 inline void LootDropInfo::set_definition_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_definition_version(value);
   // @@protoc_insertion_point(field_set:Protocol.LootDropInfo.definition_version)
+}
+
+// uint32 source_kind = 10;
+inline void LootDropInfo::clear_source_kind() {
+  source_kind_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 LootDropInfo::_internal_source_kind() const {
+  return source_kind_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 LootDropInfo::source_kind() const {
+  // @@protoc_insertion_point(field_get:Protocol.LootDropInfo.source_kind)
+  return _internal_source_kind();
+}
+inline void LootDropInfo::_internal_set_source_kind(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  source_kind_ = value;
+}
+inline void LootDropInfo::set_source_kind(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_source_kind(value);
+  // @@protoc_insertion_point(field_set:Protocol.LootDropInfo.source_kind)
 }
 
 // -------------------------------------------------------------------

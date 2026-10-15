@@ -41,6 +41,16 @@ bool FS1LootActorTest::RunTest(const FString& Parameters)
   TestFalse(TEXT("No stale hint after cleanup"),Actor->IsPickupHintVisible());
   Actor->Destroy();
  }
+ AS1LootActor* Public=World->SpawnActor<AS1LootActor>();
+ if(TestNotNull(TEXT("Public field actor"),Public))
+ {
+  const FString Key=TEXT("10112233445566778899aabbccddeeff");
+  TestTrue(TEXT("Public selected quantity"),Public->ApplyServerDrop(Key,42,12,FVector::ZeroVector,true));
+  Public->ShowOwnerPickupHint(43,true,false);TestTrue(TEXT("Other authenticated character may see public hint"),Public->IsPickupHintVisible());
+  Public->ShowOwnerPickupHint(0,true,false);TestFalse(TEXT("Anonymous cannot pickup"),Public->IsPickupHintVisible());
+  TestFalse(TEXT("Cannot change public ownership policy"),Public->ApplyServerDrop(Key,42,12,FVector::ZeroVector,false));
+  Public->Destroy();
+ }
  World->DestroyWorld(false);GEngine->DestroyWorldContext(World);
  // Synthetic ownership/lifecycle checks only. No rendered GPU effect/network grant claim.
  return !HasAnyErrors();

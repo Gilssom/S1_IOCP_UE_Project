@@ -32,6 +32,8 @@ public:
  UPROPERTY(Config, EditAnywhere, Category="Presentation") float FloorOffset = 0.f;
  UPROPERTY(Config, EditAnywhere, Category="Presentation", meta=(ClampMin="0.01"))
  float EffectScale = 1.f;
+ UPROPERTY(Config,EditAnywhere,Category="Pickup UI") float PickupHintHeight=70.f;
+ UPROPERTY(Config,EditAnywhere,Category="Pickup UI") FVector2D PickupHintScreenOffset=FVector2D::ZeroVector;
 private:
  // Exact default assets anchored in the native CDO for cooker discovery, not
  // folder-wide AlwaysCook rules. Runtime still resolves editable soft paths.

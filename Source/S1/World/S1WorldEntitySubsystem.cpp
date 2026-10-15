@@ -88,7 +88,7 @@ bool US1WorldEntitySubsystem::SyncLootPresentation(const TArray<FS1LootPresentat
   {
    Actor=GetWorld()->SpawnActor<AS1LootActor>();
    if(!Actor){bSuccess=false;continue;}
-   if(!Actor->ApplyServerDrop(Drop.Key,Drop.OwnerCharacterId,1,Drop.Floor))
+   if(!Actor->ApplyServerDrop(Drop.Key,Drop.OwnerCharacterId,Drop.Count,Drop.Floor,Drop.SourceKind==2))
    {Actor->Destroy();bSuccess=false;continue;}
    LootActors.Add(Drop.Key,Actor);
    UE_LOG(LogTemp,Log,TEXT("S1 loot presentation spawned. DropId=%s Floor=%s"),*Drop.Key,*Drop.Floor.ToString());

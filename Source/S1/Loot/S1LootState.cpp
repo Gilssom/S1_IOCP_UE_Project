@@ -12,9 +12,11 @@ bool FS1LootState::Decode(const Protocol::LootDropInfo& Packet,FS1LootPresentati
 {
  FS1LootPresentation Value;
  if(!KeyFromBytes(Packet.drop_id(),Value.Key)||!Packet.owner_character_id()||
-  Packet.item_definition_id()!=20001||Packet.count()!=1||Packet.definition_version()!=1||
+  Packet.item_definition_id()!=20001||Packet.source_kind()>2||!Packet.count()||Packet.count()>99||
+  (Packet.source_kind()!=2&&Packet.count()!=1)||Packet.definition_version()!=1||
   !Packet.expires_utc_ms()||!FMath::IsFinite(Packet.x())||!FMath::IsFinite(Packet.y())||!FMath::IsFinite(Packet.z()))return false;
  Value.OwnerCharacterId=Packet.owner_character_id();
+ Value.SourceKind=Packet.source_kind();Value.Count=Packet.count();
  Value.Floor=FVector(Packet.x(),Packet.y(),Packet.z());Value.ExpiresUtcMs=Packet.expires_utc_ms();
  Result=Value;return true;
 }
@@ -39,7 +41,7 @@ bool FS1LootState::ApplyCreated(const Protocol::S_LOOT_CREATED& Packet)
  FS1LootPresentation Value;if(!Decode(Packet.drop(),Value))return false;
  if(const auto* Existing=Drops.Find(Value.Key))
  {
-  if(Existing->OwnerCharacterId!=Value.OwnerCharacterId||Existing->Floor!=Value.Floor||
+  if(Existing->OwnerCharacterId!=Value.OwnerCharacterId||Existing->SourceKind!=Value.SourceKind||Existing->Count!=Value.Count||Existing->Floor!=Value.Floor||
    Existing->ExpiresUtcMs!=Value.ExpiresUtcMs)return false;
  }
  if(Drops.Num()>=1024&&!Drops.Contains(Value.Key))return false;

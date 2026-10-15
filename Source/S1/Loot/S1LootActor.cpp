@@ -1,18 +1,20 @@
 #include "Loot/S1LootActor.h"
 #include "Loot/S1PotionPresentationSettings.h"
-#include "Camera/PlayerCameraManager.h"
+#include "UI/S1LootPickupWidget.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
-#include "Components/TextRenderComponent.h"
+#include "Components/WidgetComponent.h"
 #include "Engine/StaticMesh.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 #include "NiagaraComponent.h"
 #include "NiagaraSystem.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Misc/PackageName.h"
 
 AS1LootActor::AS1LootActor()
 {
- PrimaryActorTick.bCanEverTick=true;
+ PrimaryActorTick.bCanEverTick=false;
  bReplicates=false; // External IOCP is authoritative; no parallel UE replication.
  SceneRoot=CreateDefaultSubobject<USceneComponent>(TEXT("LootRoot"));
  SetRootComponent(SceneRoot);
@@ -26,11 +28,21 @@ AS1LootActor::AS1LootActor()
  DropEffect->SetAutoActivate(false);
  DropEffect->SetAutoDestroy(false);
  DropEffect->SetCanEverAffectNavigation(false);
- PickupHint=CreateDefaultSubobject<UTextRenderComponent>(TEXT("PickupHint"));
+ PickupHint=CreateDefaultSubobject<UWidgetComponent>(TEXT("PickupHintWidget"));
  PickupHint->SetupAttachment(SceneRoot);
  PickupHint->SetRelativeLocation(FVector(0,0,70));
- PickupHint->SetHorizontalAlignment(EHTA_Center);
- PickupHint->SetWorldSize(14.f);
+ PickupHint->SetWidgetSpace(EWidgetSpace::Screen);
+ PickupHint->SetDrawAtDesiredSize(true);
+ PickupHint->SetPivot(FVector2D(.5f,1.f));
+ PickupHint->SetWindowFocusable(false);
+ PickupHint->SetTickWhenOffscreen(false);
+ // Before first authoring there is no package; fresh runtime/cook anchors the
+ // saved exact WBP class, without folder-wide always-cook settings.
+ if(FPackageName::DoesPackageExist(TEXT("/Game/S1/UI/WBP_S1LootPickupPrompt")))
+ {
+  static ConstructorHelpers::FClassFinder<US1LootPickupWidget> Prompt(TEXT("/Game/S1/UI/WBP_S1LootPickupPrompt"));
+  PickupWidgetClass=Prompt.Class;
+ }
  PickupHint->SetVisibility(false);
  PickupHint->SetCollisionEnabled(ECollisionEnabled::NoCollision);
  PickupHint->SetCanEverAffectNavigation(false);
@@ -38,15 +50,15 @@ AS1LootActor::AS1LootActor()
 }
 
 bool AS1LootActor::ApplyServerDrop(const FString& InDropKey,uint64 InOwnerCharacterId,
- uint32 InCount,const FVector& ServerFloorPosition)
+ uint32 InCount,const FVector& ServerFloorPosition,bool bInPublic)
 {
- if(bRetired || InDropKey.Len()!=32 || !InOwnerCharacterId || InCount==0 ||
+ if(bRetired || InDropKey.Len()!=32 || !InOwnerCharacterId || InCount==0 || InCount>99 ||
   ServerFloorPosition.ContainsNaN()) return false;
  for(TCHAR Character:InDropKey) if(!FChar::IsHexDigit(Character)) return false;
  // All-zero IDs are not legitimate drop identities.
  if(InDropKey==FString::ChrN(32,TEXT('0'))) return false;
- if(!DropKey.IsEmpty() && (DropKey!=InDropKey || OwnerCharacterId!=InOwnerCharacterId || Count!=InCount)) return false;
- DropKey=InDropKey;OwnerCharacterId=InOwnerCharacterId;Count=InCount;
+ if(!DropKey.IsEmpty() && (DropKey!=InDropKey || OwnerCharacterId!=InOwnerCharacterId || Count!=InCount || bPublic!=bInPublic)) return false;
+ DropKey=InDropKey;OwnerCharacterId=InOwnerCharacterId;Count=InCount;bPublic=bInPublic;
  SetActorLocation(ServerFloorPosition,false);
  if(HasActorBegunPlay()) ActivatePresentation();
  return true;
@@ -62,6 +74,13 @@ void AS1LootActor::BeginPlay()
 void AS1LootActor::LoadPresentation()
 {
  const auto* Settings=GetDefault<US1PotionPresentationSettings>();
+ const float HintHeight=FMath::IsFinite(Settings->PickupHintHeight)?Settings->PickupHintHeight:70.f;
+ PickupHint->SetRelativeLocation(FVector(0,0,HintHeight));
+ if(PickupWidgetClass)PickupHint->SetWidgetClass(PickupWidgetClass);
+ if(auto* PC=GetWorld()->GetFirstPlayerController())PickupHint->SetOwnerPlayer(PC->GetLocalPlayer());
+ PickupHint->InitWidget();
+ if(auto* View=Cast<US1LootPickupWidget>(PickupHint->GetUserWidgetObject()))
+  View->SetRenderTranslation(Settings->PickupHintScreenOffset.ContainsNaN()?FVector2D::ZeroVector:Settings->PickupHintScreenOffset);
  const float Scale=FMath::IsFinite(Settings->MeshScale)&&Settings->MeshScale>0.f?Settings->MeshScale:0.4f;
  const float Offset=FMath::IsFinite(Settings->FloorOffset)?Settings->FloorOffset:0.f;
  PotionMesh->SetRelativeScale3D(FVector(Scale));
@@ -85,34 +104,23 @@ void AS1LootActor::ActivatePresentation()
 
 void AS1LootActor::ShowOwnerPickupHint(uint64 LocalCharacterId,bool bSelected,bool bPending)
 {
- const bool Visible=!bRetired && !DropKey.IsEmpty() && bSelected && LocalCharacterId!=0 && LocalCharacterId==OwnerCharacterId;
+ const bool Visible=!bRetired && !DropKey.IsEmpty() && bSelected && LocalCharacterId!=0 && (bPublic||LocalCharacterId==OwnerCharacterId);
  PickupHint->SetVisibility(Visible);
  if(Visible)
  {
-  const FString Text=bPending?TEXT("획득 처리 중…"):FString::Printf(TEXT("G %s x%u 획득"),
-   *GetDefault<US1PotionPresentationSettings>()->DisplayName,Count);
-  PickupHint->SetText(FText::FromString(Text));
+  if(auto* View=Cast<US1LootPickupWidget>(PickupHint->GetUserWidgetObject()))
+   View->SetPickupView(FText::FromString(GetDefault<US1PotionPresentationSettings>()->DisplayName),Count,bPending);
  }
 }
 
 bool AS1LootActor::IsPickupHintVisible() const {return PickupHint && PickupHint->IsVisible();}
-
-void AS1LootActor::Tick(float DeltaSeconds)
-{
- Super::Tick(DeltaSeconds);
- if(IsPickupHintVisible())
-  if(APlayerController* PC=GetWorld()->GetFirstPlayerController())
-   if(PC->PlayerCameraManager)
-    PickupHint->SetWorldRotation((PC->PlayerCameraManager->GetCameraLocation()-PickupHint->GetComponentLocation()).Rotation());
- // No client UTC/countdown-driven removal or auto item addition.
-}
 
 void AS1LootActor::RetirePresentation()
 {
  if(bRetired) return;
  bRetired=true;
  PickupHint->SetVisibility(false);
- PickupHint->SetText(FText::GetEmpty());
+ PickupHint->SetWidget(nullptr);
  if(DropEffect)
  {
   DropEffect->DeactivateImmediate();

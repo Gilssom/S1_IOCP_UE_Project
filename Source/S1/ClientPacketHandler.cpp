@@ -244,3 +244,9 @@ bool Handle_S_PLAYER_HEALED(PacketSessionRef& session,Protocol::S_PLAYER_HEALED&
 {if(auto* Network=GetNetworkSubsystem(session)){Network->NotifyPlayerHealedPacket(pkt);return true;}return false;}
 bool Handle_S_INVENTORY_MOVE_RESULT(PacketSessionRef& session,Protocol::S_INVENTORY_MOVE_RESULT& pkt)
 {if(auto* Network=GetNetworkSubsystem(session)){Network->NotifyInventoryMoveResultPacket(pkt);return true;}return false;}
+bool Handle_S_INVENTORY_STACK_ACTION_RESULT(PacketSessionRef& session,Protocol::S_INVENTORY_STACK_ACTION_RESULT& pkt)
+{if(auto* Network=GetNetworkSubsystem(session)){Network->NotifyInventoryStackResultPacket(pkt);return true;}return false;}
+bool Handle_S_INVENTORY_DISCARD_RESULT(PacketSessionRef& session,Protocol::S_INVENTORY_DISCARD_RESULT& pkt)
+{if(auto* Network=GetNetworkSubsystem(session)){Network->NotifyInventoryDiscardResultPacket(pkt);return true;}return false;}
+bool Handle_S_PLAYER_FIELD_DROP_RESULT(PacketSessionRef& session,Protocol::S_PLAYER_FIELD_DROP_RESULT& pkt)
+{if(auto* Network=GetNetworkSubsystem(session)){Network->NotifyPlayerFieldDropResultPacket(pkt);return true;}return false;}

@@ -43,6 +43,18 @@ bool FS1LootStateTest::RunTest(const FString& Parameters)
  TestEqual(TEXT("Previous valid state retained"),State.GetDrops().Num(),1);
  State.Reset();TestEqual(TEXT("Session cleanup"),State.GetDrops().Num(),0);
  TestFalse(TEXT("Old packet after disconnect ignored"),State.ApplySnapshot(Snapshot));
+ FS1LootPresentation Public;
+ auto PublicPacket=*Drop;PublicPacket.set_source_kind(2);PublicPacket.set_count(99);
+ TestTrue(TEXT("Public whole stack supported"),FS1LootState::Decode(PublicPacket,Public));
+ TestEqual(TEXT("Public count retained"),Public.Count,99u);
+ TestEqual(TEXT("Public provenance retained"),Public.SourceKind,2u);
+ PublicPacket.set_source_kind(1);TestFalse(TEXT("Monster drop remains single potion"),FS1LootState::Decode(PublicPacket,Public));
+ PublicPacket.set_source_kind(3);TestFalse(TEXT("Unknown source rejected"),FS1LootState::Decode(PublicPacket,Public));
+ PublicPacket.set_source_kind(2);PublicPacket.set_count(100);TestFalse(TEXT("Over stack rejected"),FS1LootState::Decode(PublicPacket,Public));
+ PublicPacket.set_count(0);TestFalse(TEXT("Zero rejected"),FS1LootState::Decode(PublicPacket,Public));
+ Protocol::C_ENTER_GAME Legacy;Protocol::S_ENTER_GAME LegacyServer;
+ TestEqual(TEXT("Legacy field opt-in absent"),Legacy.player_field_drop_contract_version(),0u);
+ TestEqual(TEXT("Legacy field capability absent"),LegacyServer.player_field_drop_contract_version(),0u);
 
  UWorld* World=UWorld::CreateWorld(EWorldType::Game,false);
  if(!TestNotNull(TEXT("World"),World))return false;
