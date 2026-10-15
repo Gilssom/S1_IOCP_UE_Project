@@ -19,11 +19,19 @@
 #include "NiagaraComponent.h"
 #include "NiagaraSystem.h"
 #include "Components/CapsuleComponent.h"
+#include "UObject/ConstructorHelpers.h"
 
 namespace
 {
 	const TCHAR* DuskBlueprintClassPath =
 		TEXT("/Game/S1/Monsters/BP_S1DuskMinion.BP_S1DuskMinion_C");
+}
+
+US1WorldEntitySubsystem::US1WorldEntitySubsystem()
+{
+	static ConstructorHelpers::FClassFinder<AS1DuskMinion> DuskBlueprint(
+		TEXT("/Game/S1/Monsters/BP_S1DuskMinion"));
+	DuskPresentationClass = DuskBlueprint.Class;
 }
 
 void US1WorldEntitySubsystem::Deinitialize()

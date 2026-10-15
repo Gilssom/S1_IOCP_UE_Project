@@ -568,10 +568,8 @@ void US1GameInstance::ShowAuthUI()
 		UGameplayStatics::GetPlayerController(this, 0))
 	{
 		FInputModeUIOnly InputMode;
-		InputMode.SetWidgetToFocus(
-			AuthWidget != nullptr
-				? AuthWidget->TakeWidget()
-				: TSharedPtr<SWidget>());
+		if (AuthWidget != nullptr)
+			InputMode.SetWidgetToFocus(AuthWidget->GetInitialFocusTarget());
 		PlayerController->SetInputMode(InputMode);
 		PlayerController->SetShowMouseCursor(true);
 	}
@@ -613,7 +611,7 @@ void US1GameInstance::ShowCharacterSelectUI()
 	{
 		FInputModeUIOnly InputMode;
 		if (CharacterSelectWidget != nullptr)
-			InputMode.SetWidgetToFocus(CharacterSelectWidget->TakeWidget());
+			InputMode.SetWidgetToFocus(CharacterSelectWidget->GetInitialFocusTarget());
 		PlayerController->SetInputMode(InputMode);
 		PlayerController->SetShowMouseCursor(true);
 	}

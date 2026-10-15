@@ -18,6 +18,7 @@ class S1_API US1CharacterSelectWidget : public UUserWidget
 
 public:
 	void RefreshCharacterList();
+	TSharedPtr<SWidget> GetInitialFocusTarget() const;
 
 protected:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
@@ -25,6 +26,8 @@ protected:
 	virtual void NativeDestruct() override;
 
 private:
+	friend class FS1AuthFocusTest;
+	void RestoreInputFocus();
 	FReply HandlePlayClicked();
 	FReply HandleOpenCreateClicked();
 	FReply HandleCreateClicked();

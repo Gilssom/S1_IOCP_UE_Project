@@ -1,5 +1,14 @@
 # S1 Current Asset Registry
 
+2026-10-15 packaged Dusk discrepancy: live MCP clean BP_S1DuskMinion currently
+has MeshFacingYawOffset=-90,visualscale0.7; prior+90 documentation is historical,
+not current saved default. Packaged clients missed BP and used native+90 fallback,
+causing180degree visual reversal. WorldEntity hard CDO/cook reference fix built;
+new Windows Development package smoke loads the BP CDO and -90 yaw successfully.
+No Blueprint/mesh/yaw value changed. User confirmed corrected packaged two-client
+Dusk movement and attack facing on 2026-10-15. Broader combat/item/reconnect
+integration acceptance remains separate.
+
 2026-10-14 keycap art Candidate (external, not imported/not Active):
 UIResources/KeycapFantasy_v1/Keycap_Blank_v1.png,1254×1254 RGBA,corner alpha0/
 center253 verified. Built-in image_gen original blank square navy/silver/gold

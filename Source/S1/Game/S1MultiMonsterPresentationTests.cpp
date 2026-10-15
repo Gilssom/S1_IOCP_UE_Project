@@ -16,6 +16,11 @@ bool FS1MultiMonsterPresentationTest::RunTest(const FString& Parameters)
 	if (!TestNotNull(TEXT("Test world"), World)) return false;
 	GEngine->CreateNewWorldContext(EWorldType::Game).SetCurrentWorld(World);
 	auto* Entities = NewObject<US1WorldEntitySubsystem>(World);
+	auto* BlueprintClass = LoadClass<AS1DuskMinion>(nullptr,
+		TEXT("/Game/S1/Monsters/BP_S1DuskMinion.BP_S1DuskMinion_C"));
+	TestNotNull(TEXT("Authored Dusk class exists"), BlueprintClass);
+	TestTrue(TEXT("Native CDO anchors the exact Dusk Blueprint for cooking"),
+		GetDefault<US1WorldEntitySubsystem>()->DuskPresentationClass.Get() == BlueprintClass);
 	Protocol::ObjectInfo Info;
 	Info.set_creature_type(Protocol::CREATURE_TYPE_MONSTER);
 	Info.set_monster_definition_id(1); Info.set_current_hp(200); Info.set_max_hp(200);
@@ -28,6 +33,9 @@ bool FS1MultiMonsterPresentationTest::RunTest(const FString& Parameters)
 		TestTrue(TEXT("Distinct monster spawned"), Entities->SpawnMonster(Info));
 	}
 	TestEqual(TEXT("Three independent registry entries"), Entities->Monsters.Num(), 3);
+	for (const auto& Entry : Entities->Monsters)
+		if (auto* Actor = Entry.Value.Get())
+			TestTrue(TEXT("Uses authored Blueprint, not native fallback"), Actor->GetClass() == BlueprintClass);
 	TestTrue(TEXT("Duplicate snapshot is idempotent"), Entities->SpawnMonster(Info));
 	TestEqual(TEXT("Duplicate creates no fourth actor"), Entities->Monsters.Num(), 3);
 	Protocol::S_DAMAGE_RESULT Damage;

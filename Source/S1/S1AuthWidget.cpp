@@ -1,6 +1,9 @@
 #include "S1AuthWidget.h"
 
 #include "S1GameInstance.h"
+#include "Engine/LocalPlayer.h"
+#include "Framework/Application/SlateApplication.h"
+#include "Framework/Application/SlateUser.h"
 #include "Styling/CoreStyle.h"
 #include "Widgets/Input/SButton.h"
 #include "Widgets/Input/SEditableTextBox.h"
@@ -14,6 +17,23 @@ namespace
 {
 	constexpr int32 LOGIN_PANEL_INDEX = 0;
 	constexpr int32 SIGN_UP_PANEL_INDEX = 1;
+}
+
+TSharedPtr<SWidget> US1AuthWidget::GetInitialFocusTarget() const
+{
+	if (!PanelSwitcher.IsValid()) return nullptr;
+	return PanelSwitcher->GetActiveWidgetIndex() == SIGN_UP_PANEL_INDEX
+		? StaticCastSharedPtr<SWidget>(SignUpAccountInput)
+		: StaticCastSharedPtr<SWidget>(LoginAccountInput);
+}
+
+void US1AuthWidget::RestoreInputFocus()
+{
+	// Async replies must not focus a hidden/removed screen or another PIE user.
+	if (!IsInViewport() || !FSlateApplication::IsInitialized()) return;
+	if (auto* Player = GetOwningLocalPlayer())
+		if (auto User = Player->GetSlateUser())
+			FSlateApplication::Get().SetUserFocus(User->GetUserIndex(), GetInitialFocusTarget());
 }
 
 TSharedRef<SWidget> US1AuthWidget::RebuildWidget()
@@ -169,6 +189,7 @@ FReply US1AuthWidget::HandleOpenSignUpClicked()
 	{
 		PanelSwitcher->SetActiveWidgetIndex(SIGN_UP_PANEL_INDEX);
 		SetStatus(TEXT("새 계정을 생성합니다."), FLinearColor::White);
+		return FReply::Handled().SetUserFocus(SignUpAccountInput.ToSharedRef(), EFocusCause::SetDirectly);
 	}
 	return FReply::Handled();
 }
@@ -216,6 +237,7 @@ FReply US1AuthWidget::HandleBackToLoginClicked()
 	{
 		PanelSwitcher->SetActiveWidgetIndex(LOGIN_PANEL_INDEX);
 		SetStatus(FString(), FLinearColor::White);
+		return FReply::Handled().SetUserFocus(LoginAccountInput.ToSharedRef(), EFocusCause::SetDirectly);
 	}
 	return FReply::Handled();
 }
@@ -228,6 +250,7 @@ void US1AuthWidget::HandleLoginCompleted(bool bSuccess, const FString& Message)
 		bSuccess ? FLinearColor(0.25f, 1.f, 0.45f) : FLinearColor(1.f, 0.25f, 0.25f));
 	if (bSuccess && LoginPasswordInput.IsValid())
 		LoginPasswordInput->SetText(FText::GetEmpty());
+	if (!bSuccess) RestoreInputFocus();
 }
 
 void US1AuthWidget::HandleSignUpCompleted(bool bSuccess, int32 ResultCode, const FString& Message)
@@ -236,6 +259,7 @@ void US1AuthWidget::HandleSignUpCompleted(bool bSuccess, int32 ResultCode, const
 	if (!bSuccess)
 	{
 		SetStatus(GetSignUpErrorMessage(ResultCode, Message), FLinearColor(1.f, 0.25f, 0.25f));
+		RestoreInputFocus();
 		return;
 	}
 
@@ -245,6 +269,7 @@ void US1AuthWidget::HandleSignUpCompleted(bool bSuccess, int32 ResultCode, const
 	ConfirmPasswordInput->SetText(FText::GetEmpty());
 	PanelSwitcher->SetActiveWidgetIndex(LOGIN_PANEL_INDEX);
 	SetStatus(TEXT("계정이 생성되었습니다. 로그인해 주세요."), FLinearColor(0.25f, 1.f, 0.45f));
+	RestoreInputFocus();
 }
 
 bool US1AuthWidget::ValidateAccountName(const FString& AccountName, FString& ErrorMessage) const

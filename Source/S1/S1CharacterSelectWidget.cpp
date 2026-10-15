@@ -1,6 +1,9 @@
 #include "S1CharacterSelectWidget.h"
 
 #include "S1GameInstance.h"
+#include "Engine/LocalPlayer.h"
+#include "Framework/Application/SlateApplication.h"
+#include "Framework/Application/SlateUser.h"
 #include "Styling/CoreStyle.h"
 #include "Widgets/Input/SButton.h"
 #include "Widgets/Input/SEditableTextBox.h"
@@ -14,6 +17,24 @@ namespace
 {
 	constexpr int32 CHARACTER_LIST_PANEL = 0;
 	constexpr int32 CHARACTER_CREATE_PANEL = 1;
+}
+
+TSharedPtr<SWidget> US1CharacterSelectWidget::GetInitialFocusTarget() const
+{
+	if (!PanelSwitcher.IsValid()) return nullptr;
+	if (PanelSwitcher->GetActiveWidgetIndex() == CHARACTER_CREATE_PANEL)
+		return CharacterNameInput;
+	if (PlayButton.IsValid() && PlayButton->IsEnabled()) return PlayButton;
+	if (OpenCreateButton.IsValid() && OpenCreateButton->IsEnabled()) return OpenCreateButton;
+	return nullptr; // In-flight buttons are disabled; don't focus hidden/disabled controls.
+}
+
+void US1CharacterSelectWidget::RestoreInputFocus()
+{
+	if (!IsInViewport() || !FSlateApplication::IsInitialized()) return;
+	if (auto* Player = GetOwningLocalPlayer())
+		if (auto User = Player->GetSlateUser())
+			FSlateApplication::Get().SetUserFocus(User->GetUserIndex(), GetInitialFocusTarget());
 }
 
 TSharedRef<SWidget> US1CharacterSelectWidget::RebuildWidget()
@@ -253,6 +274,7 @@ FReply US1CharacterSelectWidget::HandleOpenCreateClicked()
 	{
 		PanelSwitcher->SetActiveWidgetIndex(CHARACTER_CREATE_PANEL);
 		SetStatus(TEXT("이름과 직업을 선택하세요."), FLinearColor::White);
+		return FReply::Handled().SetUserFocus(CharacterNameInput.ToSharedRef(), EFocusCause::SetDirectly);
 	}
 	return FReply::Handled();
 }
@@ -285,6 +307,8 @@ FReply US1CharacterSelectWidget::HandleBackClicked()
 	{
 		PanelSwitcher->SetActiveWidgetIndex(CHARACTER_LIST_PANEL);
 		SetStatus(FString(), FLinearColor::White);
+		if (auto Target = GetInitialFocusTarget())
+			return FReply::Handled().SetUserFocus(Target.ToSharedRef(), EFocusCause::SetDirectly);
 	}
 	return FReply::Handled();
 }
@@ -310,6 +334,7 @@ void US1CharacterSelectWidget::HandleCharacterCreated(
 		SetStatus(
 			Message.IsEmpty() ? TEXT("캐릭터 생성에 실패했습니다.") : Message,
 			FLinearColor(1.f, 0.25f, 0.25f));
+		RestoreInputFocus();
 		return;
 	}
 
@@ -328,6 +353,7 @@ void US1CharacterSelectWidget::HandleCharacterCreated(
 		HandleSelectCharacter(CreatedCharacterId);
 	SetStatus(TEXT("캐릭터가 생성되었습니다. 플레이를 눌러 입장하세요."),
 		FLinearColor(0.25f, 1.f, 0.45f));
+	RestoreInputFocus();
 }
 
 void US1CharacterSelectWidget::HandleEnterGameCompleted(
@@ -339,6 +365,7 @@ void US1CharacterSelectWidget::HandleEnterGameCompleted(
 		bSuccess ? TEXT("게임 접속 성공") : Message,
 		bSuccess ? FLinearColor(0.25f, 1.f, 0.45f)
 			: FLinearColor(1.f, 0.25f, 0.25f));
+	if (!bSuccess) RestoreInputFocus();
 }
 
 bool US1CharacterSelectWidget::ValidateCharacterName(

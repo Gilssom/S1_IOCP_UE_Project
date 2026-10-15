@@ -33,6 +33,7 @@ class S1_API US1WorldEntitySubsystem : public UWorldSubsystem
 	friend class FS1MultiMonsterPresentationTest;
 
 public:
+	US1WorldEntitySubsystem();
 	virtual void Deinitialize() override;
 
 	void ConfigureOtherPlayerClass(
@@ -78,7 +79,8 @@ private:
 	void ClearHealingEffects(uint64 ObjectId);
 	bool AcceptHealthEvent(uint64 ObjectId,uint32 Sequence);
 
-	UPROPERTY(Transient)
+	// Hard CDO asset reference: runtime-only LoadClass paths are not cook roots.
+	UPROPERTY()
 	TSubclassOf<AS1DuskMinion> DuskPresentationClass;
 
 	UPROPERTY(Transient)

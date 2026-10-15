@@ -14,12 +14,18 @@ class S1_API US1AuthWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+	// Current visible native Slate input, never the non-focusable UUserWidget root.
+	TSharedPtr<SWidget> GetInitialFocusTarget() const;
+
 protected:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 
 private:
+	friend class FS1AuthFocusTest;
+	void RestoreInputFocus();
 	FReply HandleLoginClicked();
 	FReply HandleOpenSignUpClicked();
 	FReply HandleCreateAccountClicked();
