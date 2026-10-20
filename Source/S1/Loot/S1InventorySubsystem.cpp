@@ -25,9 +25,17 @@
 #include "Engine/GameViewportClient.h"
 #include "Widgets/SViewport.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Quest/S1DialogueSubsystem.h"
+
+namespace
+{
+ bool DialogueBlocks(const UWorld* World)
+ {const auto* Dialogue=World?World->GetSubsystem<US1DialogueSubsystem>():nullptr;return Dialogue&&Dialogue->IsModal();}
+}
 
 US1InventorySubsystem::US1InventorySubsystem()
 {
+ MainHUDClass=TSoftClassPtr<US1QuickSlotWidget>(FSoftObjectPath(TEXT("/Game/S1/UI/WBP_S1MainHUD.WBP_S1MainHUD_C")));
  static ConstructorHelpers::FClassFinder<US1QuickSlotWidget> WidgetAsset(TEXT("/Game/S1/UI/WBP_S1QuickSlots"));
  QuickSlotWidgetClass=WidgetAsset.Class;
  static ConstructorHelpers::FClassFinder<US1InventoryWidget> InventoryAsset(TEXT("/Game/S1/UI/WBP_S1InventoryGrid"));
@@ -74,6 +82,11 @@ void US1InventorySubsystem::ResetSession()
  StackRequest.clear();StackItem=0;StackVersion=0;bStackEnabled=false;bStackReconciling=false;
  DiscardRequest.clear();DiscardItem=0;DiscardVersion=0;bDiscardEnabled=false;bDiscardReconciling=false;
 }
+void US1InventorySubsystem::RefreshAfterQuestReward(uint64 MinimumVersion)
+{
+ if(!bEnabled)return;
+ State.RequireVersion(MinimumVersion);bQueryPending=false;QueryInventory();
+}
 AS1MyPlayer* US1InventorySubsystem::LocalPlayer() const
 {
  auto* World=GetWorld();auto* PC=World?World->GetFirstPlayerController():nullptr;
@@ -116,7 +129,6 @@ FString US1InventorySubsystem::SelectDrop() const
 }
 bool US1InventorySubsystem::Tick(float Delta)
 {
- if(!bEnabled)return true;
  auto* Flow=GetGameInstance()->GetSubsystem<US1LevelFlowSubsystem>();
  if(!Flow||!Flow->IsMainLevelReady()||!LocalPlayer())
  {if(QuickWidget){QuickWidget->RemoveFromParent();QuickWidget=nullptr;}return true;}
@@ -124,10 +136,14 @@ bool US1InventorySubsystem::Tick(float Delta)
  if(QuickWidget&&QuickWidget->GetWorld()!=GetWorld()){QuickWidget->RemoveFromParent();QuickWidget=nullptr;}
  if(!QuickWidget&&LocalPC&&LocalPC->IsLocalController())
  {
-  QuickWidget=CreateWidget<US1QuickSlotWidget>(LocalPC,QuickSlotWidgetClass.Get()?QuickSlotWidgetClass.Get():US1QuickSlotWidget::StaticClass());
+  auto* HUD=MainHUDClass.LoadSynchronous();
+  QuickWidget=CreateWidget<US1QuickSlotWidget>(LocalPC,HUD?HUD:QuickSlotWidgetClass.Get()?QuickSlotWidgetClass.Get():US1QuickSlotWidget::StaticClass());
   if(QuickWidget){QuickWidget->SetIsFocusable(false);QuickWidget->SetVisibility(ESlateVisibility::HitTestInvisible);QuickWidget->AddToViewport(10);}
  }
  RefreshQuickView();
+ // HP/combat HUD remains available even if the inventory capability is unavailable.
+ // Economic queries and requests still require the negotiated inventory capability.
+ if(!bEnabled)return true;
  if(!bInitialQuery){bInitialQuery=true;QueryInventory();}
  const double Now=FPlatformTime::Seconds();
  if(!DiscardRequest.empty()&&Now-DiscardAt>5.&&!bDiscardReconciling)
@@ -142,12 +158,25 @@ bool US1InventorySubsystem::Tick(float Delta)
  {bPickupUnconfirmed=true;Status=TEXT("획득 결과 미확정: G로 같은 요청 재확인");RefreshView();}
  if(!UseRequest.empty()&&!bUseUnconfirmed&&Now-UseAt>5.)
  {bUseUnconfirmed=true;Status=TEXT("사용 결과 미확정: 원래 요청 재확인 가능");RefreshView();}
- if(auto* Entities=GetWorld()->GetSubsystem<US1WorldEntitySubsystem>())
-  Entities->UpdateLootHints(CharacterId,PickupRequest.empty()?SelectDrop():PendingKey,!PickupRequest.empty());
  return true;
 }
-void US1InventorySubsystem::RequestPickup()
+FString US1InventorySubsystem::GetPickupCandidate(float& DistanceSquared) const
 {
+ DistanceSquared=MAX_flt;
+ const FString Key=SelectDrop();
+ if(auto* Flow=GetGameInstance()->GetSubsystem<US1LevelFlowSubsystem>())
+  for(const auto& Drop:Flow->GetLootState().GetDrops())if(Drop.Key==Key)
+   if(auto* Player=LocalPlayer())DistanceSquared=FVector::DistSquaredXY(Player->GetActorLocation(),Drop.Floor);
+ return Key;
+}
+void US1InventorySubsystem::UpdateInteractionHint(const FString& VisibleKey,bool bHide)
+{
+ if(auto* World=GetWorld())if(auto* Entities=World->GetSubsystem<US1WorldEntitySubsystem>())
+  Entities->UpdateLootHints(CharacterId,bHide?FString():PickupRequest.empty()?VisibleKey:PendingKey,!PickupRequest.empty());
+}
+void US1InventorySubsystem::RequestPickup(const FString& ExpectedDrop)
+{
+ if(DialogueBlocks(GetWorld()))return;
  if(HasDiscardWork())return;
  if(!StackRequest.empty()||SplitWidget)return;
  if(!MoveRequest.empty())return;
@@ -158,7 +187,7 @@ void US1InventorySubsystem::RequestPickup()
  {if(!bPickupUnconfirmed||FPlatformTime::Seconds()-PickupAt<1.)return;}
  else
  {
-  PendingKey=SelectDrop();if(PendingKey.IsEmpty()||!DropBytes(PendingKey,PickupDrop))return;
+  PendingKey=SelectDrop();if((!ExpectedDrop.IsEmpty()&&ExpectedDrop!=PendingKey)||PendingKey.IsEmpty()||!DropBytes(PendingKey,PickupDrop))return;
   PickupRequest=NewRequest();
  }
  auto* Network=GetGameInstance()->GetSubsystem<US1NetworkSubsystem>();if(!Network||!Network->IsConnected())return;
@@ -215,6 +244,7 @@ void US1InventorySubsystem::HandleInventory(const Protocol::S_INVENTORY_SNAPSHOT
 }
 void US1InventorySubsystem::ToggleInventory()
 {
+ if(DialogueBlocks(GetWorld()))return;
  if(IsInventoryOpen()){CloseInventory();return;}
  auto* Flow=GetGameInstance()->GetSubsystem<US1LevelFlowSubsystem>();auto* Player=LocalPlayer();
  auto* PC=Player?Cast<APlayerController>(Player->GetController()):nullptr;
@@ -490,6 +520,7 @@ bool US1InventorySubsystem::RegisterQuickSlotDrag(int32 Slot,uint64 ItemId,US1In
 }
 bool US1InventorySubsystem::CanUseQuickSlot() const
 {
+ if(DialogueBlocks(GetWorld()))return false;
  if(HasDiscardWork())return false;
  if(!StackRequest.empty()||SplitWidget)return false;
  if(!MoveRequest.empty())return false;
@@ -524,7 +555,8 @@ void US1InventorySubsystem::RefreshQuickView()
 {
  if(!QuickWidget)return;
  auto* Player=LocalPlayer();auto* PC=Player?Cast<APlayerController>(Player->GetController()):nullptr;
- QuickWidget->SetVisibility(IsInventoryOpen()||(PC&&PC->bShowMouseCursor)?ESlateVisibility::SelfHitTestInvisible:ESlateVisibility::HitTestInvisible);
+ QuickWidget->SetVisibility(DialogueBlocks(GetWorld())?ESlateVisibility::Collapsed:
+  IsInventoryOpen()||(PC&&PC->bShowMouseCursor)?ESlateVisibility::SelfHitTestInvisible:ESlateVisibility::HitTestInvisible);
  FString Label;
  if(!bUseEnabled)Label=TEXT("미지원");
  else if(!UseRequest.empty())Label=bUseUnconfirmed?TEXT("미확정 (I)"):TEXT("처리 중");
@@ -538,6 +570,7 @@ void US1InventorySubsystem::RefreshQuickView()
 
 void US1InventorySubsystem::RequestUseItem(uint64 ItemId)
 {
+ if(DialogueBlocks(GetWorld()))return;
  if(HasDiscardWork())return;
  if(!StackRequest.empty()||SplitWidget)return;
  if(!MoveRequest.empty())return;

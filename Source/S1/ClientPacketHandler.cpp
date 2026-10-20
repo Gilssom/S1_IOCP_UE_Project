@@ -250,3 +250,9 @@ bool Handle_S_INVENTORY_DISCARD_RESULT(PacketSessionRef& session,Protocol::S_INV
 {if(auto* Network=GetNetworkSubsystem(session)){Network->NotifyInventoryDiscardResultPacket(pkt);return true;}return false;}
 bool Handle_S_PLAYER_FIELD_DROP_RESULT(PacketSessionRef& session,Protocol::S_PLAYER_FIELD_DROP_RESULT& pkt)
 {if(auto* Network=GetNetworkSubsystem(session)){Network->NotifyPlayerFieldDropResultPacket(pkt);return true;}return false;}
+bool Handle_S_QUEST_STATE(PacketSessionRef& session,Protocol::S_QUEST_STATE& pkt)
+{if(auto* Network=GetNetworkSubsystem(session)){Network->NotifyQuestStatePacket(pkt);return true;}return false;}
+bool Handle_S_QUEST_ACCEPT_RESULT(PacketSessionRef& session,Protocol::S_QUEST_ACCEPT_RESULT& pkt)
+{if(auto* Network=GetNetworkSubsystem(session)){Network->NotifyQuestAcceptPacket(pkt);return true;}return false;}
+bool Handle_S_QUEST_TURN_IN_RESULT(PacketSessionRef& session,Protocol::S_QUEST_TURN_IN_RESULT& pkt)
+{if(auto* Network=GetNetworkSubsystem(session)){Network->NotifyQuestTurnInPacket(pkt);return true;}return false;}

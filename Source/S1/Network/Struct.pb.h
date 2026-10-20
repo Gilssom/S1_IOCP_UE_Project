@@ -47,7 +47,7 @@ struct TableStruct_Struct_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[5]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[6]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -70,6 +70,9 @@ extern ObjectInfoDefaultTypeInternal _ObjectInfo_default_instance_;
 class PosInfo;
 struct PosInfoDefaultTypeInternal;
 extern PosInfoDefaultTypeInternal _PosInfo_default_instance_;
+class QuestStateInfo;
+struct QuestStateInfoDefaultTypeInternal;
+extern QuestStateInfoDefaultTypeInternal _QuestStateInfo_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Protocol::CharacterInfo* Arena::CreateMaybeMessage<::Protocol::CharacterInfo>(Arena*);
@@ -77,6 +80,7 @@ template<> ::Protocol::InventoryEntry* Arena::CreateMaybeMessage<::Protocol::Inv
 template<> ::Protocol::LootDropInfo* Arena::CreateMaybeMessage<::Protocol::LootDropInfo>(Arena*);
 template<> ::Protocol::ObjectInfo* Arena::CreateMaybeMessage<::Protocol::ObjectInfo>(Arena*);
 template<> ::Protocol::PosInfo* Arena::CreateMaybeMessage<::Protocol::PosInfo>(Arena*);
+template<> ::Protocol::QuestStateInfo* Arena::CreateMaybeMessage<::Protocol::QuestStateInfo>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
@@ -1076,6 +1080,307 @@ class InventoryEntry final :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Struct_2eproto;
 };
+// -------------------------------------------------------------------
+
+class QuestStateInfo final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.QuestStateInfo) */ {
+ public:
+  inline QuestStateInfo() : QuestStateInfo(nullptr) {}
+  ~QuestStateInfo() override;
+  explicit constexpr QuestStateInfo(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  QuestStateInfo(const QuestStateInfo& from);
+  QuestStateInfo(QuestStateInfo&& from) noexcept
+    : QuestStateInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline QuestStateInfo& operator=(const QuestStateInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline QuestStateInfo& operator=(QuestStateInfo&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const QuestStateInfo& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const QuestStateInfo* internal_default_instance() {
+    return reinterpret_cast<const QuestStateInfo*>(
+               &_QuestStateInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(QuestStateInfo& a, QuestStateInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(QuestStateInfo* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(QuestStateInfo* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline QuestStateInfo* New() const final {
+    return new QuestStateInfo();
+  }
+
+  QuestStateInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<QuestStateInfo>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const QuestStateInfo& from);
+  void MergeFrom(const QuestStateInfo& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(QuestStateInfo* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.QuestStateInfo";
+  }
+  protected:
+  explicit QuestStateInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kAcceptedInstanceIdFieldNumber = 4,
+    kTitleFieldNumber = 9,
+    kDescriptionFieldNumber = 10,
+    kQuestIdFieldNumber = 1,
+    kStatusFieldNumber = 2,
+    kDefinitionVersionFieldNumber = 3,
+    kProgressFieldNumber = 5,
+    kRevisionFieldNumber = 7,
+    kRequiredFieldNumber = 6,
+    kMonsterDefinitionIdFieldNumber = 8,
+    kAcceptNpcIdFieldNumber = 11,
+    kReturnNpcIdFieldNumber = 12,
+    kRewardedFieldNumber = 13,
+    kRewardItemIdFieldNumber = 14,
+    kRewardCountFieldNumber = 15,
+  };
+  // bytes accepted_instance_id = 4;
+  void clear_accepted_instance_id();
+  const std::string& accepted_instance_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_accepted_instance_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_accepted_instance_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_accepted_instance_id();
+  void set_allocated_accepted_instance_id(std::string* accepted_instance_id);
+  private:
+  const std::string& _internal_accepted_instance_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_accepted_instance_id(const std::string& value);
+  std::string* _internal_mutable_accepted_instance_id();
+  public:
+
+  // string title = 9;
+  void clear_title();
+  const std::string& title() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_title(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_title();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_title();
+  void set_allocated_title(std::string* title);
+  private:
+  const std::string& _internal_title() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_title(const std::string& value);
+  std::string* _internal_mutable_title();
+  public:
+
+  // string description = 10;
+  void clear_description();
+  const std::string& description() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_description(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_description();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_description();
+  void set_allocated_description(std::string* description);
+  private:
+  const std::string& _internal_description() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_description(const std::string& value);
+  std::string* _internal_mutable_description();
+  public:
+
+  // uint32 quest_id = 1;
+  void clear_quest_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 quest_id() const;
+  void set_quest_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_quest_id() const;
+  void _internal_set_quest_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // .Protocol.QuestStatus status = 2;
+  void clear_status();
+  ::Protocol::QuestStatus status() const;
+  void set_status(::Protocol::QuestStatus value);
+  private:
+  ::Protocol::QuestStatus _internal_status() const;
+  void _internal_set_status(::Protocol::QuestStatus value);
+  public:
+
+  // uint32 definition_version = 3;
+  void clear_definition_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 definition_version() const;
+  void set_definition_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_definition_version() const;
+  void _internal_set_definition_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 progress = 5;
+  void clear_progress();
+  ::PROTOBUF_NAMESPACE_ID::uint32 progress() const;
+  void set_progress(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_progress() const;
+  void _internal_set_progress(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint64 revision = 7;
+  void clear_revision();
+  ::PROTOBUF_NAMESPACE_ID::uint64 revision() const;
+  void set_revision(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_revision() const;
+  void _internal_set_revision(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 required = 6;
+  void clear_required();
+  ::PROTOBUF_NAMESPACE_ID::uint32 required() const;
+  void set_required(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_required() const;
+  void _internal_set_required(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 monster_definition_id = 8;
+  void clear_monster_definition_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 monster_definition_id() const;
+  void set_monster_definition_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_monster_definition_id() const;
+  void _internal_set_monster_definition_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 accept_npc_id = 11;
+  void clear_accept_npc_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 accept_npc_id() const;
+  void set_accept_npc_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_accept_npc_id() const;
+  void _internal_set_accept_npc_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 return_npc_id = 12;
+  void clear_return_npc_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 return_npc_id() const;
+  void set_return_npc_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_return_npc_id() const;
+  void _internal_set_return_npc_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // bool rewarded = 13;
+  void clear_rewarded();
+  bool rewarded() const;
+  void set_rewarded(bool value);
+  private:
+  bool _internal_rewarded() const;
+  void _internal_set_rewarded(bool value);
+  public:
+
+  // uint32 reward_item_id = 14;
+  void clear_reward_item_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 reward_item_id() const;
+  void set_reward_item_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_reward_item_id() const;
+  void _internal_set_reward_item_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 reward_count = 15;
+  void clear_reward_count();
+  ::PROTOBUF_NAMESPACE_ID::uint32 reward_count() const;
+  void set_reward_count(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_reward_count() const;
+  void _internal_set_reward_count(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.QuestStateInfo)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr accepted_instance_id_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr title_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr description_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 quest_id_;
+  int status_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 definition_version_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 progress_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 revision_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 required_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 monster_definition_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 accept_npc_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 return_npc_id_;
+  bool rewarded_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 reward_item_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 reward_count_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Struct_2eproto;
+};
 // ===================================================================
 
 
@@ -1939,9 +2244,390 @@ inline void InventoryEntry::set_slot_index(::PROTOBUF_NAMESPACE_ID::uint32 value
   // @@protoc_insertion_point(field_set:Protocol.InventoryEntry.slot_index)
 }
 
+// -------------------------------------------------------------------
+
+// QuestStateInfo
+
+// uint32 quest_id = 1;
+inline void QuestStateInfo::clear_quest_id() {
+  quest_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::_internal_quest_id() const {
+  return quest_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::quest_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.QuestStateInfo.quest_id)
+  return _internal_quest_id();
+}
+inline void QuestStateInfo::_internal_set_quest_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  quest_id_ = value;
+}
+inline void QuestStateInfo::set_quest_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_quest_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.QuestStateInfo.quest_id)
+}
+
+// .Protocol.QuestStatus status = 2;
+inline void QuestStateInfo::clear_status() {
+  status_ = 0;
+}
+inline ::Protocol::QuestStatus QuestStateInfo::_internal_status() const {
+  return static_cast< ::Protocol::QuestStatus >(status_);
+}
+inline ::Protocol::QuestStatus QuestStateInfo::status() const {
+  // @@protoc_insertion_point(field_get:Protocol.QuestStateInfo.status)
+  return _internal_status();
+}
+inline void QuestStateInfo::_internal_set_status(::Protocol::QuestStatus value) {
+  
+  status_ = value;
+}
+inline void QuestStateInfo::set_status(::Protocol::QuestStatus value) {
+  _internal_set_status(value);
+  // @@protoc_insertion_point(field_set:Protocol.QuestStateInfo.status)
+}
+
+// uint32 definition_version = 3;
+inline void QuestStateInfo::clear_definition_version() {
+  definition_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::_internal_definition_version() const {
+  return definition_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::definition_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.QuestStateInfo.definition_version)
+  return _internal_definition_version();
+}
+inline void QuestStateInfo::_internal_set_definition_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  definition_version_ = value;
+}
+inline void QuestStateInfo::set_definition_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_definition_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.QuestStateInfo.definition_version)
+}
+
+// bytes accepted_instance_id = 4;
+inline void QuestStateInfo::clear_accepted_instance_id() {
+  accepted_instance_id_.ClearToEmpty();
+}
+inline const std::string& QuestStateInfo::accepted_instance_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.QuestStateInfo.accepted_instance_id)
+  return _internal_accepted_instance_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void QuestStateInfo::set_accepted_instance_id(ArgT0&& arg0, ArgT... args) {
+ 
+ accepted_instance_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.QuestStateInfo.accepted_instance_id)
+}
+inline std::string* QuestStateInfo::mutable_accepted_instance_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.QuestStateInfo.accepted_instance_id)
+  return _internal_mutable_accepted_instance_id();
+}
+inline const std::string& QuestStateInfo::_internal_accepted_instance_id() const {
+  return accepted_instance_id_.Get();
+}
+inline void QuestStateInfo::_internal_set_accepted_instance_id(const std::string& value) {
+  
+  accepted_instance_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* QuestStateInfo::_internal_mutable_accepted_instance_id() {
+  
+  return accepted_instance_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* QuestStateInfo::release_accepted_instance_id() {
+  // @@protoc_insertion_point(field_release:Protocol.QuestStateInfo.accepted_instance_id)
+  return accepted_instance_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void QuestStateInfo::set_allocated_accepted_instance_id(std::string* accepted_instance_id) {
+  if (accepted_instance_id != nullptr) {
+    
+  } else {
+    
+  }
+  accepted_instance_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), accepted_instance_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.QuestStateInfo.accepted_instance_id)
+}
+
+// uint32 progress = 5;
+inline void QuestStateInfo::clear_progress() {
+  progress_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::_internal_progress() const {
+  return progress_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::progress() const {
+  // @@protoc_insertion_point(field_get:Protocol.QuestStateInfo.progress)
+  return _internal_progress();
+}
+inline void QuestStateInfo::_internal_set_progress(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  progress_ = value;
+}
+inline void QuestStateInfo::set_progress(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_progress(value);
+  // @@protoc_insertion_point(field_set:Protocol.QuestStateInfo.progress)
+}
+
+// uint32 required = 6;
+inline void QuestStateInfo::clear_required() {
+  required_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::_internal_required() const {
+  return required_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::required() const {
+  // @@protoc_insertion_point(field_get:Protocol.QuestStateInfo.required)
+  return _internal_required();
+}
+inline void QuestStateInfo::_internal_set_required(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  required_ = value;
+}
+inline void QuestStateInfo::set_required(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_required(value);
+  // @@protoc_insertion_point(field_set:Protocol.QuestStateInfo.required)
+}
+
+// uint64 revision = 7;
+inline void QuestStateInfo::clear_revision() {
+  revision_ = uint64_t{0u};
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 QuestStateInfo::_internal_revision() const {
+  return revision_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 QuestStateInfo::revision() const {
+  // @@protoc_insertion_point(field_get:Protocol.QuestStateInfo.revision)
+  return _internal_revision();
+}
+inline void QuestStateInfo::_internal_set_revision(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  revision_ = value;
+}
+inline void QuestStateInfo::set_revision(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_revision(value);
+  // @@protoc_insertion_point(field_set:Protocol.QuestStateInfo.revision)
+}
+
+// uint32 monster_definition_id = 8;
+inline void QuestStateInfo::clear_monster_definition_id() {
+  monster_definition_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::_internal_monster_definition_id() const {
+  return monster_definition_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::monster_definition_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.QuestStateInfo.monster_definition_id)
+  return _internal_monster_definition_id();
+}
+inline void QuestStateInfo::_internal_set_monster_definition_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  monster_definition_id_ = value;
+}
+inline void QuestStateInfo::set_monster_definition_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_monster_definition_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.QuestStateInfo.monster_definition_id)
+}
+
+// string title = 9;
+inline void QuestStateInfo::clear_title() {
+  title_.ClearToEmpty();
+}
+inline const std::string& QuestStateInfo::title() const {
+  // @@protoc_insertion_point(field_get:Protocol.QuestStateInfo.title)
+  return _internal_title();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void QuestStateInfo::set_title(ArgT0&& arg0, ArgT... args) {
+ 
+ title_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.QuestStateInfo.title)
+}
+inline std::string* QuestStateInfo::mutable_title() {
+  // @@protoc_insertion_point(field_mutable:Protocol.QuestStateInfo.title)
+  return _internal_mutable_title();
+}
+inline const std::string& QuestStateInfo::_internal_title() const {
+  return title_.Get();
+}
+inline void QuestStateInfo::_internal_set_title(const std::string& value) {
+  
+  title_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* QuestStateInfo::_internal_mutable_title() {
+  
+  return title_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* QuestStateInfo::release_title() {
+  // @@protoc_insertion_point(field_release:Protocol.QuestStateInfo.title)
+  return title_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void QuestStateInfo::set_allocated_title(std::string* title) {
+  if (title != nullptr) {
+    
+  } else {
+    
+  }
+  title_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), title,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.QuestStateInfo.title)
+}
+
+// string description = 10;
+inline void QuestStateInfo::clear_description() {
+  description_.ClearToEmpty();
+}
+inline const std::string& QuestStateInfo::description() const {
+  // @@protoc_insertion_point(field_get:Protocol.QuestStateInfo.description)
+  return _internal_description();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void QuestStateInfo::set_description(ArgT0&& arg0, ArgT... args) {
+ 
+ description_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.QuestStateInfo.description)
+}
+inline std::string* QuestStateInfo::mutable_description() {
+  // @@protoc_insertion_point(field_mutable:Protocol.QuestStateInfo.description)
+  return _internal_mutable_description();
+}
+inline const std::string& QuestStateInfo::_internal_description() const {
+  return description_.Get();
+}
+inline void QuestStateInfo::_internal_set_description(const std::string& value) {
+  
+  description_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* QuestStateInfo::_internal_mutable_description() {
+  
+  return description_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* QuestStateInfo::release_description() {
+  // @@protoc_insertion_point(field_release:Protocol.QuestStateInfo.description)
+  return description_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void QuestStateInfo::set_allocated_description(std::string* description) {
+  if (description != nullptr) {
+    
+  } else {
+    
+  }
+  description_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), description,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.QuestStateInfo.description)
+}
+
+// uint32 accept_npc_id = 11;
+inline void QuestStateInfo::clear_accept_npc_id() {
+  accept_npc_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::_internal_accept_npc_id() const {
+  return accept_npc_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::accept_npc_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.QuestStateInfo.accept_npc_id)
+  return _internal_accept_npc_id();
+}
+inline void QuestStateInfo::_internal_set_accept_npc_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  accept_npc_id_ = value;
+}
+inline void QuestStateInfo::set_accept_npc_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_accept_npc_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.QuestStateInfo.accept_npc_id)
+}
+
+// uint32 return_npc_id = 12;
+inline void QuestStateInfo::clear_return_npc_id() {
+  return_npc_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::_internal_return_npc_id() const {
+  return return_npc_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::return_npc_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.QuestStateInfo.return_npc_id)
+  return _internal_return_npc_id();
+}
+inline void QuestStateInfo::_internal_set_return_npc_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  return_npc_id_ = value;
+}
+inline void QuestStateInfo::set_return_npc_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_return_npc_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.QuestStateInfo.return_npc_id)
+}
+
+// bool rewarded = 13;
+inline void QuestStateInfo::clear_rewarded() {
+  rewarded_ = false;
+}
+inline bool QuestStateInfo::_internal_rewarded() const {
+  return rewarded_;
+}
+inline bool QuestStateInfo::rewarded() const {
+  // @@protoc_insertion_point(field_get:Protocol.QuestStateInfo.rewarded)
+  return _internal_rewarded();
+}
+inline void QuestStateInfo::_internal_set_rewarded(bool value) {
+  
+  rewarded_ = value;
+}
+inline void QuestStateInfo::set_rewarded(bool value) {
+  _internal_set_rewarded(value);
+  // @@protoc_insertion_point(field_set:Protocol.QuestStateInfo.rewarded)
+}
+
+// uint32 reward_item_id = 14;
+inline void QuestStateInfo::clear_reward_item_id() {
+  reward_item_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::_internal_reward_item_id() const {
+  return reward_item_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::reward_item_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.QuestStateInfo.reward_item_id)
+  return _internal_reward_item_id();
+}
+inline void QuestStateInfo::_internal_set_reward_item_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  reward_item_id_ = value;
+}
+inline void QuestStateInfo::set_reward_item_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_reward_item_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.QuestStateInfo.reward_item_id)
+}
+
+// uint32 reward_count = 15;
+inline void QuestStateInfo::clear_reward_count() {
+  reward_count_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::_internal_reward_count() const {
+  return reward_count_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuestStateInfo::reward_count() const {
+  // @@protoc_insertion_point(field_get:Protocol.QuestStateInfo.reward_count)
+  return _internal_reward_count();
+}
+inline void QuestStateInfo::_internal_set_reward_count(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  reward_count_ = value;
+}
+inline void QuestStateInfo::set_reward_count(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_reward_count(value);
+  // @@protoc_insertion_point(field_set:Protocol.QuestStateInfo.reward_count)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

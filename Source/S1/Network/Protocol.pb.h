@@ -48,7 +48,7 @@ struct TableStruct_Protocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[41]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[47]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -98,6 +98,15 @@ extern C_MOVEDefaultTypeInternal _C_MOVE_default_instance_;
 class C_PLAYER_FIELD_DROP;
 struct C_PLAYER_FIELD_DROPDefaultTypeInternal;
 extern C_PLAYER_FIELD_DROPDefaultTypeInternal _C_PLAYER_FIELD_DROP_default_instance_;
+class C_QUEST_ACCEPT;
+struct C_QUEST_ACCEPTDefaultTypeInternal;
+extern C_QUEST_ACCEPTDefaultTypeInternal _C_QUEST_ACCEPT_default_instance_;
+class C_QUEST_QUERY;
+struct C_QUEST_QUERYDefaultTypeInternal;
+extern C_QUEST_QUERYDefaultTypeInternal _C_QUEST_QUERY_default_instance_;
+class C_QUEST_TURN_IN;
+struct C_QUEST_TURN_INDefaultTypeInternal;
+extern C_QUEST_TURN_INDefaultTypeInternal _C_QUEST_TURN_IN_default_instance_;
 class C_SIGN_UP;
 struct C_SIGN_UPDefaultTypeInternal;
 extern C_SIGN_UPDefaultTypeInternal _C_SIGN_UP_default_instance_;
@@ -173,6 +182,15 @@ extern S_PLAYER_HEALEDDefaultTypeInternal _S_PLAYER_HEALED_default_instance_;
 class S_PLAYER_STATUS;
 struct S_PLAYER_STATUSDefaultTypeInternal;
 extern S_PLAYER_STATUSDefaultTypeInternal _S_PLAYER_STATUS_default_instance_;
+class S_QUEST_ACCEPT_RESULT;
+struct S_QUEST_ACCEPT_RESULTDefaultTypeInternal;
+extern S_QUEST_ACCEPT_RESULTDefaultTypeInternal _S_QUEST_ACCEPT_RESULT_default_instance_;
+class S_QUEST_STATE;
+struct S_QUEST_STATEDefaultTypeInternal;
+extern S_QUEST_STATEDefaultTypeInternal _S_QUEST_STATE_default_instance_;
+class S_QUEST_TURN_IN_RESULT;
+struct S_QUEST_TURN_IN_RESULTDefaultTypeInternal;
+extern S_QUEST_TURN_IN_RESULTDefaultTypeInternal _S_QUEST_TURN_IN_RESULT_default_instance_;
 class S_SIGN_UP;
 struct S_SIGN_UPDefaultTypeInternal;
 extern S_SIGN_UPDefaultTypeInternal _S_SIGN_UP_default_instance_;
@@ -195,6 +213,9 @@ template<> ::Protocol::C_LEAVE_GAME* Arena::CreateMaybeMessage<::Protocol::C_LEA
 template<> ::Protocol::C_LOGIN* Arena::CreateMaybeMessage<::Protocol::C_LOGIN>(Arena*);
 template<> ::Protocol::C_MOVE* Arena::CreateMaybeMessage<::Protocol::C_MOVE>(Arena*);
 template<> ::Protocol::C_PLAYER_FIELD_DROP* Arena::CreateMaybeMessage<::Protocol::C_PLAYER_FIELD_DROP>(Arena*);
+template<> ::Protocol::C_QUEST_ACCEPT* Arena::CreateMaybeMessage<::Protocol::C_QUEST_ACCEPT>(Arena*);
+template<> ::Protocol::C_QUEST_QUERY* Arena::CreateMaybeMessage<::Protocol::C_QUEST_QUERY>(Arena*);
+template<> ::Protocol::C_QUEST_TURN_IN* Arena::CreateMaybeMessage<::Protocol::C_QUEST_TURN_IN>(Arena*);
 template<> ::Protocol::C_SIGN_UP* Arena::CreateMaybeMessage<::Protocol::C_SIGN_UP>(Arena*);
 template<> ::Protocol::S_CHAT* Arena::CreateMaybeMessage<::Protocol::S_CHAT>(Arena*);
 template<> ::Protocol::S_COMBAT_ACTION* Arena::CreateMaybeMessage<::Protocol::S_COMBAT_ACTION>(Arena*);
@@ -220,6 +241,9 @@ template<> ::Protocol::S_MOVE* Arena::CreateMaybeMessage<::Protocol::S_MOVE>(Are
 template<> ::Protocol::S_PLAYER_FIELD_DROP_RESULT* Arena::CreateMaybeMessage<::Protocol::S_PLAYER_FIELD_DROP_RESULT>(Arena*);
 template<> ::Protocol::S_PLAYER_HEALED* Arena::CreateMaybeMessage<::Protocol::S_PLAYER_HEALED>(Arena*);
 template<> ::Protocol::S_PLAYER_STATUS* Arena::CreateMaybeMessage<::Protocol::S_PLAYER_STATUS>(Arena*);
+template<> ::Protocol::S_QUEST_ACCEPT_RESULT* Arena::CreateMaybeMessage<::Protocol::S_QUEST_ACCEPT_RESULT>(Arena*);
+template<> ::Protocol::S_QUEST_STATE* Arena::CreateMaybeMessage<::Protocol::S_QUEST_STATE>(Arena*);
+template<> ::Protocol::S_QUEST_TURN_IN_RESULT* Arena::CreateMaybeMessage<::Protocol::S_QUEST_TURN_IN_RESULT>(Arena*);
 template<> ::Protocol::S_SIGN_UP* Arena::CreateMaybeMessage<::Protocol::S_SIGN_UP>(Arena*);
 template<> ::Protocol::S_SPAWN* Arena::CreateMaybeMessage<::Protocol::S_SPAWN>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -998,6 +1022,8 @@ class C_ENTER_GAME final :
     kInventoryStackContractVersionFieldNumber = 6,
     kInventoryDiscardContractVersionFieldNumber = 7,
     kPlayerFieldDropContractVersionFieldNumber = 8,
+    kQuestContractVersionFieldNumber = 9,
+    kQuestRewardContractVersionFieldNumber = 10,
   };
   // uint64 character_id = 1;
   void clear_character_id();
@@ -1071,6 +1097,24 @@ class C_ENTER_GAME final :
   void _internal_set_player_field_drop_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // uint32 quest_contract_version = 9;
+  void clear_quest_contract_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 quest_contract_version() const;
+  void set_quest_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_quest_contract_version() const;
+  void _internal_set_quest_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 quest_reward_contract_version = 10;
+  void clear_quest_reward_contract_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 quest_reward_contract_version() const;
+  void set_quest_reward_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_quest_reward_contract_version() const;
+  void _internal_set_quest_reward_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.C_ENTER_GAME)
  private:
   class _Internal;
@@ -1086,6 +1130,8 @@ class C_ENTER_GAME final :
   ::PROTOBUF_NAMESPACE_ID::uint32 inventory_stack_contract_version_;
   ::PROTOBUF_NAMESPACE_ID::uint32 inventory_discard_contract_version_;
   ::PROTOBUF_NAMESPACE_ID::uint32 player_field_drop_contract_version_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 quest_contract_version_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 quest_reward_contract_version_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -1199,6 +1245,7 @@ class S_ENTER_GAME final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kQuestSessionIdFieldNumber = 12,
     kPlayerFieldNumber = 2,
     kSuccessFieldNumber = 1,
     kCombatContractVersionFieldNumber = 3,
@@ -1209,7 +1256,23 @@ class S_ENTER_GAME final :
     kInventoryStackContractVersionFieldNumber = 8,
     kInventoryDiscardContractVersionFieldNumber = 9,
     kPlayerFieldDropContractVersionFieldNumber = 10,
+    kQuestContractVersionFieldNumber = 11,
+    kQuestRewardContractVersionFieldNumber = 13,
   };
+  // bytes quest_session_id = 12;
+  void clear_quest_session_id();
+  const std::string& quest_session_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_quest_session_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_quest_session_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_quest_session_id();
+  void set_allocated_quest_session_id(std::string* quest_session_id);
+  private:
+  const std::string& _internal_quest_session_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_quest_session_id(const std::string& value);
+  std::string* _internal_mutable_quest_session_id();
+  public:
+
   // .Protocol.ObjectInfo player = 2;
   bool has_player() const;
   private:
@@ -1309,6 +1372,24 @@ class S_ENTER_GAME final :
   void _internal_set_player_field_drop_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // uint32 quest_contract_version = 11;
+  void clear_quest_contract_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 quest_contract_version() const;
+  void set_quest_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_quest_contract_version() const;
+  void _internal_set_quest_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 quest_reward_contract_version = 13;
+  void clear_quest_reward_contract_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 quest_reward_contract_version() const;
+  void set_quest_reward_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_quest_reward_contract_version() const;
+  void _internal_set_quest_reward_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.S_ENTER_GAME)
  private:
   class _Internal;
@@ -1316,6 +1397,7 @@ class S_ENTER_GAME final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr quest_session_id_;
   ::Protocol::ObjectInfo* player_;
   bool success_;
   ::PROTOBUF_NAMESPACE_ID::uint32 combat_contract_version_;
@@ -1326,6 +1408,8 @@ class S_ENTER_GAME final :
   ::PROTOBUF_NAMESPACE_ID::uint32 inventory_stack_contract_version_;
   ::PROTOBUF_NAMESPACE_ID::uint32 inventory_discard_contract_version_;
   ::PROTOBUF_NAMESPACE_ID::uint32 player_field_drop_contract_version_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 quest_contract_version_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 quest_reward_contract_version_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -7676,6 +7760,1183 @@ class S_PLAYER_FIELD_DROP_RESULT final :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
+// -------------------------------------------------------------------
+
+class C_QUEST_QUERY final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C_QUEST_QUERY) */ {
+ public:
+  inline C_QUEST_QUERY() : C_QUEST_QUERY(nullptr) {}
+  ~C_QUEST_QUERY() override;
+  explicit constexpr C_QUEST_QUERY(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C_QUEST_QUERY(const C_QUEST_QUERY& from);
+  C_QUEST_QUERY(C_QUEST_QUERY&& from) noexcept
+    : C_QUEST_QUERY() {
+    *this = ::std::move(from);
+  }
+
+  inline C_QUEST_QUERY& operator=(const C_QUEST_QUERY& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C_QUEST_QUERY& operator=(C_QUEST_QUERY&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C_QUEST_QUERY& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C_QUEST_QUERY* internal_default_instance() {
+    return reinterpret_cast<const C_QUEST_QUERY*>(
+               &_C_QUEST_QUERY_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    41;
+
+  friend void swap(C_QUEST_QUERY& a, C_QUEST_QUERY& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C_QUEST_QUERY* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C_QUEST_QUERY* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C_QUEST_QUERY* New() const final {
+    return new C_QUEST_QUERY();
+  }
+
+  C_QUEST_QUERY* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<C_QUEST_QUERY>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const C_QUEST_QUERY& from);
+  void MergeFrom(const C_QUEST_QUERY& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C_QUEST_QUERY* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C_QUEST_QUERY";
+  }
+  protected:
+  explicit C_QUEST_QUERY(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kQuestIdFieldNumber = 2,
+    kContractVersionFieldNumber = 3,
+  };
+  // bytes request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // uint32 quest_id = 2;
+  void clear_quest_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 quest_id() const;
+  void set_quest_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_quest_id() const;
+  void _internal_set_quest_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 contract_version = 3;
+  void clear_contract_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 contract_version() const;
+  void set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_contract_version() const;
+  void _internal_set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C_QUEST_QUERY)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 quest_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 contract_version_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_QUEST_STATE final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_QUEST_STATE) */ {
+ public:
+  inline S_QUEST_STATE() : S_QUEST_STATE(nullptr) {}
+  ~S_QUEST_STATE() override;
+  explicit constexpr S_QUEST_STATE(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_QUEST_STATE(const S_QUEST_STATE& from);
+  S_QUEST_STATE(S_QUEST_STATE&& from) noexcept
+    : S_QUEST_STATE() {
+    *this = ::std::move(from);
+  }
+
+  inline S_QUEST_STATE& operator=(const S_QUEST_STATE& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_QUEST_STATE& operator=(S_QUEST_STATE&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_QUEST_STATE& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_QUEST_STATE* internal_default_instance() {
+    return reinterpret_cast<const S_QUEST_STATE*>(
+               &_S_QUEST_STATE_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    42;
+
+  friend void swap(S_QUEST_STATE& a, S_QUEST_STATE& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_QUEST_STATE* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_QUEST_STATE* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_QUEST_STATE* New() const final {
+    return new S_QUEST_STATE();
+  }
+
+  S_QUEST_STATE* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_QUEST_STATE>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_QUEST_STATE& from);
+  void MergeFrom(const S_QUEST_STATE& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_QUEST_STATE* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_QUEST_STATE";
+  }
+  protected:
+  explicit S_QUEST_STATE(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kQuestSessionIdFieldNumber = 4,
+    kStateFieldNumber = 6,
+    kCharacterIdFieldNumber = 2,
+    kContractVersionFieldNumber = 3,
+    kQueryStatusFieldNumber = 5,
+  };
+  // bytes request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // bytes quest_session_id = 4;
+  void clear_quest_session_id();
+  const std::string& quest_session_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_quest_session_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_quest_session_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_quest_session_id();
+  void set_allocated_quest_session_id(std::string* quest_session_id);
+  private:
+  const std::string& _internal_quest_session_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_quest_session_id(const std::string& value);
+  std::string* _internal_mutable_quest_session_id();
+  public:
+
+  // .Protocol.QuestStateInfo state = 6;
+  bool has_state() const;
+  private:
+  bool _internal_has_state() const;
+  public:
+  void clear_state();
+  const ::Protocol::QuestStateInfo& state() const;
+  PROTOBUF_FUTURE_MUST_USE_RESULT ::Protocol::QuestStateInfo* release_state();
+  ::Protocol::QuestStateInfo* mutable_state();
+  void set_allocated_state(::Protocol::QuestStateInfo* state);
+  private:
+  const ::Protocol::QuestStateInfo& _internal_state() const;
+  ::Protocol::QuestStateInfo* _internal_mutable_state();
+  public:
+  void unsafe_arena_set_allocated_state(
+      ::Protocol::QuestStateInfo* state);
+  ::Protocol::QuestStateInfo* unsafe_arena_release_state();
+
+  // uint64 character_id = 2;
+  void clear_character_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 character_id() const;
+  void set_character_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_character_id() const;
+  void _internal_set_character_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 contract_version = 3;
+  void clear_contract_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 contract_version() const;
+  void set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_contract_version() const;
+  void _internal_set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // .Protocol.QuestQueryStatus query_status = 5;
+  void clear_query_status();
+  ::Protocol::QuestQueryStatus query_status() const;
+  void set_query_status(::Protocol::QuestQueryStatus value);
+  private:
+  ::Protocol::QuestQueryStatus _internal_query_status() const;
+  void _internal_set_query_status(::Protocol::QuestQueryStatus value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_QUEST_STATE)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr quest_session_id_;
+  ::Protocol::QuestStateInfo* state_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 character_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 contract_version_;
+  int query_status_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class C_QUEST_ACCEPT final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C_QUEST_ACCEPT) */ {
+ public:
+  inline C_QUEST_ACCEPT() : C_QUEST_ACCEPT(nullptr) {}
+  ~C_QUEST_ACCEPT() override;
+  explicit constexpr C_QUEST_ACCEPT(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C_QUEST_ACCEPT(const C_QUEST_ACCEPT& from);
+  C_QUEST_ACCEPT(C_QUEST_ACCEPT&& from) noexcept
+    : C_QUEST_ACCEPT() {
+    *this = ::std::move(from);
+  }
+
+  inline C_QUEST_ACCEPT& operator=(const C_QUEST_ACCEPT& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C_QUEST_ACCEPT& operator=(C_QUEST_ACCEPT&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C_QUEST_ACCEPT& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C_QUEST_ACCEPT* internal_default_instance() {
+    return reinterpret_cast<const C_QUEST_ACCEPT*>(
+               &_C_QUEST_ACCEPT_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    43;
+
+  friend void swap(C_QUEST_ACCEPT& a, C_QUEST_ACCEPT& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C_QUEST_ACCEPT* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C_QUEST_ACCEPT* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C_QUEST_ACCEPT* New() const final {
+    return new C_QUEST_ACCEPT();
+  }
+
+  C_QUEST_ACCEPT* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<C_QUEST_ACCEPT>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const C_QUEST_ACCEPT& from);
+  void MergeFrom(const C_QUEST_ACCEPT& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C_QUEST_ACCEPT* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C_QUEST_ACCEPT";
+  }
+  protected:
+  explicit C_QUEST_ACCEPT(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kQuestIdFieldNumber = 2,
+    kDefinitionVersionFieldNumber = 3,
+    kNpcIdFieldNumber = 4,
+    kContractVersionFieldNumber = 5,
+  };
+  // bytes request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // uint32 quest_id = 2;
+  void clear_quest_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 quest_id() const;
+  void set_quest_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_quest_id() const;
+  void _internal_set_quest_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 definition_version = 3;
+  void clear_definition_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 definition_version() const;
+  void set_definition_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_definition_version() const;
+  void _internal_set_definition_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 npc_id = 4;
+  void clear_npc_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 npc_id() const;
+  void set_npc_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_npc_id() const;
+  void _internal_set_npc_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 contract_version = 5;
+  void clear_contract_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 contract_version() const;
+  void set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_contract_version() const;
+  void _internal_set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C_QUEST_ACCEPT)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 quest_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 definition_version_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 npc_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 contract_version_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_QUEST_ACCEPT_RESULT final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_QUEST_ACCEPT_RESULT) */ {
+ public:
+  inline S_QUEST_ACCEPT_RESULT() : S_QUEST_ACCEPT_RESULT(nullptr) {}
+  ~S_QUEST_ACCEPT_RESULT() override;
+  explicit constexpr S_QUEST_ACCEPT_RESULT(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_QUEST_ACCEPT_RESULT(const S_QUEST_ACCEPT_RESULT& from);
+  S_QUEST_ACCEPT_RESULT(S_QUEST_ACCEPT_RESULT&& from) noexcept
+    : S_QUEST_ACCEPT_RESULT() {
+    *this = ::std::move(from);
+  }
+
+  inline S_QUEST_ACCEPT_RESULT& operator=(const S_QUEST_ACCEPT_RESULT& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_QUEST_ACCEPT_RESULT& operator=(S_QUEST_ACCEPT_RESULT&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_QUEST_ACCEPT_RESULT& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_QUEST_ACCEPT_RESULT* internal_default_instance() {
+    return reinterpret_cast<const S_QUEST_ACCEPT_RESULT*>(
+               &_S_QUEST_ACCEPT_RESULT_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    44;
+
+  friend void swap(S_QUEST_ACCEPT_RESULT& a, S_QUEST_ACCEPT_RESULT& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_QUEST_ACCEPT_RESULT* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_QUEST_ACCEPT_RESULT* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_QUEST_ACCEPT_RESULT* New() const final {
+    return new S_QUEST_ACCEPT_RESULT();
+  }
+
+  S_QUEST_ACCEPT_RESULT* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_QUEST_ACCEPT_RESULT>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_QUEST_ACCEPT_RESULT& from);
+  void MergeFrom(const S_QUEST_ACCEPT_RESULT& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_QUEST_ACCEPT_RESULT* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_QUEST_ACCEPT_RESULT";
+  }
+  protected:
+  explicit S_QUEST_ACCEPT_RESULT(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kQuestSessionIdFieldNumber = 4,
+    kStateFieldNumber = 7,
+    kCharacterIdFieldNumber = 2,
+    kContractVersionFieldNumber = 3,
+    kDecisionFieldNumber = 5,
+    kReasonFieldNumber = 6,
+  };
+  // bytes request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // bytes quest_session_id = 4;
+  void clear_quest_session_id();
+  const std::string& quest_session_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_quest_session_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_quest_session_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_quest_session_id();
+  void set_allocated_quest_session_id(std::string* quest_session_id);
+  private:
+  const std::string& _internal_quest_session_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_quest_session_id(const std::string& value);
+  std::string* _internal_mutable_quest_session_id();
+  public:
+
+  // .Protocol.QuestStateInfo state = 7;
+  bool has_state() const;
+  private:
+  bool _internal_has_state() const;
+  public:
+  void clear_state();
+  const ::Protocol::QuestStateInfo& state() const;
+  PROTOBUF_FUTURE_MUST_USE_RESULT ::Protocol::QuestStateInfo* release_state();
+  ::Protocol::QuestStateInfo* mutable_state();
+  void set_allocated_state(::Protocol::QuestStateInfo* state);
+  private:
+  const ::Protocol::QuestStateInfo& _internal_state() const;
+  ::Protocol::QuestStateInfo* _internal_mutable_state();
+  public:
+  void unsafe_arena_set_allocated_state(
+      ::Protocol::QuestStateInfo* state);
+  ::Protocol::QuestStateInfo* unsafe_arena_release_state();
+
+  // uint64 character_id = 2;
+  void clear_character_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 character_id() const;
+  void set_character_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_character_id() const;
+  void _internal_set_character_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 contract_version = 3;
+  void clear_contract_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 contract_version() const;
+  void set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_contract_version() const;
+  void _internal_set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // .Protocol.QuestAcceptDecision decision = 5;
+  void clear_decision();
+  ::Protocol::QuestAcceptDecision decision() const;
+  void set_decision(::Protocol::QuestAcceptDecision value);
+  private:
+  ::Protocol::QuestAcceptDecision _internal_decision() const;
+  void _internal_set_decision(::Protocol::QuestAcceptDecision value);
+  public:
+
+  // .Protocol.QuestAcceptReason reason = 6;
+  void clear_reason();
+  ::Protocol::QuestAcceptReason reason() const;
+  void set_reason(::Protocol::QuestAcceptReason value);
+  private:
+  ::Protocol::QuestAcceptReason _internal_reason() const;
+  void _internal_set_reason(::Protocol::QuestAcceptReason value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_QUEST_ACCEPT_RESULT)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr quest_session_id_;
+  ::Protocol::QuestStateInfo* state_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 character_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 contract_version_;
+  int decision_;
+  int reason_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class C_QUEST_TURN_IN final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C_QUEST_TURN_IN) */ {
+ public:
+  inline C_QUEST_TURN_IN() : C_QUEST_TURN_IN(nullptr) {}
+  ~C_QUEST_TURN_IN() override;
+  explicit constexpr C_QUEST_TURN_IN(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C_QUEST_TURN_IN(const C_QUEST_TURN_IN& from);
+  C_QUEST_TURN_IN(C_QUEST_TURN_IN&& from) noexcept
+    : C_QUEST_TURN_IN() {
+    *this = ::std::move(from);
+  }
+
+  inline C_QUEST_TURN_IN& operator=(const C_QUEST_TURN_IN& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C_QUEST_TURN_IN& operator=(C_QUEST_TURN_IN&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C_QUEST_TURN_IN& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C_QUEST_TURN_IN* internal_default_instance() {
+    return reinterpret_cast<const C_QUEST_TURN_IN*>(
+               &_C_QUEST_TURN_IN_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    45;
+
+  friend void swap(C_QUEST_TURN_IN& a, C_QUEST_TURN_IN& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C_QUEST_TURN_IN* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C_QUEST_TURN_IN* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C_QUEST_TURN_IN* New() const final {
+    return new C_QUEST_TURN_IN();
+  }
+
+  C_QUEST_TURN_IN* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<C_QUEST_TURN_IN>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const C_QUEST_TURN_IN& from);
+  void MergeFrom(const C_QUEST_TURN_IN& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C_QUEST_TURN_IN* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C_QUEST_TURN_IN";
+  }
+  protected:
+  explicit C_QUEST_TURN_IN(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kAcceptedInstanceIdFieldNumber = 3,
+    kQuestIdFieldNumber = 2,
+    kNpcIdFieldNumber = 4,
+    kContractVersionFieldNumber = 5,
+  };
+  // bytes request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // bytes accepted_instance_id = 3;
+  void clear_accepted_instance_id();
+  const std::string& accepted_instance_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_accepted_instance_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_accepted_instance_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_accepted_instance_id();
+  void set_allocated_accepted_instance_id(std::string* accepted_instance_id);
+  private:
+  const std::string& _internal_accepted_instance_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_accepted_instance_id(const std::string& value);
+  std::string* _internal_mutable_accepted_instance_id();
+  public:
+
+  // uint32 quest_id = 2;
+  void clear_quest_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 quest_id() const;
+  void set_quest_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_quest_id() const;
+  void _internal_set_quest_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 npc_id = 4;
+  void clear_npc_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 npc_id() const;
+  void set_npc_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_npc_id() const;
+  void _internal_set_npc_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 contract_version = 5;
+  void clear_contract_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 contract_version() const;
+  void set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_contract_version() const;
+  void _internal_set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C_QUEST_TURN_IN)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr accepted_instance_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 quest_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 npc_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 contract_version_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_QUEST_TURN_IN_RESULT final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_QUEST_TURN_IN_RESULT) */ {
+ public:
+  inline S_QUEST_TURN_IN_RESULT() : S_QUEST_TURN_IN_RESULT(nullptr) {}
+  ~S_QUEST_TURN_IN_RESULT() override;
+  explicit constexpr S_QUEST_TURN_IN_RESULT(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_QUEST_TURN_IN_RESULT(const S_QUEST_TURN_IN_RESULT& from);
+  S_QUEST_TURN_IN_RESULT(S_QUEST_TURN_IN_RESULT&& from) noexcept
+    : S_QUEST_TURN_IN_RESULT() {
+    *this = ::std::move(from);
+  }
+
+  inline S_QUEST_TURN_IN_RESULT& operator=(const S_QUEST_TURN_IN_RESULT& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_QUEST_TURN_IN_RESULT& operator=(S_QUEST_TURN_IN_RESULT&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_QUEST_TURN_IN_RESULT& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_QUEST_TURN_IN_RESULT* internal_default_instance() {
+    return reinterpret_cast<const S_QUEST_TURN_IN_RESULT*>(
+               &_S_QUEST_TURN_IN_RESULT_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    46;
+
+  friend void swap(S_QUEST_TURN_IN_RESULT& a, S_QUEST_TURN_IN_RESULT& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_QUEST_TURN_IN_RESULT* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_QUEST_TURN_IN_RESULT* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_QUEST_TURN_IN_RESULT* New() const final {
+    return new S_QUEST_TURN_IN_RESULT();
+  }
+
+  S_QUEST_TURN_IN_RESULT* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_QUEST_TURN_IN_RESULT>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_QUEST_TURN_IN_RESULT& from);
+  void MergeFrom(const S_QUEST_TURN_IN_RESULT& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_QUEST_TURN_IN_RESULT* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_QUEST_TURN_IN_RESULT";
+  }
+  protected:
+  explicit S_QUEST_TURN_IN_RESULT(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kQuestSessionIdFieldNumber = 3,
+    kStateFieldNumber = 7,
+    kCharacterIdFieldNumber = 2,
+    kContractVersionFieldNumber = 4,
+    kDecisionFieldNumber = 5,
+    kInventoryVersionFieldNumber = 8,
+    kReasonFieldNumber = 6,
+  };
+  // bytes request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // bytes quest_session_id = 3;
+  void clear_quest_session_id();
+  const std::string& quest_session_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_quest_session_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_quest_session_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_quest_session_id();
+  void set_allocated_quest_session_id(std::string* quest_session_id);
+  private:
+  const std::string& _internal_quest_session_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_quest_session_id(const std::string& value);
+  std::string* _internal_mutable_quest_session_id();
+  public:
+
+  // .Protocol.QuestStateInfo state = 7;
+  bool has_state() const;
+  private:
+  bool _internal_has_state() const;
+  public:
+  void clear_state();
+  const ::Protocol::QuestStateInfo& state() const;
+  PROTOBUF_FUTURE_MUST_USE_RESULT ::Protocol::QuestStateInfo* release_state();
+  ::Protocol::QuestStateInfo* mutable_state();
+  void set_allocated_state(::Protocol::QuestStateInfo* state);
+  private:
+  const ::Protocol::QuestStateInfo& _internal_state() const;
+  ::Protocol::QuestStateInfo* _internal_mutable_state();
+  public:
+  void unsafe_arena_set_allocated_state(
+      ::Protocol::QuestStateInfo* state);
+  ::Protocol::QuestStateInfo* unsafe_arena_release_state();
+
+  // uint64 character_id = 2;
+  void clear_character_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 character_id() const;
+  void set_character_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_character_id() const;
+  void _internal_set_character_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 contract_version = 4;
+  void clear_contract_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 contract_version() const;
+  void set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_contract_version() const;
+  void _internal_set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // .Protocol.QuestTurnInDecision decision = 5;
+  void clear_decision();
+  ::Protocol::QuestTurnInDecision decision() const;
+  void set_decision(::Protocol::QuestTurnInDecision value);
+  private:
+  ::Protocol::QuestTurnInDecision _internal_decision() const;
+  void _internal_set_decision(::Protocol::QuestTurnInDecision value);
+  public:
+
+  // uint64 inventory_version = 8;
+  void clear_inventory_version();
+  ::PROTOBUF_NAMESPACE_ID::uint64 inventory_version() const;
+  void set_inventory_version(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_inventory_version() const;
+  void _internal_set_inventory_version(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // .Protocol.QuestTurnInReason reason = 6;
+  void clear_reason();
+  ::Protocol::QuestTurnInReason reason() const;
+  void set_reason(::Protocol::QuestTurnInReason value);
+  private:
+  ::Protocol::QuestTurnInReason _internal_reason() const;
+  void _internal_set_reason(::Protocol::QuestTurnInReason value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_QUEST_TURN_IN_RESULT)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr quest_session_id_;
+  ::Protocol::QuestStateInfo* state_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 character_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 contract_version_;
+  int decision_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 inventory_version_;
+  int reason_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
 // ===================================================================
 
 
@@ -8269,6 +9530,46 @@ inline void C_ENTER_GAME::set_player_field_drop_contract_version(::PROTOBUF_NAME
   // @@protoc_insertion_point(field_set:Protocol.C_ENTER_GAME.player_field_drop_contract_version)
 }
 
+// uint32 quest_contract_version = 9;
+inline void C_ENTER_GAME::clear_quest_contract_version() {
+  quest_contract_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_ENTER_GAME::_internal_quest_contract_version() const {
+  return quest_contract_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_ENTER_GAME::quest_contract_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_ENTER_GAME.quest_contract_version)
+  return _internal_quest_contract_version();
+}
+inline void C_ENTER_GAME::_internal_set_quest_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  quest_contract_version_ = value;
+}
+inline void C_ENTER_GAME::set_quest_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_quest_contract_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_ENTER_GAME.quest_contract_version)
+}
+
+// uint32 quest_reward_contract_version = 10;
+inline void C_ENTER_GAME::clear_quest_reward_contract_version() {
+  quest_reward_contract_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_ENTER_GAME::_internal_quest_reward_contract_version() const {
+  return quest_reward_contract_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_ENTER_GAME::quest_reward_contract_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_ENTER_GAME.quest_reward_contract_version)
+  return _internal_quest_reward_contract_version();
+}
+inline void C_ENTER_GAME::_internal_set_quest_reward_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  quest_reward_contract_version_ = value;
+}
+inline void C_ENTER_GAME::set_quest_reward_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_quest_reward_contract_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_ENTER_GAME.quest_reward_contract_version)
+}
+
 // -------------------------------------------------------------------
 
 // S_ENTER_GAME
@@ -8530,6 +9831,91 @@ inline void S_ENTER_GAME::_internal_set_player_field_drop_contract_version(::PRO
 inline void S_ENTER_GAME::set_player_field_drop_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_player_field_drop_contract_version(value);
   // @@protoc_insertion_point(field_set:Protocol.S_ENTER_GAME.player_field_drop_contract_version)
+}
+
+// uint32 quest_contract_version = 11;
+inline void S_ENTER_GAME::clear_quest_contract_version() {
+  quest_contract_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_ENTER_GAME::_internal_quest_contract_version() const {
+  return quest_contract_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_ENTER_GAME::quest_contract_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_ENTER_GAME.quest_contract_version)
+  return _internal_quest_contract_version();
+}
+inline void S_ENTER_GAME::_internal_set_quest_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  quest_contract_version_ = value;
+}
+inline void S_ENTER_GAME::set_quest_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_quest_contract_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_ENTER_GAME.quest_contract_version)
+}
+
+// bytes quest_session_id = 12;
+inline void S_ENTER_GAME::clear_quest_session_id() {
+  quest_session_id_.ClearToEmpty();
+}
+inline const std::string& S_ENTER_GAME::quest_session_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_ENTER_GAME.quest_session_id)
+  return _internal_quest_session_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S_ENTER_GAME::set_quest_session_id(ArgT0&& arg0, ArgT... args) {
+ 
+ quest_session_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S_ENTER_GAME.quest_session_id)
+}
+inline std::string* S_ENTER_GAME::mutable_quest_session_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_ENTER_GAME.quest_session_id)
+  return _internal_mutable_quest_session_id();
+}
+inline const std::string& S_ENTER_GAME::_internal_quest_session_id() const {
+  return quest_session_id_.Get();
+}
+inline void S_ENTER_GAME::_internal_set_quest_session_id(const std::string& value) {
+  
+  quest_session_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* S_ENTER_GAME::_internal_mutable_quest_session_id() {
+  
+  return quest_session_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* S_ENTER_GAME::release_quest_session_id() {
+  // @@protoc_insertion_point(field_release:Protocol.S_ENTER_GAME.quest_session_id)
+  return quest_session_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void S_ENTER_GAME::set_allocated_quest_session_id(std::string* quest_session_id) {
+  if (quest_session_id != nullptr) {
+    
+  } else {
+    
+  }
+  quest_session_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), quest_session_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_ENTER_GAME.quest_session_id)
+}
+
+// uint32 quest_reward_contract_version = 13;
+inline void S_ENTER_GAME::clear_quest_reward_contract_version() {
+  quest_reward_contract_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_ENTER_GAME::_internal_quest_reward_contract_version() const {
+  return quest_reward_contract_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_ENTER_GAME::quest_reward_contract_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_ENTER_GAME.quest_reward_contract_version)
+  return _internal_quest_reward_contract_version();
+}
+inline void S_ENTER_GAME::_internal_set_quest_reward_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  quest_reward_contract_version_ = value;
+}
+inline void S_ENTER_GAME::set_quest_reward_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_quest_reward_contract_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_ENTER_GAME.quest_reward_contract_version)
 }
 
 // -------------------------------------------------------------------
@@ -13157,9 +14543,1152 @@ inline void S_PLAYER_FIELD_DROP_RESULT::set_allocated_drop_id(std::string* drop_
   // @@protoc_insertion_point(field_set_allocated:Protocol.S_PLAYER_FIELD_DROP_RESULT.drop_id)
 }
 
+// -------------------------------------------------------------------
+
+// C_QUEST_QUERY
+
+// bytes request_id = 1;
+inline void C_QUEST_QUERY::clear_request_id() {
+  request_id_.ClearToEmpty();
+}
+inline const std::string& C_QUEST_QUERY::request_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_QUEST_QUERY.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_QUEST_QUERY::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ request_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_QUEST_QUERY.request_id)
+}
+inline std::string* C_QUEST_QUERY::mutable_request_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.C_QUEST_QUERY.request_id)
+  return _internal_mutable_request_id();
+}
+inline const std::string& C_QUEST_QUERY::_internal_request_id() const {
+  return request_id_.Get();
+}
+inline void C_QUEST_QUERY::_internal_set_request_id(const std::string& value) {
+  
+  request_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* C_QUEST_QUERY::_internal_mutable_request_id() {
+  
+  return request_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* C_QUEST_QUERY::release_request_id() {
+  // @@protoc_insertion_point(field_release:Protocol.C_QUEST_QUERY.request_id)
+  return request_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void C_QUEST_QUERY::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  request_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), request_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_QUEST_QUERY.request_id)
+}
+
+// uint32 quest_id = 2;
+inline void C_QUEST_QUERY::clear_quest_id() {
+  quest_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_QUERY::_internal_quest_id() const {
+  return quest_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_QUERY::quest_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_QUEST_QUERY.quest_id)
+  return _internal_quest_id();
+}
+inline void C_QUEST_QUERY::_internal_set_quest_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  quest_id_ = value;
+}
+inline void C_QUEST_QUERY::set_quest_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_quest_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_QUEST_QUERY.quest_id)
+}
+
+// uint32 contract_version = 3;
+inline void C_QUEST_QUERY::clear_contract_version() {
+  contract_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_QUERY::_internal_contract_version() const {
+  return contract_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_QUERY::contract_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_QUEST_QUERY.contract_version)
+  return _internal_contract_version();
+}
+inline void C_QUEST_QUERY::_internal_set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  contract_version_ = value;
+}
+inline void C_QUEST_QUERY::set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_contract_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_QUEST_QUERY.contract_version)
+}
+
+// -------------------------------------------------------------------
+
+// S_QUEST_STATE
+
+// bytes request_id = 1;
+inline void S_QUEST_STATE::clear_request_id() {
+  request_id_.ClearToEmpty();
+}
+inline const std::string& S_QUEST_STATE::request_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_STATE.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S_QUEST_STATE::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ request_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_STATE.request_id)
+}
+inline std::string* S_QUEST_STATE::mutable_request_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_QUEST_STATE.request_id)
+  return _internal_mutable_request_id();
+}
+inline const std::string& S_QUEST_STATE::_internal_request_id() const {
+  return request_id_.Get();
+}
+inline void S_QUEST_STATE::_internal_set_request_id(const std::string& value) {
+  
+  request_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* S_QUEST_STATE::_internal_mutable_request_id() {
+  
+  return request_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* S_QUEST_STATE::release_request_id() {
+  // @@protoc_insertion_point(field_release:Protocol.S_QUEST_STATE.request_id)
+  return request_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void S_QUEST_STATE::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  request_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), request_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_QUEST_STATE.request_id)
+}
+
+// uint64 character_id = 2;
+inline void S_QUEST_STATE::clear_character_id() {
+  character_id_ = uint64_t{0u};
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_QUEST_STATE::_internal_character_id() const {
+  return character_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_QUEST_STATE::character_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_STATE.character_id)
+  return _internal_character_id();
+}
+inline void S_QUEST_STATE::_internal_set_character_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  character_id_ = value;
+}
+inline void S_QUEST_STATE::set_character_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_character_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_STATE.character_id)
+}
+
+// uint32 contract_version = 3;
+inline void S_QUEST_STATE::clear_contract_version() {
+  contract_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_QUEST_STATE::_internal_contract_version() const {
+  return contract_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_QUEST_STATE::contract_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_STATE.contract_version)
+  return _internal_contract_version();
+}
+inline void S_QUEST_STATE::_internal_set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  contract_version_ = value;
+}
+inline void S_QUEST_STATE::set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_contract_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_STATE.contract_version)
+}
+
+// bytes quest_session_id = 4;
+inline void S_QUEST_STATE::clear_quest_session_id() {
+  quest_session_id_.ClearToEmpty();
+}
+inline const std::string& S_QUEST_STATE::quest_session_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_STATE.quest_session_id)
+  return _internal_quest_session_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S_QUEST_STATE::set_quest_session_id(ArgT0&& arg0, ArgT... args) {
+ 
+ quest_session_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_STATE.quest_session_id)
+}
+inline std::string* S_QUEST_STATE::mutable_quest_session_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_QUEST_STATE.quest_session_id)
+  return _internal_mutable_quest_session_id();
+}
+inline const std::string& S_QUEST_STATE::_internal_quest_session_id() const {
+  return quest_session_id_.Get();
+}
+inline void S_QUEST_STATE::_internal_set_quest_session_id(const std::string& value) {
+  
+  quest_session_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* S_QUEST_STATE::_internal_mutable_quest_session_id() {
+  
+  return quest_session_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* S_QUEST_STATE::release_quest_session_id() {
+  // @@protoc_insertion_point(field_release:Protocol.S_QUEST_STATE.quest_session_id)
+  return quest_session_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void S_QUEST_STATE::set_allocated_quest_session_id(std::string* quest_session_id) {
+  if (quest_session_id != nullptr) {
+    
+  } else {
+    
+  }
+  quest_session_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), quest_session_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_QUEST_STATE.quest_session_id)
+}
+
+// .Protocol.QuestQueryStatus query_status = 5;
+inline void S_QUEST_STATE::clear_query_status() {
+  query_status_ = 0;
+}
+inline ::Protocol::QuestQueryStatus S_QUEST_STATE::_internal_query_status() const {
+  return static_cast< ::Protocol::QuestQueryStatus >(query_status_);
+}
+inline ::Protocol::QuestQueryStatus S_QUEST_STATE::query_status() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_STATE.query_status)
+  return _internal_query_status();
+}
+inline void S_QUEST_STATE::_internal_set_query_status(::Protocol::QuestQueryStatus value) {
+  
+  query_status_ = value;
+}
+inline void S_QUEST_STATE::set_query_status(::Protocol::QuestQueryStatus value) {
+  _internal_set_query_status(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_STATE.query_status)
+}
+
+// .Protocol.QuestStateInfo state = 6;
+inline bool S_QUEST_STATE::_internal_has_state() const {
+  return this != internal_default_instance() && state_ != nullptr;
+}
+inline bool S_QUEST_STATE::has_state() const {
+  return _internal_has_state();
+}
+inline const ::Protocol::QuestStateInfo& S_QUEST_STATE::_internal_state() const {
+  const ::Protocol::QuestStateInfo* p = state_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::QuestStateInfo&>(
+      ::Protocol::_QuestStateInfo_default_instance_);
+}
+inline const ::Protocol::QuestStateInfo& S_QUEST_STATE::state() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_STATE.state)
+  return _internal_state();
+}
+inline void S_QUEST_STATE::unsafe_arena_set_allocated_state(
+    ::Protocol::QuestStateInfo* state) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(state_);
+  }
+  state_ = state;
+  if (state) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S_QUEST_STATE.state)
+}
+inline ::Protocol::QuestStateInfo* S_QUEST_STATE::release_state() {
+  
+  ::Protocol::QuestStateInfo* temp = state_;
+  state_ = nullptr;
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::Protocol::QuestStateInfo* S_QUEST_STATE::unsafe_arena_release_state() {
+  // @@protoc_insertion_point(field_release:Protocol.S_QUEST_STATE.state)
+  
+  ::Protocol::QuestStateInfo* temp = state_;
+  state_ = nullptr;
+  return temp;
+}
+inline ::Protocol::QuestStateInfo* S_QUEST_STATE::_internal_mutable_state() {
+  
+  if (state_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::QuestStateInfo>(GetArenaForAllocation());
+    state_ = p;
+  }
+  return state_;
+}
+inline ::Protocol::QuestStateInfo* S_QUEST_STATE::mutable_state() {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_QUEST_STATE.state)
+  return _internal_mutable_state();
+}
+inline void S_QUEST_STATE::set_allocated_state(::Protocol::QuestStateInfo* state) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(state_);
+  }
+  if (state) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
+            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(state));
+    if (message_arena != submessage_arena) {
+      state = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, state, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  state_ = state;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_QUEST_STATE.state)
+}
+
+// -------------------------------------------------------------------
+
+// C_QUEST_ACCEPT
+
+// bytes request_id = 1;
+inline void C_QUEST_ACCEPT::clear_request_id() {
+  request_id_.ClearToEmpty();
+}
+inline const std::string& C_QUEST_ACCEPT::request_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_QUEST_ACCEPT.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_QUEST_ACCEPT::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ request_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_QUEST_ACCEPT.request_id)
+}
+inline std::string* C_QUEST_ACCEPT::mutable_request_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.C_QUEST_ACCEPT.request_id)
+  return _internal_mutable_request_id();
+}
+inline const std::string& C_QUEST_ACCEPT::_internal_request_id() const {
+  return request_id_.Get();
+}
+inline void C_QUEST_ACCEPT::_internal_set_request_id(const std::string& value) {
+  
+  request_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* C_QUEST_ACCEPT::_internal_mutable_request_id() {
+  
+  return request_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* C_QUEST_ACCEPT::release_request_id() {
+  // @@protoc_insertion_point(field_release:Protocol.C_QUEST_ACCEPT.request_id)
+  return request_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void C_QUEST_ACCEPT::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  request_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), request_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_QUEST_ACCEPT.request_id)
+}
+
+// uint32 quest_id = 2;
+inline void C_QUEST_ACCEPT::clear_quest_id() {
+  quest_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_ACCEPT::_internal_quest_id() const {
+  return quest_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_ACCEPT::quest_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_QUEST_ACCEPT.quest_id)
+  return _internal_quest_id();
+}
+inline void C_QUEST_ACCEPT::_internal_set_quest_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  quest_id_ = value;
+}
+inline void C_QUEST_ACCEPT::set_quest_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_quest_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_QUEST_ACCEPT.quest_id)
+}
+
+// uint32 definition_version = 3;
+inline void C_QUEST_ACCEPT::clear_definition_version() {
+  definition_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_ACCEPT::_internal_definition_version() const {
+  return definition_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_ACCEPT::definition_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_QUEST_ACCEPT.definition_version)
+  return _internal_definition_version();
+}
+inline void C_QUEST_ACCEPT::_internal_set_definition_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  definition_version_ = value;
+}
+inline void C_QUEST_ACCEPT::set_definition_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_definition_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_QUEST_ACCEPT.definition_version)
+}
+
+// uint32 npc_id = 4;
+inline void C_QUEST_ACCEPT::clear_npc_id() {
+  npc_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_ACCEPT::_internal_npc_id() const {
+  return npc_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_ACCEPT::npc_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_QUEST_ACCEPT.npc_id)
+  return _internal_npc_id();
+}
+inline void C_QUEST_ACCEPT::_internal_set_npc_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  npc_id_ = value;
+}
+inline void C_QUEST_ACCEPT::set_npc_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_npc_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_QUEST_ACCEPT.npc_id)
+}
+
+// uint32 contract_version = 5;
+inline void C_QUEST_ACCEPT::clear_contract_version() {
+  contract_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_ACCEPT::_internal_contract_version() const {
+  return contract_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_ACCEPT::contract_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_QUEST_ACCEPT.contract_version)
+  return _internal_contract_version();
+}
+inline void C_QUEST_ACCEPT::_internal_set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  contract_version_ = value;
+}
+inline void C_QUEST_ACCEPT::set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_contract_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_QUEST_ACCEPT.contract_version)
+}
+
+// -------------------------------------------------------------------
+
+// S_QUEST_ACCEPT_RESULT
+
+// bytes request_id = 1;
+inline void S_QUEST_ACCEPT_RESULT::clear_request_id() {
+  request_id_.ClearToEmpty();
+}
+inline const std::string& S_QUEST_ACCEPT_RESULT::request_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_ACCEPT_RESULT.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S_QUEST_ACCEPT_RESULT::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ request_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_ACCEPT_RESULT.request_id)
+}
+inline std::string* S_QUEST_ACCEPT_RESULT::mutable_request_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_QUEST_ACCEPT_RESULT.request_id)
+  return _internal_mutable_request_id();
+}
+inline const std::string& S_QUEST_ACCEPT_RESULT::_internal_request_id() const {
+  return request_id_.Get();
+}
+inline void S_QUEST_ACCEPT_RESULT::_internal_set_request_id(const std::string& value) {
+  
+  request_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* S_QUEST_ACCEPT_RESULT::_internal_mutable_request_id() {
+  
+  return request_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* S_QUEST_ACCEPT_RESULT::release_request_id() {
+  // @@protoc_insertion_point(field_release:Protocol.S_QUEST_ACCEPT_RESULT.request_id)
+  return request_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void S_QUEST_ACCEPT_RESULT::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  request_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), request_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_QUEST_ACCEPT_RESULT.request_id)
+}
+
+// uint64 character_id = 2;
+inline void S_QUEST_ACCEPT_RESULT::clear_character_id() {
+  character_id_ = uint64_t{0u};
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_QUEST_ACCEPT_RESULT::_internal_character_id() const {
+  return character_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_QUEST_ACCEPT_RESULT::character_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_ACCEPT_RESULT.character_id)
+  return _internal_character_id();
+}
+inline void S_QUEST_ACCEPT_RESULT::_internal_set_character_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  character_id_ = value;
+}
+inline void S_QUEST_ACCEPT_RESULT::set_character_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_character_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_ACCEPT_RESULT.character_id)
+}
+
+// uint32 contract_version = 3;
+inline void S_QUEST_ACCEPT_RESULT::clear_contract_version() {
+  contract_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_QUEST_ACCEPT_RESULT::_internal_contract_version() const {
+  return contract_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_QUEST_ACCEPT_RESULT::contract_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_ACCEPT_RESULT.contract_version)
+  return _internal_contract_version();
+}
+inline void S_QUEST_ACCEPT_RESULT::_internal_set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  contract_version_ = value;
+}
+inline void S_QUEST_ACCEPT_RESULT::set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_contract_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_ACCEPT_RESULT.contract_version)
+}
+
+// bytes quest_session_id = 4;
+inline void S_QUEST_ACCEPT_RESULT::clear_quest_session_id() {
+  quest_session_id_.ClearToEmpty();
+}
+inline const std::string& S_QUEST_ACCEPT_RESULT::quest_session_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_ACCEPT_RESULT.quest_session_id)
+  return _internal_quest_session_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S_QUEST_ACCEPT_RESULT::set_quest_session_id(ArgT0&& arg0, ArgT... args) {
+ 
+ quest_session_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_ACCEPT_RESULT.quest_session_id)
+}
+inline std::string* S_QUEST_ACCEPT_RESULT::mutable_quest_session_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_QUEST_ACCEPT_RESULT.quest_session_id)
+  return _internal_mutable_quest_session_id();
+}
+inline const std::string& S_QUEST_ACCEPT_RESULT::_internal_quest_session_id() const {
+  return quest_session_id_.Get();
+}
+inline void S_QUEST_ACCEPT_RESULT::_internal_set_quest_session_id(const std::string& value) {
+  
+  quest_session_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* S_QUEST_ACCEPT_RESULT::_internal_mutable_quest_session_id() {
+  
+  return quest_session_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* S_QUEST_ACCEPT_RESULT::release_quest_session_id() {
+  // @@protoc_insertion_point(field_release:Protocol.S_QUEST_ACCEPT_RESULT.quest_session_id)
+  return quest_session_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void S_QUEST_ACCEPT_RESULT::set_allocated_quest_session_id(std::string* quest_session_id) {
+  if (quest_session_id != nullptr) {
+    
+  } else {
+    
+  }
+  quest_session_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), quest_session_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_QUEST_ACCEPT_RESULT.quest_session_id)
+}
+
+// .Protocol.QuestAcceptDecision decision = 5;
+inline void S_QUEST_ACCEPT_RESULT::clear_decision() {
+  decision_ = 0;
+}
+inline ::Protocol::QuestAcceptDecision S_QUEST_ACCEPT_RESULT::_internal_decision() const {
+  return static_cast< ::Protocol::QuestAcceptDecision >(decision_);
+}
+inline ::Protocol::QuestAcceptDecision S_QUEST_ACCEPT_RESULT::decision() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_ACCEPT_RESULT.decision)
+  return _internal_decision();
+}
+inline void S_QUEST_ACCEPT_RESULT::_internal_set_decision(::Protocol::QuestAcceptDecision value) {
+  
+  decision_ = value;
+}
+inline void S_QUEST_ACCEPT_RESULT::set_decision(::Protocol::QuestAcceptDecision value) {
+  _internal_set_decision(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_ACCEPT_RESULT.decision)
+}
+
+// .Protocol.QuestAcceptReason reason = 6;
+inline void S_QUEST_ACCEPT_RESULT::clear_reason() {
+  reason_ = 0;
+}
+inline ::Protocol::QuestAcceptReason S_QUEST_ACCEPT_RESULT::_internal_reason() const {
+  return static_cast< ::Protocol::QuestAcceptReason >(reason_);
+}
+inline ::Protocol::QuestAcceptReason S_QUEST_ACCEPT_RESULT::reason() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_ACCEPT_RESULT.reason)
+  return _internal_reason();
+}
+inline void S_QUEST_ACCEPT_RESULT::_internal_set_reason(::Protocol::QuestAcceptReason value) {
+  
+  reason_ = value;
+}
+inline void S_QUEST_ACCEPT_RESULT::set_reason(::Protocol::QuestAcceptReason value) {
+  _internal_set_reason(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_ACCEPT_RESULT.reason)
+}
+
+// .Protocol.QuestStateInfo state = 7;
+inline bool S_QUEST_ACCEPT_RESULT::_internal_has_state() const {
+  return this != internal_default_instance() && state_ != nullptr;
+}
+inline bool S_QUEST_ACCEPT_RESULT::has_state() const {
+  return _internal_has_state();
+}
+inline const ::Protocol::QuestStateInfo& S_QUEST_ACCEPT_RESULT::_internal_state() const {
+  const ::Protocol::QuestStateInfo* p = state_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::QuestStateInfo&>(
+      ::Protocol::_QuestStateInfo_default_instance_);
+}
+inline const ::Protocol::QuestStateInfo& S_QUEST_ACCEPT_RESULT::state() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_ACCEPT_RESULT.state)
+  return _internal_state();
+}
+inline void S_QUEST_ACCEPT_RESULT::unsafe_arena_set_allocated_state(
+    ::Protocol::QuestStateInfo* state) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(state_);
+  }
+  state_ = state;
+  if (state) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S_QUEST_ACCEPT_RESULT.state)
+}
+inline ::Protocol::QuestStateInfo* S_QUEST_ACCEPT_RESULT::release_state() {
+  
+  ::Protocol::QuestStateInfo* temp = state_;
+  state_ = nullptr;
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::Protocol::QuestStateInfo* S_QUEST_ACCEPT_RESULT::unsafe_arena_release_state() {
+  // @@protoc_insertion_point(field_release:Protocol.S_QUEST_ACCEPT_RESULT.state)
+  
+  ::Protocol::QuestStateInfo* temp = state_;
+  state_ = nullptr;
+  return temp;
+}
+inline ::Protocol::QuestStateInfo* S_QUEST_ACCEPT_RESULT::_internal_mutable_state() {
+  
+  if (state_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::QuestStateInfo>(GetArenaForAllocation());
+    state_ = p;
+  }
+  return state_;
+}
+inline ::Protocol::QuestStateInfo* S_QUEST_ACCEPT_RESULT::mutable_state() {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_QUEST_ACCEPT_RESULT.state)
+  return _internal_mutable_state();
+}
+inline void S_QUEST_ACCEPT_RESULT::set_allocated_state(::Protocol::QuestStateInfo* state) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(state_);
+  }
+  if (state) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
+            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(state));
+    if (message_arena != submessage_arena) {
+      state = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, state, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  state_ = state;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_QUEST_ACCEPT_RESULT.state)
+}
+
+// -------------------------------------------------------------------
+
+// C_QUEST_TURN_IN
+
+// bytes request_id = 1;
+inline void C_QUEST_TURN_IN::clear_request_id() {
+  request_id_.ClearToEmpty();
+}
+inline const std::string& C_QUEST_TURN_IN::request_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_QUEST_TURN_IN.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_QUEST_TURN_IN::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ request_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_QUEST_TURN_IN.request_id)
+}
+inline std::string* C_QUEST_TURN_IN::mutable_request_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.C_QUEST_TURN_IN.request_id)
+  return _internal_mutable_request_id();
+}
+inline const std::string& C_QUEST_TURN_IN::_internal_request_id() const {
+  return request_id_.Get();
+}
+inline void C_QUEST_TURN_IN::_internal_set_request_id(const std::string& value) {
+  
+  request_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* C_QUEST_TURN_IN::_internal_mutable_request_id() {
+  
+  return request_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* C_QUEST_TURN_IN::release_request_id() {
+  // @@protoc_insertion_point(field_release:Protocol.C_QUEST_TURN_IN.request_id)
+  return request_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void C_QUEST_TURN_IN::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  request_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), request_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_QUEST_TURN_IN.request_id)
+}
+
+// uint32 quest_id = 2;
+inline void C_QUEST_TURN_IN::clear_quest_id() {
+  quest_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_TURN_IN::_internal_quest_id() const {
+  return quest_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_TURN_IN::quest_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_QUEST_TURN_IN.quest_id)
+  return _internal_quest_id();
+}
+inline void C_QUEST_TURN_IN::_internal_set_quest_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  quest_id_ = value;
+}
+inline void C_QUEST_TURN_IN::set_quest_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_quest_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_QUEST_TURN_IN.quest_id)
+}
+
+// bytes accepted_instance_id = 3;
+inline void C_QUEST_TURN_IN::clear_accepted_instance_id() {
+  accepted_instance_id_.ClearToEmpty();
+}
+inline const std::string& C_QUEST_TURN_IN::accepted_instance_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_QUEST_TURN_IN.accepted_instance_id)
+  return _internal_accepted_instance_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_QUEST_TURN_IN::set_accepted_instance_id(ArgT0&& arg0, ArgT... args) {
+ 
+ accepted_instance_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_QUEST_TURN_IN.accepted_instance_id)
+}
+inline std::string* C_QUEST_TURN_IN::mutable_accepted_instance_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.C_QUEST_TURN_IN.accepted_instance_id)
+  return _internal_mutable_accepted_instance_id();
+}
+inline const std::string& C_QUEST_TURN_IN::_internal_accepted_instance_id() const {
+  return accepted_instance_id_.Get();
+}
+inline void C_QUEST_TURN_IN::_internal_set_accepted_instance_id(const std::string& value) {
+  
+  accepted_instance_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* C_QUEST_TURN_IN::_internal_mutable_accepted_instance_id() {
+  
+  return accepted_instance_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* C_QUEST_TURN_IN::release_accepted_instance_id() {
+  // @@protoc_insertion_point(field_release:Protocol.C_QUEST_TURN_IN.accepted_instance_id)
+  return accepted_instance_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void C_QUEST_TURN_IN::set_allocated_accepted_instance_id(std::string* accepted_instance_id) {
+  if (accepted_instance_id != nullptr) {
+    
+  } else {
+    
+  }
+  accepted_instance_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), accepted_instance_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_QUEST_TURN_IN.accepted_instance_id)
+}
+
+// uint32 npc_id = 4;
+inline void C_QUEST_TURN_IN::clear_npc_id() {
+  npc_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_TURN_IN::_internal_npc_id() const {
+  return npc_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_TURN_IN::npc_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_QUEST_TURN_IN.npc_id)
+  return _internal_npc_id();
+}
+inline void C_QUEST_TURN_IN::_internal_set_npc_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  npc_id_ = value;
+}
+inline void C_QUEST_TURN_IN::set_npc_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_npc_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_QUEST_TURN_IN.npc_id)
+}
+
+// uint32 contract_version = 5;
+inline void C_QUEST_TURN_IN::clear_contract_version() {
+  contract_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_TURN_IN::_internal_contract_version() const {
+  return contract_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_QUEST_TURN_IN::contract_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_QUEST_TURN_IN.contract_version)
+  return _internal_contract_version();
+}
+inline void C_QUEST_TURN_IN::_internal_set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  contract_version_ = value;
+}
+inline void C_QUEST_TURN_IN::set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_contract_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_QUEST_TURN_IN.contract_version)
+}
+
+// -------------------------------------------------------------------
+
+// S_QUEST_TURN_IN_RESULT
+
+// bytes request_id = 1;
+inline void S_QUEST_TURN_IN_RESULT::clear_request_id() {
+  request_id_.ClearToEmpty();
+}
+inline const std::string& S_QUEST_TURN_IN_RESULT::request_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_TURN_IN_RESULT.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S_QUEST_TURN_IN_RESULT::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ request_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_TURN_IN_RESULT.request_id)
+}
+inline std::string* S_QUEST_TURN_IN_RESULT::mutable_request_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_QUEST_TURN_IN_RESULT.request_id)
+  return _internal_mutable_request_id();
+}
+inline const std::string& S_QUEST_TURN_IN_RESULT::_internal_request_id() const {
+  return request_id_.Get();
+}
+inline void S_QUEST_TURN_IN_RESULT::_internal_set_request_id(const std::string& value) {
+  
+  request_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* S_QUEST_TURN_IN_RESULT::_internal_mutable_request_id() {
+  
+  return request_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* S_QUEST_TURN_IN_RESULT::release_request_id() {
+  // @@protoc_insertion_point(field_release:Protocol.S_QUEST_TURN_IN_RESULT.request_id)
+  return request_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void S_QUEST_TURN_IN_RESULT::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  request_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), request_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_QUEST_TURN_IN_RESULT.request_id)
+}
+
+// uint64 character_id = 2;
+inline void S_QUEST_TURN_IN_RESULT::clear_character_id() {
+  character_id_ = uint64_t{0u};
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_QUEST_TURN_IN_RESULT::_internal_character_id() const {
+  return character_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_QUEST_TURN_IN_RESULT::character_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_TURN_IN_RESULT.character_id)
+  return _internal_character_id();
+}
+inline void S_QUEST_TURN_IN_RESULT::_internal_set_character_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  character_id_ = value;
+}
+inline void S_QUEST_TURN_IN_RESULT::set_character_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_character_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_TURN_IN_RESULT.character_id)
+}
+
+// bytes quest_session_id = 3;
+inline void S_QUEST_TURN_IN_RESULT::clear_quest_session_id() {
+  quest_session_id_.ClearToEmpty();
+}
+inline const std::string& S_QUEST_TURN_IN_RESULT::quest_session_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_TURN_IN_RESULT.quest_session_id)
+  return _internal_quest_session_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S_QUEST_TURN_IN_RESULT::set_quest_session_id(ArgT0&& arg0, ArgT... args) {
+ 
+ quest_session_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_TURN_IN_RESULT.quest_session_id)
+}
+inline std::string* S_QUEST_TURN_IN_RESULT::mutable_quest_session_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_QUEST_TURN_IN_RESULT.quest_session_id)
+  return _internal_mutable_quest_session_id();
+}
+inline const std::string& S_QUEST_TURN_IN_RESULT::_internal_quest_session_id() const {
+  return quest_session_id_.Get();
+}
+inline void S_QUEST_TURN_IN_RESULT::_internal_set_quest_session_id(const std::string& value) {
+  
+  quest_session_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* S_QUEST_TURN_IN_RESULT::_internal_mutable_quest_session_id() {
+  
+  return quest_session_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* S_QUEST_TURN_IN_RESULT::release_quest_session_id() {
+  // @@protoc_insertion_point(field_release:Protocol.S_QUEST_TURN_IN_RESULT.quest_session_id)
+  return quest_session_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void S_QUEST_TURN_IN_RESULT::set_allocated_quest_session_id(std::string* quest_session_id) {
+  if (quest_session_id != nullptr) {
+    
+  } else {
+    
+  }
+  quest_session_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), quest_session_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_QUEST_TURN_IN_RESULT.quest_session_id)
+}
+
+// uint32 contract_version = 4;
+inline void S_QUEST_TURN_IN_RESULT::clear_contract_version() {
+  contract_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_QUEST_TURN_IN_RESULT::_internal_contract_version() const {
+  return contract_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_QUEST_TURN_IN_RESULT::contract_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_TURN_IN_RESULT.contract_version)
+  return _internal_contract_version();
+}
+inline void S_QUEST_TURN_IN_RESULT::_internal_set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  contract_version_ = value;
+}
+inline void S_QUEST_TURN_IN_RESULT::set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_contract_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_TURN_IN_RESULT.contract_version)
+}
+
+// .Protocol.QuestTurnInDecision decision = 5;
+inline void S_QUEST_TURN_IN_RESULT::clear_decision() {
+  decision_ = 0;
+}
+inline ::Protocol::QuestTurnInDecision S_QUEST_TURN_IN_RESULT::_internal_decision() const {
+  return static_cast< ::Protocol::QuestTurnInDecision >(decision_);
+}
+inline ::Protocol::QuestTurnInDecision S_QUEST_TURN_IN_RESULT::decision() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_TURN_IN_RESULT.decision)
+  return _internal_decision();
+}
+inline void S_QUEST_TURN_IN_RESULT::_internal_set_decision(::Protocol::QuestTurnInDecision value) {
+  
+  decision_ = value;
+}
+inline void S_QUEST_TURN_IN_RESULT::set_decision(::Protocol::QuestTurnInDecision value) {
+  _internal_set_decision(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_TURN_IN_RESULT.decision)
+}
+
+// .Protocol.QuestTurnInReason reason = 6;
+inline void S_QUEST_TURN_IN_RESULT::clear_reason() {
+  reason_ = 0;
+}
+inline ::Protocol::QuestTurnInReason S_QUEST_TURN_IN_RESULT::_internal_reason() const {
+  return static_cast< ::Protocol::QuestTurnInReason >(reason_);
+}
+inline ::Protocol::QuestTurnInReason S_QUEST_TURN_IN_RESULT::reason() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_TURN_IN_RESULT.reason)
+  return _internal_reason();
+}
+inline void S_QUEST_TURN_IN_RESULT::_internal_set_reason(::Protocol::QuestTurnInReason value) {
+  
+  reason_ = value;
+}
+inline void S_QUEST_TURN_IN_RESULT::set_reason(::Protocol::QuestTurnInReason value) {
+  _internal_set_reason(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_TURN_IN_RESULT.reason)
+}
+
+// .Protocol.QuestStateInfo state = 7;
+inline bool S_QUEST_TURN_IN_RESULT::_internal_has_state() const {
+  return this != internal_default_instance() && state_ != nullptr;
+}
+inline bool S_QUEST_TURN_IN_RESULT::has_state() const {
+  return _internal_has_state();
+}
+inline const ::Protocol::QuestStateInfo& S_QUEST_TURN_IN_RESULT::_internal_state() const {
+  const ::Protocol::QuestStateInfo* p = state_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::QuestStateInfo&>(
+      ::Protocol::_QuestStateInfo_default_instance_);
+}
+inline const ::Protocol::QuestStateInfo& S_QUEST_TURN_IN_RESULT::state() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_TURN_IN_RESULT.state)
+  return _internal_state();
+}
+inline void S_QUEST_TURN_IN_RESULT::unsafe_arena_set_allocated_state(
+    ::Protocol::QuestStateInfo* state) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(state_);
+  }
+  state_ = state;
+  if (state) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S_QUEST_TURN_IN_RESULT.state)
+}
+inline ::Protocol::QuestStateInfo* S_QUEST_TURN_IN_RESULT::release_state() {
+  
+  ::Protocol::QuestStateInfo* temp = state_;
+  state_ = nullptr;
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::Protocol::QuestStateInfo* S_QUEST_TURN_IN_RESULT::unsafe_arena_release_state() {
+  // @@protoc_insertion_point(field_release:Protocol.S_QUEST_TURN_IN_RESULT.state)
+  
+  ::Protocol::QuestStateInfo* temp = state_;
+  state_ = nullptr;
+  return temp;
+}
+inline ::Protocol::QuestStateInfo* S_QUEST_TURN_IN_RESULT::_internal_mutable_state() {
+  
+  if (state_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::QuestStateInfo>(GetArenaForAllocation());
+    state_ = p;
+  }
+  return state_;
+}
+inline ::Protocol::QuestStateInfo* S_QUEST_TURN_IN_RESULT::mutable_state() {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_QUEST_TURN_IN_RESULT.state)
+  return _internal_mutable_state();
+}
+inline void S_QUEST_TURN_IN_RESULT::set_allocated_state(::Protocol::QuestStateInfo* state) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(state_);
+  }
+  if (state) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
+            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(state));
+    if (message_arena != submessage_arena) {
+      state = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, state, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  state_ = state;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_QUEST_TURN_IN_RESULT.state)
+}
+
+// uint64 inventory_version = 8;
+inline void S_QUEST_TURN_IN_RESULT::clear_inventory_version() {
+  inventory_version_ = uint64_t{0u};
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_QUEST_TURN_IN_RESULT::_internal_inventory_version() const {
+  return inventory_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_QUEST_TURN_IN_RESULT::inventory_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_QUEST_TURN_IN_RESULT.inventory_version)
+  return _internal_inventory_version();
+}
+inline void S_QUEST_TURN_IN_RESULT::_internal_set_inventory_version(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  inventory_version_ = value;
+}
+inline void S_QUEST_TURN_IN_RESULT::set_inventory_version(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_inventory_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_QUEST_TURN_IN_RESULT.inventory_version)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

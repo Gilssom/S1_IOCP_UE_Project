@@ -496,6 +496,189 @@ inline bool ItemPickupReason_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<ItemPickupReason>(
     ItemPickupReason_descriptor(), name, value);
 }
+enum QuestStatus : int {
+  QUEST_NOT_ACCEPTED = 0,
+  QUEST_ACTIVE = 1,
+  QUEST_READY_TO_TURN_IN = 2,
+  QuestStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  QuestStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool QuestStatus_IsValid(int value);
+constexpr QuestStatus QuestStatus_MIN = QUEST_NOT_ACCEPTED;
+constexpr QuestStatus QuestStatus_MAX = QUEST_READY_TO_TURN_IN;
+constexpr int QuestStatus_ARRAYSIZE = QuestStatus_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* QuestStatus_descriptor();
+template<typename T>
+inline const std::string& QuestStatus_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, QuestStatus>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function QuestStatus_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    QuestStatus_descriptor(), enum_t_value);
+}
+inline bool QuestStatus_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, QuestStatus* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<QuestStatus>(
+    QuestStatus_descriptor(), name, value);
+}
+enum QuestQueryStatus : int {
+  QUEST_QUERY_NONE = 0,
+  QUEST_QUERY_READY = 1,
+  QUEST_QUERY_UNCONFIRMED = 2,
+  QUEST_QUERY_UNSUPPORTED = 3,
+  QuestQueryStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  QuestQueryStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool QuestQueryStatus_IsValid(int value);
+constexpr QuestQueryStatus QuestQueryStatus_MIN = QUEST_QUERY_NONE;
+constexpr QuestQueryStatus QuestQueryStatus_MAX = QUEST_QUERY_UNSUPPORTED;
+constexpr int QuestQueryStatus_ARRAYSIZE = QuestQueryStatus_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* QuestQueryStatus_descriptor();
+template<typename T>
+inline const std::string& QuestQueryStatus_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, QuestQueryStatus>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function QuestQueryStatus_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    QuestQueryStatus_descriptor(), enum_t_value);
+}
+inline bool QuestQueryStatus_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, QuestQueryStatus* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<QuestQueryStatus>(
+    QuestQueryStatus_descriptor(), name, value);
+}
+enum QuestAcceptDecision : int {
+  QUEST_ACCEPT_NONE = 0,
+  QUEST_ACCEPT_COMMITTED = 1,
+  QUEST_ACCEPT_REJECTED = 2,
+  QUEST_ACCEPT_UNCONFIRMED = 3,
+  QuestAcceptDecision_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  QuestAcceptDecision_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool QuestAcceptDecision_IsValid(int value);
+constexpr QuestAcceptDecision QuestAcceptDecision_MIN = QUEST_ACCEPT_NONE;
+constexpr QuestAcceptDecision QuestAcceptDecision_MAX = QUEST_ACCEPT_UNCONFIRMED;
+constexpr int QuestAcceptDecision_ARRAYSIZE = QuestAcceptDecision_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* QuestAcceptDecision_descriptor();
+template<typename T>
+inline const std::string& QuestAcceptDecision_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, QuestAcceptDecision>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function QuestAcceptDecision_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    QuestAcceptDecision_descriptor(), enum_t_value);
+}
+inline bool QuestAcceptDecision_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, QuestAcceptDecision* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<QuestAcceptDecision>(
+    QuestAcceptDecision_descriptor(), name, value);
+}
+enum QuestAcceptReason : int {
+  QUEST_REASON_NONE = 0,
+  QUEST_REASON_INVALID_REQUEST = 1,
+  QUEST_REASON_UNSUPPORTED = 2,
+  QUEST_REASON_DISABLED = 3,
+  QUEST_REASON_DEFINITION_MISMATCH = 4,
+  QUEST_REASON_UNKNOWN_NPC = 5,
+  QUEST_REASON_TOO_FAR = 6,
+  QUEST_REASON_OCCLUDED = 7,
+  QUEST_REASON_STATE_BLOCKED = 8,
+  QUEST_REASON_BUSY = 9,
+  QUEST_REASON_ALREADY_ACCEPTED = 10,
+  QUEST_REASON_DB_UNAVAILABLE = 11,
+  QUEST_REASON_REQUEST_CONFLICT = 12,
+  QUEST_REASON_NOT_READY = 13,
+  QUEST_REASON_UNKNOWN_QUEST = 14,
+  QuestAcceptReason_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  QuestAcceptReason_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool QuestAcceptReason_IsValid(int value);
+constexpr QuestAcceptReason QuestAcceptReason_MIN = QUEST_REASON_NONE;
+constexpr QuestAcceptReason QuestAcceptReason_MAX = QUEST_REASON_UNKNOWN_QUEST;
+constexpr int QuestAcceptReason_ARRAYSIZE = QuestAcceptReason_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* QuestAcceptReason_descriptor();
+template<typename T>
+inline const std::string& QuestAcceptReason_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, QuestAcceptReason>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function QuestAcceptReason_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    QuestAcceptReason_descriptor(), enum_t_value);
+}
+inline bool QuestAcceptReason_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, QuestAcceptReason* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<QuestAcceptReason>(
+    QuestAcceptReason_descriptor(), name, value);
+}
+enum QuestTurnInDecision : int {
+  QUEST_TURN_IN_NONE = 0,
+  QUEST_TURN_IN_COMMITTED = 1,
+  QUEST_TURN_IN_REJECTED = 2,
+  QUEST_TURN_IN_UNCONFIRMED = 3,
+  QuestTurnInDecision_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  QuestTurnInDecision_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool QuestTurnInDecision_IsValid(int value);
+constexpr QuestTurnInDecision QuestTurnInDecision_MIN = QUEST_TURN_IN_NONE;
+constexpr QuestTurnInDecision QuestTurnInDecision_MAX = QUEST_TURN_IN_UNCONFIRMED;
+constexpr int QuestTurnInDecision_ARRAYSIZE = QuestTurnInDecision_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* QuestTurnInDecision_descriptor();
+template<typename T>
+inline const std::string& QuestTurnInDecision_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, QuestTurnInDecision>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function QuestTurnInDecision_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    QuestTurnInDecision_descriptor(), enum_t_value);
+}
+inline bool QuestTurnInDecision_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, QuestTurnInDecision* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<QuestTurnInDecision>(
+    QuestTurnInDecision_descriptor(), name, value);
+}
+enum QuestTurnInReason : int {
+  QUEST_TURN_IN_REASON_NONE = 0,
+  QUEST_TURN_IN_INVALID_REQUEST = 1,
+  QUEST_TURN_IN_UNSUPPORTED = 2,
+  QUEST_TURN_IN_NOT_ACCEPTED = 3,
+  QUEST_TURN_IN_NOT_READY = 4,
+  QUEST_TURN_IN_UNKNOWN_NPC = 5,
+  QUEST_TURN_IN_TOO_FAR = 6,
+  QUEST_TURN_IN_OCCLUDED = 7,
+  QUEST_TURN_IN_STATE_BLOCKED = 8,
+  QUEST_TURN_IN_INVENTORY_FULL = 9,
+  QUEST_TURN_IN_BUSY = 10,
+  QUEST_TURN_IN_ALREADY_REWARDED = 11,
+  QUEST_TURN_IN_REQUEST_CONFLICT = 12,
+  QUEST_TURN_IN_DB_UNAVAILABLE = 13,
+  QUEST_TURN_IN_INVALID_REWARD_DEFINITION = 14,
+  QuestTurnInReason_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  QuestTurnInReason_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool QuestTurnInReason_IsValid(int value);
+constexpr QuestTurnInReason QuestTurnInReason_MIN = QUEST_TURN_IN_REASON_NONE;
+constexpr QuestTurnInReason QuestTurnInReason_MAX = QUEST_TURN_IN_INVALID_REWARD_DEFINITION;
+constexpr int QuestTurnInReason_ARRAYSIZE = QuestTurnInReason_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* QuestTurnInReason_descriptor();
+template<typename T>
+inline const std::string& QuestTurnInReason_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, QuestTurnInReason>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function QuestTurnInReason_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    QuestTurnInReason_descriptor(), enum_t_value);
+}
+inline bool QuestTurnInReason_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, QuestTurnInReason* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<QuestTurnInReason>(
+    QuestTurnInReason_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -592,6 +775,36 @@ template <> struct is_proto_enum< ::Protocol::ItemPickupReason> : ::std::true_ty
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::ItemPickupReason>() {
   return ::Protocol::ItemPickupReason_descriptor();
+}
+template <> struct is_proto_enum< ::Protocol::QuestStatus> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::QuestStatus>() {
+  return ::Protocol::QuestStatus_descriptor();
+}
+template <> struct is_proto_enum< ::Protocol::QuestQueryStatus> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::QuestQueryStatus>() {
+  return ::Protocol::QuestQueryStatus_descriptor();
+}
+template <> struct is_proto_enum< ::Protocol::QuestAcceptDecision> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::QuestAcceptDecision>() {
+  return ::Protocol::QuestAcceptDecision_descriptor();
+}
+template <> struct is_proto_enum< ::Protocol::QuestAcceptReason> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::QuestAcceptReason>() {
+  return ::Protocol::QuestAcceptReason_descriptor();
+}
+template <> struct is_proto_enum< ::Protocol::QuestTurnInDecision> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::QuestTurnInDecision>() {
+  return ::Protocol::QuestTurnInDecision_descriptor();
+}
+template <> struct is_proto_enum< ::Protocol::QuestTurnInReason> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::QuestTurnInReason>() {
+  return ::Protocol::QuestTurnInReason_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

@@ -55,6 +55,8 @@ public:
 
 	void ResetAuthenticationState();
 	uint64 GetAuthenticatedAccountId() const { return AuthenticatedAccountId; }
+	// Server entry snapshot only; zero means no active character/unknown level.
+	uint32 GetActiveCharacterLevel() const { return ActiveCharacterLevel; }
 	void Login(const FString& AccountName, const FString& Password);
 	void LoginFromAuthUI(
 		const FString& AccountName,
@@ -84,6 +86,7 @@ public:
 	FOnEnterGameCompleted OnEnterGameCompleted;
 
 private:
+	friend class FS1MainHUDTest;
 	void HandleLoginPacket(const Protocol::S_LOGIN& Packet);
 	void HandleSignUpPacket(const Protocol::S_SIGN_UP& Packet);
 	void HandleCharacterCreatedPacket(
@@ -96,6 +99,7 @@ private:
 private:
 	bool bLoginRequestPending = false;
 	uint64 AuthenticatedAccountId = 0;
+	uint32 ActiveCharacterLevel = 0;
 	bool bLoginUiActionAuthorized = false;
 	TArray<FS1CharacterSummary> Characters;
 };

@@ -110,8 +110,35 @@ struct InventoryEntryDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT InventoryEntryDefaultTypeInternal _InventoryEntry_default_instance_;
+constexpr QuestStateInfo::QuestStateInfo(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : accepted_instance_id_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , title_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , description_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , quest_id_(0u)
+  , status_(0)
+
+  , definition_version_(0u)
+  , progress_(0u)
+  , revision_(uint64_t{0u})
+  , required_(0u)
+  , monster_definition_id_(0u)
+  , accept_npc_id_(0u)
+  , return_npc_id_(0u)
+  , rewarded_(false)
+  , reward_item_id_(0u)
+  , reward_count_(0u){}
+struct QuestStateInfoDefaultTypeInternal {
+  constexpr QuestStateInfoDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~QuestStateInfoDefaultTypeInternal() {}
+  union {
+    QuestStateInfo _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT QuestStateInfoDefaultTypeInternal _QuestStateInfo_default_instance_;
 }  // namespace Protocol
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_Struct_2eproto[5];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_Struct_2eproto[6];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_Struct_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_Struct_2eproto = nullptr;
 
@@ -174,6 +201,26 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Struct_2eproto::offsets[] PROT
   PROTOBUF_FIELD_OFFSET(::Protocol::InventoryEntry, item_definition_id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::InventoryEntry, count_),
   PROTOBUF_FIELD_OFFSET(::Protocol::InventoryEntry, slot_index_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::QuestStateInfo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::Protocol::QuestStateInfo, quest_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::QuestStateInfo, status_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::QuestStateInfo, definition_version_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::QuestStateInfo, accepted_instance_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::QuestStateInfo, progress_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::QuestStateInfo, required_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::QuestStateInfo, revision_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::QuestStateInfo, monster_definition_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::QuestStateInfo, title_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::QuestStateInfo, description_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::QuestStateInfo, accept_npc_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::QuestStateInfo, return_npc_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::QuestStateInfo, rewarded_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::QuestStateInfo, reward_item_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::QuestStateInfo, reward_count_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::Protocol::PosInfo)},
@@ -181,6 +228,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 20, -1, sizeof(::Protocol::ObjectInfo)},
   { 34, -1, sizeof(::Protocol::LootDropInfo)},
   { 49, -1, sizeof(::Protocol::InventoryEntry)},
+  { 58, -1, sizeof(::Protocol::QuestStateInfo)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -189,6 +237,7 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::Protocol::_ObjectInfo_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::Protocol::_LootDropInfo_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::Protocol::_InventoryEntry_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::Protocol::_QuestStateInfo_default_instance_),
 };
 
 const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -214,15 +263,25 @@ const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "efinition_version\030\t \001(\r\022\023\n\013source_kind\030\n"
   " \001(\r\"i\n\016InventoryEntry\022\030\n\020item_instance_"
   "id\030\001 \001(\004\022\032\n\022item_definition_id\030\002 \001(\r\022\r\n\005"
-  "count\030\003 \001(\r\022\022\n\nslot_index\030\004 \001(\rb\006proto3"
+  "count\030\003 \001(\r\022\022\n\nslot_index\030\004 \001(\r\"\352\002\n\016Ques"
+  "tStateInfo\022\020\n\010quest_id\030\001 \001(\r\022%\n\006status\030\002"
+  " \001(\016" "2\025.Protocol.QuestStatus\022\032\n\022definitio"
+  "n_version\030\003 \001(\r\022\034\n\024accepted_instance_id\030"
+  "\004 \001(\014\022\020\n\010progress\030\005 \001(\r\022\020\n\010required\030\006 \001("
+  "\r\022\020\n\010revision\030\007 \001(\004\022\035\n\025monster_definitio"
+  "n_id\030\010 \001(\r\022\r\n\005title\030\t \001(\t\022\023\n\013description"
+  "\030\n \001(\t\022\025\n\raccept_npc_id\030\013 \001(\r\022\025\n\rreturn_"
+  "npc_id\030\014 \001(\r\022\020\n\010rewarded\030\r \001(\010\022\026\n\016reward"
+  "_item_id\030\016 \001(\r\022\024\n\014reward_count\030\017 \001(\rb\006pr"
+  "oto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Struct_2eproto_deps[1] = {
   &::descriptor_table_Enum_2eproto,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Struct_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Struct_2eproto = {
-  false, false, 919, descriptor_table_protodef_Struct_2eproto, "Struct.proto", 
-  &descriptor_table_Struct_2eproto_once, descriptor_table_Struct_2eproto_deps, 1, 5,
+  false, false, 1284, descriptor_table_protodef_Struct_2eproto, "Struct.proto", 
+  &descriptor_table_Struct_2eproto_once, descriptor_table_Struct_2eproto_deps, 1, 6,
   schemas, file_default_instances, TableStruct_Struct_2eproto::offsets,
   file_level_metadata_Struct_2eproto, file_level_enum_descriptors_Struct_2eproto, file_level_service_descriptors_Struct_2eproto,
 };
@@ -1946,6 +2005,581 @@ void InventoryEntry::InternalSwap(InventoryEntry* other) {
       file_level_metadata_Struct_2eproto[4]);
 }
 
+// ===================================================================
+
+class QuestStateInfo::_Internal {
+ public:
+};
+
+QuestStateInfo::QuestStateInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:Protocol.QuestStateInfo)
+}
+QuestStateInfo::QuestStateInfo(const QuestStateInfo& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  accepted_instance_id_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_accepted_instance_id().empty()) {
+    accepted_instance_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_accepted_instance_id(), 
+      GetArenaForAllocation());
+  }
+  title_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_title().empty()) {
+    title_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_title(), 
+      GetArenaForAllocation());
+  }
+  description_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_description().empty()) {
+    description_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_description(), 
+      GetArenaForAllocation());
+  }
+  ::memcpy(&quest_id_, &from.quest_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&reward_count_) -
+    reinterpret_cast<char*>(&quest_id_)) + sizeof(reward_count_));
+  // @@protoc_insertion_point(copy_constructor:Protocol.QuestStateInfo)
+}
+
+void QuestStateInfo::SharedCtor() {
+accepted_instance_id_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+title_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+description_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
+    reinterpret_cast<char*>(&quest_id_) - reinterpret_cast<char*>(this)),
+    0, static_cast<size_t>(reinterpret_cast<char*>(&reward_count_) -
+    reinterpret_cast<char*>(&quest_id_)) + sizeof(reward_count_));
+}
+
+QuestStateInfo::~QuestStateInfo() {
+  // @@protoc_insertion_point(destructor:Protocol.QuestStateInfo)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void QuestStateInfo::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  accepted_instance_id_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  title_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  description_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void QuestStateInfo::ArenaDtor(void* object) {
+  QuestStateInfo* _this = reinterpret_cast< QuestStateInfo* >(object);
+  (void)_this;
+}
+void QuestStateInfo::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void QuestStateInfo::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void QuestStateInfo::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.QuestStateInfo)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  accepted_instance_id_.ClearToEmpty();
+  title_.ClearToEmpty();
+  description_.ClearToEmpty();
+  ::memset(&quest_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&reward_count_) -
+      reinterpret_cast<char*>(&quest_id_)) + sizeof(reward_count_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* QuestStateInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // uint32 quest_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          quest_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .Protocol.QuestStatus status = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_status(static_cast<::Protocol::QuestStatus>(val));
+        } else goto handle_unusual;
+        continue;
+      // uint32 definition_version = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          definition_version_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bytes accepted_instance_id = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
+          auto str = _internal_mutable_accepted_instance_id();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 progress = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+          progress_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 required = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
+          required_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 revision = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
+          revision_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 monster_definition_id = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
+          monster_definition_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string title = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 74)) {
+          auto str = _internal_mutable_title();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "Protocol.QuestStateInfo.title"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string description = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 82)) {
+          auto str = _internal_mutable_description();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "Protocol.QuestStateInfo.description"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 accept_npc_id = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 88)) {
+          accept_npc_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 return_npc_id = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 96)) {
+          return_npc_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bool rewarded = 13;
+      case 13:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 104)) {
+          rewarded_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 reward_item_id = 14;
+      case 14:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 112)) {
+          reward_item_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 reward_count = 15;
+      case 15:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 120)) {
+          reward_count_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* QuestStateInfo::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.QuestStateInfo)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint32 quest_id = 1;
+  if (this->quest_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_quest_id(), target);
+  }
+
+  // .Protocol.QuestStatus status = 2;
+  if (this->status() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      2, this->_internal_status(), target);
+  }
+
+  // uint32 definition_version = 3;
+  if (this->definition_version() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_definition_version(), target);
+  }
+
+  // bytes accepted_instance_id = 4;
+  if (!this->accepted_instance_id().empty()) {
+    target = stream->WriteBytesMaybeAliased(
+        4, this->_internal_accepted_instance_id(), target);
+  }
+
+  // uint32 progress = 5;
+  if (this->progress() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(5, this->_internal_progress(), target);
+  }
+
+  // uint32 required = 6;
+  if (this->required() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(6, this->_internal_required(), target);
+  }
+
+  // uint64 revision = 7;
+  if (this->revision() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(7, this->_internal_revision(), target);
+  }
+
+  // uint32 monster_definition_id = 8;
+  if (this->monster_definition_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(8, this->_internal_monster_definition_id(), target);
+  }
+
+  // string title = 9;
+  if (!this->title().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_title().data(), static_cast<int>(this->_internal_title().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "Protocol.QuestStateInfo.title");
+    target = stream->WriteStringMaybeAliased(
+        9, this->_internal_title(), target);
+  }
+
+  // string description = 10;
+  if (!this->description().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_description().data(), static_cast<int>(this->_internal_description().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "Protocol.QuestStateInfo.description");
+    target = stream->WriteStringMaybeAliased(
+        10, this->_internal_description(), target);
+  }
+
+  // uint32 accept_npc_id = 11;
+  if (this->accept_npc_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(11, this->_internal_accept_npc_id(), target);
+  }
+
+  // uint32 return_npc_id = 12;
+  if (this->return_npc_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(12, this->_internal_return_npc_id(), target);
+  }
+
+  // bool rewarded = 13;
+  if (this->rewarded() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(13, this->_internal_rewarded(), target);
+  }
+
+  // uint32 reward_item_id = 14;
+  if (this->reward_item_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(14, this->_internal_reward_item_id(), target);
+  }
+
+  // uint32 reward_count = 15;
+  if (this->reward_count() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(15, this->_internal_reward_count(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.QuestStateInfo)
+  return target;
+}
+
+size_t QuestStateInfo::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.QuestStateInfo)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // bytes accepted_instance_id = 4;
+  if (!this->accepted_instance_id().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_accepted_instance_id());
+  }
+
+  // string title = 9;
+  if (!this->title().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_title());
+  }
+
+  // string description = 10;
+  if (!this->description().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_description());
+  }
+
+  // uint32 quest_id = 1;
+  if (this->quest_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_quest_id());
+  }
+
+  // .Protocol.QuestStatus status = 2;
+  if (this->status() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_status());
+  }
+
+  // uint32 definition_version = 3;
+  if (this->definition_version() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_definition_version());
+  }
+
+  // uint32 progress = 5;
+  if (this->progress() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_progress());
+  }
+
+  // uint64 revision = 7;
+  if (this->revision() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_revision());
+  }
+
+  // uint32 required = 6;
+  if (this->required() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_required());
+  }
+
+  // uint32 monster_definition_id = 8;
+  if (this->monster_definition_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_monster_definition_id());
+  }
+
+  // uint32 accept_npc_id = 11;
+  if (this->accept_npc_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_accept_npc_id());
+  }
+
+  // uint32 return_npc_id = 12;
+  if (this->return_npc_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_return_npc_id());
+  }
+
+  // bool rewarded = 13;
+  if (this->rewarded() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // uint32 reward_item_id = 14;
+  if (this->reward_item_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_reward_item_id());
+  }
+
+  // uint32 reward_count = 15;
+  if (this->reward_count() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_reward_count());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void QuestStateInfo::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:Protocol.QuestStateInfo)
+  GOOGLE_DCHECK_NE(&from, this);
+  const QuestStateInfo* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<QuestStateInfo>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:Protocol.QuestStateInfo)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:Protocol.QuestStateInfo)
+    MergeFrom(*source);
+  }
+}
+
+void QuestStateInfo::MergeFrom(const QuestStateInfo& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:Protocol.QuestStateInfo)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from.accepted_instance_id().empty()) {
+    _internal_set_accepted_instance_id(from._internal_accepted_instance_id());
+  }
+  if (!from.title().empty()) {
+    _internal_set_title(from._internal_title());
+  }
+  if (!from.description().empty()) {
+    _internal_set_description(from._internal_description());
+  }
+  if (from.quest_id() != 0) {
+    _internal_set_quest_id(from._internal_quest_id());
+  }
+  if (from.status() != 0) {
+    _internal_set_status(from._internal_status());
+  }
+  if (from.definition_version() != 0) {
+    _internal_set_definition_version(from._internal_definition_version());
+  }
+  if (from.progress() != 0) {
+    _internal_set_progress(from._internal_progress());
+  }
+  if (from.revision() != 0) {
+    _internal_set_revision(from._internal_revision());
+  }
+  if (from.required() != 0) {
+    _internal_set_required(from._internal_required());
+  }
+  if (from.monster_definition_id() != 0) {
+    _internal_set_monster_definition_id(from._internal_monster_definition_id());
+  }
+  if (from.accept_npc_id() != 0) {
+    _internal_set_accept_npc_id(from._internal_accept_npc_id());
+  }
+  if (from.return_npc_id() != 0) {
+    _internal_set_return_npc_id(from._internal_return_npc_id());
+  }
+  if (from.rewarded() != 0) {
+    _internal_set_rewarded(from._internal_rewarded());
+  }
+  if (from.reward_item_id() != 0) {
+    _internal_set_reward_item_id(from._internal_reward_item_id());
+  }
+  if (from.reward_count() != 0) {
+    _internal_set_reward_count(from._internal_reward_count());
+  }
+}
+
+void QuestStateInfo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:Protocol.QuestStateInfo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void QuestStateInfo::CopyFrom(const QuestStateInfo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.QuestStateInfo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool QuestStateInfo::IsInitialized() const {
+  return true;
+}
+
+void QuestStateInfo::InternalSwap(QuestStateInfo* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      &accepted_instance_id_, GetArenaForAllocation(),
+      &other->accepted_instance_id_, other->GetArenaForAllocation()
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      &title_, GetArenaForAllocation(),
+      &other->title_, other->GetArenaForAllocation()
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      &description_, GetArenaForAllocation(),
+      &other->description_, other->GetArenaForAllocation()
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(QuestStateInfo, reward_count_)
+      + sizeof(QuestStateInfo::reward_count_)
+      - PROTOBUF_FIELD_OFFSET(QuestStateInfo, quest_id_)>(
+          reinterpret_cast<char*>(&quest_id_),
+          reinterpret_cast<char*>(&other->quest_id_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata QuestStateInfo::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_Struct_2eproto_getter, &descriptor_table_Struct_2eproto_once,
+      file_level_metadata_Struct_2eproto[5]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
@@ -1963,6 +2597,9 @@ template<> PROTOBUF_NOINLINE ::Protocol::LootDropInfo* Arena::CreateMaybeMessage
 }
 template<> PROTOBUF_NOINLINE ::Protocol::InventoryEntry* Arena::CreateMaybeMessage< ::Protocol::InventoryEntry >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::InventoryEntry >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protocol::QuestStateInfo* Arena::CreateMaybeMessage< ::Protocol::QuestStateInfo >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::QuestStateInfo >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

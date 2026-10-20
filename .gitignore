@@ -69,6 +69,7 @@ Testing/
 
 # S1 source-only: preserve local assets, exclude them from Git.
 /Content/
+/ArtSource/UI/MainHUD/*.png
 *.uasset
 *.umap
 *.ubulk

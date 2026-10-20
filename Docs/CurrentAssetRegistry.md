@@ -1,5 +1,197 @@
 # S1 Current Asset Registry
 
+2026-10-20 latest Main HUD user acceptance:
+user reported all requested checks complete for the current HUD expansion.
+WBP_S1MainHUD, WBP_S1Minimap, WBP_S1Currency and the generated
+T_S1BasicAttackIcon/T_S1ChainSlashIcon are **Active for user-accepted PIE presentation**.
+This supersedes the visual-acceptance-pending status in the historical entries below.
+Exact client count was not specified; no agent-run gameplay/log audit or current
+packaged acceptance is implied. Minimap remains a configurable compass/map UI
+without terrain texture; currency0 is a marked placeholder and cooldown is unimplemented.
+Documentation-only acceptance update; see MainHUDExpansion_2026-10-20.md.
+
+2026-10-20 Main HUD expansion (editor-integrated; PIE visual acceptance pending):
+generated original S1_BasicAttack_Icon_v1.png / S1_ChainSlash_Icon_v1.png are
+Candidate integrated source art in ArtSource/UI/MainHUD. Built-in image_gen provenance
+and exact prompts: SkillIcons_README.md. New WBP_S1Minimap (S1MinimapWidget),
+WBP_S1Currency (UserWidget), T_S1BasicAttackIcon/T_S1ChainSlashIcon are created,
+selectively saved and referenced by WBP_S1MainHUD. All three WBP compile checks
+pass with warnings-as-errors. New textures use UI/no-mips settings. Actual entry
+level connected; currency0 is explicitly temporary; map terrain texture absent,
+so this is a configurable map UI/compass, not a verified terrain minimap.
+See MainHUDExpansion_2026-10-20.md for build/automation evidence and pending PIE.
+Final S1/S1Editor Development builds and37 automation checks passed (36clean plus
+one existing GameplayCue warning); fresh-editor MCP reload/clean confirmed.
+This is not1-/2-client PIE or packaged visual acceptance.
+
+2026-10-20 Main HUD refinement (integration, visual acceptance pending):
+WBP_S1MainHUD now has aligned60×60 LMB/Q +1–4 square cells, numeric-only
+consumable stock, hidden future skill Icon/CooldownShade/CooldownText variables,
+and rounded metallic-outline HP rail with diamond endcaps inside the existing
+generated backplate. No invented cooldown/MP/EXP and no new art import.
+Serial MCP compile/warnings-as-errors passed; only MainHUD saved after checkpoint
+and dirty report. Original QuickSlots and MainMap clean. See
+MainHUDImplementation_2026-10-20.md for exact tuning names/evidence and pending PIE.
+
+2026-10-19 Quest B core two-client PIE user acceptance:
+user confirmed contributor progress increases on both clients, progress retained
+for both after reconnect, goal3 achieved display, and movement/attack/camera restore
+after dialogue. WBP_S1QuestTracker is now **Active for the user-accepted PIE quest
+progress presentation**, not packaged-certified. This record does not certify
+decline/rejection/delayed-response exceptions or reward delivery. Documentation-only
+acceptance update; no new code/asset/DB changes or agent-run log audit.
+
+2026-10-19 Quest B implementation/deployment history (acceptance superseded above):
+new /Game/S1/UI/WBP_S1QuestTracker (parent S1QuestTrackerWidget, CanvasRoot/QuestText
+native binding, right-top320x160, MaruBuri Regular18 gold, non-interactive) is
+integration-pending visual acceptance, not yet gameplay-certified Active. Existing
+DT2 now enabled quest1/Dusk3 and real acceptance dialogue; NPC BP preview off.
+Four packages selectively saved after checkpoint/dirty report, compile clean;
+MainMap and WBP_S1Dialogue not saved. v2 trusted placement export validated/deployed.
+Isolated DB62 + runtime14 + definition29 passed; server/editor/game builds passed;
+Unreal32 passed (31clean+1existing GameplayCue warning). GameDB3 new tables verified,
+server readiness1. No reward grant or new external art. See
+QuestStageBImplementation_2026-10-19.md for evidence and pending PIE/package gates.
+This supersedes the approval-pending statement in the historical paragraph below.
+
+2026-10-19 latest user acceptance: G-next revision confirmed by user; unspecified
+client count, not packaged acceptance. B-stage content direction changed from
+last-hit to server-confirmed damage contributors. QuestStageBContract_2026-10-19.md
+is a source/MCP-backed proposal pending protocol/DB approval, not implemented.
+This update changes docs only; DT sample remains disabled and no assets saved.
+
+2026-10-19 dialogue authoring stage1 user acceptance: user reported ordinary-next,
+third-node offer, both preview/decline branches and close/Esc control/camera restore
+tested without issues. Do not infer unspecified client count or packaged coverage.
+Follow-up G-next input implemented; native-only change, no WBP/DT saves.
+Line nodes bind a separate next delegate; preview G consumes fresh keydown only,
+ignores hold repeats and never triggers Offer/End acceptance. Existing next button
+label now includes [G]. Editor/game builds passed;31 automated tests passed
+(30clean +1existing GameplayCue warning), including direct preview-key dispatch,
+repeat suppression, acceptance isolation, Esc and cleanup. Live MCP/WBP compile
+clean. Actual G routing/focus/hold in authenticated PIE pending.
+Prior acceptance is not acceptance of the new G input revision. See
+QuestDialogueAuthoringStage1.md for exact scope and subsequent evidence.
+
+2026-10-19 Quest/dialogue authoring stage1 integration:
+/Game/S1/Quest/Data/DT_S1QuestDefinitions (S1QuestDefinitionRow),
+/Game/S1/Quest/Data/DT_S1DialogueNodes (S1DialogueNodeRow). One disabled sample
+quest and five nodes: Line1→Line2→Offer3→preview accept4/decline5. Existing NPC BP
+hard-references tables, StartDialogueNodeId1, PreviewQuestBranches=true explicitly
+test-only. No actual quest acceptance/progress/reward/DB/packet activated. Existing
+dialogue WBP/style retained; only DT2+NPC BP saved after dirty report/checkpoint.
+Editor/game/Debug server builds, affected BP compile and Unreal30-test run passed
+(one existing GameplayCue warning). Actual editor Export and server22 parser cases
+passed. Runtime UI/packaged visual acceptance pending. Reference chain and sample
+use verified, not a production quest feature. See QuestDialogueAuthoringStage1.md.
+
+2026-10-16 MaruBuri multi-weight Font fix supersedes earlier diagnosis-only state:
+/Game/S1/UI/Fonts/MaruBuri_Font (Font) now has ExtraLight/Light/Regular/SemiBold/Bold
+entries linked to matching project FontFaces; Default aliases Light to preserve
+styling. Four WBP fontObject references replaced (12TextBlocks): Dialogue,
+NpcInteractPrompt, NpcNameplate, InventoryDiscardDialog. Original engine assets
+untouched. Actual style-to-face links verified in Font editor via serial MCP;
+asset dependency graph includes five project faces and four WBP referencers.
+Four BP warnings-as-errors compiles and 29 automated tests passed (one pre-existing
+Q GameplayCue warning). Before/after binary checkpoint MaruBuriFont_20261016;
+only ten intended packages saved after dirty reports. Integration verified;
+multi-weight rendered and packaged visual acceptance pending. No C++/DB/server
+changes. See MaruBuriFontIntegration.md for provenance/evidence and editing steps.
+
+2026-10-16 NPC name distance follow-up supersedes initial always-visible policy:
+ShowDistance1500cm/HideDistance1800cm, previous-state hysteresis, per-client local
+pawn 3D root distance checked by NPC actor every0.1s; no pawn hides/reset. Native
+settings exposed on BP NpcNameplate component. UI styling and binary assets remain
+unchanged; no engine/font/server/DB edits. New 29-test run (28clean +1pre-existing
+GameplayCue warning,0failures) includes enter/exit/reapproach/no-viewer assertions.
+See NpcNameplateWidget.md for separate current build/runtime evidence.
+
+MaruBuri read-only diagnosis: current NameText references EngineFonts/
+MARUBURI-LIGHT_Font (Font, style Default), dependent only on Light FontFace.
+Regular/Bold/SemiBold/ExtraLight exist as FontFace, not styles linked into this Font.
+All five OTF/TTF weights exist in user Downloads/maruburi.zip. Current Light is
+user-applied; other faces are unconnected candidates. No fonts changed/imported.
+Recommend project-owned composite Font with all styles, rather than engine edits.
+
+2026-10-16 NPC overhead name integration (manual visual acceptance pending):
+/Game/S1/UI/WBP_S1NpcNameplate parent /Script/S1.S1NpcNameplateWidget,
+generated WBP_S1NpcNameplate_C, SizeBox300x36 → Canvas → bound NameText.
+BP_S1QuestNpc.NpcNameplate hard-refers to the new WBP; component caches existing
+DisplayName and supplies it on initialization/recreation. Screen/height250cm/
+nonfocusable/HitTestInvisible; always-on passive name, no distance/occlusion policy.
+Separate G prompt and dialogue Designer remain unchanged. Only name WBP and NPC BP
+selectively saved after dirty report/checkpoint; MainMap not saved. S1Editor/S1
+Development builds, 29 automation tests (one pre-existing Q warning, zero failures),
+affected BP warnings-as-errors compile, MainMap reload and short Simulate PIE
+runtime component connection passed. Actual name text/update/recreation tested
+against authored WBP in automation. Status integration verified; visual acceptance
+and packaged runtime pending. Before/after checkpoint NpcNameplate_20261016;
+see NpcNameplateWidget.md. No server/DB/protocol/new external art changes.
+
+2026-10-16 NPC interaction prompt WBP wired (visual acceptance pending):
+/Game/S1/UI/WBP_S1NpcInteractPrompt parent /Script/UMG.UserWidget,6widgets,
+SizeBox200x48 + Canvas for free positioning, KeyText/InteractionText static labels.
+BP_S1QuestNpc inherited DialoguePrompt.WidgetClass now hard-refers to this WBP.
+Height210/Screen/WindowFocusablefalse unchanged. Only new WBP+existing NPC BP saved,
+both compile warnings-as-errors passed; MainMap/dialogue WBP not saved and clean.
+Map reload and short Simulate PIE confirm runtime widget class. Native prompt
+remains fallback only for native NPC instances. No C++/server/DB/input changes.
+Dependencies BP->newWBP verified; actual G approach/rendered acceptance and package
+pending. Before/after checkpoint NpcInteractPrompt_20261016; see NpcInteractPromptWidget.md.
+
+2026-10-16 DialogueFantasy_v1 Candidate (external, not imported/applied):
+UIResources/DialogueFantasy_v1 contains DialoguePanel_v1(2171x724),
+NpcNameplate_v1(2172x724), QuestDetailPanel_v1(1086x1448),
+DialogueButton_Accept_v1/Decline_v1(each2172x724), all PNGs corner alpha0,
+center253 sampled; original pixels preserved. Built-in imagegen skill used
+InventoryFantasy_v1 panel/button as style references: midnight navy/silver/gold.
+Five separate text-free resources; live text/binding names retained in application
+instructions. README/Prompts record final prompts, native WBP mapping and unverified
+9-slice starting values. No font/art import, WBP/Content save or new UI play test.
+User separately confirmed gradient dialogue screen visual acceptance before this
+art task; this does not accept the unapplied texture designs in actual gameplay.
+
+2026-10-16 user visual acceptance: dialogue from behind NPC frames its front,
+NPC does not rotate on other client's screen, and remote players restore on exit.
+Follow-up approved presentation change: remove native constrained-aspect opaque
+letterbox, replace with native Slate gradients behind WBP_S1Dialogue tree.
+Default edge alpha0.5→0 inward, top/bottom8% height, editable WBP Class Defaults
+Dialogue/Edge Shade. No texture/material/asset save; new gradient visual acceptance
+pending. See NpcDialogueStageAImplementation.md for separate evidence boundaries.
+
+2026-10-16 NPC dialogue presentation follow-up: approved local-only NPC mesh
+facing toward interacting player, player-side shoulder camera, and remote-player/
+attached-actor camera mask with separate screen-space HP suppression. Original
+NPC mesh rotation and only this dialogue's render masks are restored on exit/
+abort. No NPC/player root transform, server protocol/DB, BP/WBP/map save changed.
+Editor build and28automation passed (dialogue test0warnings; existingQwarning1).
+Current two-client visual acceptance/package still pending; see
+NpcDialogueStageAImplementation.md. Model/Idle BP replacement contract unchanged.
+
+2026-10-16 NPC dialogue Stage A implementation (play acceptance pending):
+/Game/S1/Quest/BP_S1QuestNpc parent S1QuestNpc, placed once in MainMap at
+(-350,250,-0.5), native swappable SKM_Manny/MM_Idle defaults (same skeleton).
+/Game/S1/UI/WBP_S1Dialogue parent S1DialogueWidget,16widgets/6bindings, lower
+dialogue and right detail. Accept disabled: no quest/server/DB integration yet.
+Both BP compile warnings-as-errors passed; only these2 assets+MainMap saved,
+dirty=false; existing player/Dusk BPs not saved. Map reload preserved actor and
+WBP reference. MainMap->NPC BP->WBP cooker reachability inspected, actual cook
+and real dialogue play acceptance pending. Editor/game builds and28automation
+tests passed (one existing GameplayCue warning). Source-only Git excludes these
+assets; ContentBefore/After checkpoint NpcDialogueA_20261016 retained.
+No vendor edit or new imported font/art. See NpcDialogueStageAImplementation.md.
+
+2026-10-16 NPC dialogue candidate investigation (not implemented/not Active):
+/Game/Characters/Mannequins/Meshes/SKM_Manny and
+/Game/Characters/Mannequins/Animations/Manny/MM_Idle share SK_Mannequin;
+/Game/ParagonTerra/Characters/Heroes/Terra/Meshes/Terra and Animations/Idle
+share Terra_Skeleton. All four assets loaded via serial read-only MCP, dirty=false.
+Manny materials MI_Manny_01/02 and dependency/referencer lists inspected.
+Manny is proposed as temporary NPC; Terra already serves player presentation.
+No NPC chosen/placed, vendor edit/migration/save or font import performed.
+Runtime NPC pose/floor/framing/cook not verified. Existing Rair_Potion icon may
+be reused. See NpcQuestImplementationPlan_2026-10-16.md for approval gates.
+
 2026-10-15 packaged Dusk discrepancy: live MCP clean BP_S1DuskMinion currently
 has MeshFacingYawOffset=-90,visualscale0.7; prior+90 documentation is historical,
 not current saved default. Packaged clients missed BP and used native+90 fallback,
@@ -449,6 +641,42 @@ Latest 2026-10-06 update supersedes the unconnected wording: healing FX is now i
 - User-selected `/Game/VFX_StatusEffect01/FXS/FXS_healing000.FXS_healing000`: **Candidate, not runtime-integrated**. Serial read-only live MCP confirmed NiagaraSystem, dirty=false, demo-map referencer, ten enabled CPU emitters using Sprite/Light renderers and no user variables. Emitter loop inputs are Infinite with 1s loop duration; particle lifetimes include both literal1s and dynamic/unsupported values. Original system was not modified or saved.
 - Recursive game-package dependency inspection returned25 packages with no query failures; not a shader/cook proof. GetSystemCompileState timed out; compile status is unverified. CaptureAssetImage explicitly does not support this Niagara asset type; animated preview and UE5.8 rendered/cooked verification remain pending.
 - Planned use: server-confirmed successful potion healing only, one local/remote cosmetic event, finite S1-owned component lifetime and death/despawn/session cleanup. No click/HP-snapshot-triggered FX. Attachment/scale/duration require visual check; provenance/public-video rights remain unconfirmed. See [PotionUseImplementation.md](PotionUseImplementation.md) for proposed schema/wire and recovery gate. Existing pickup acceptance does not establish item-use completion.
+
+## Player Main HUD integration — 2026-10-20
+
+New `/Game/S1/UI/WBP_S1MainHUD` (parent S1MainHUDWidget, derived from existing S1QuickSlotWidget) and `/Game/S1/UI/HUD/T_S1MainHUDBackplate`: **Candidate / integrated, user1-/2-client appearance/control acceptance pending**. Original generated transparent navy/steel/gold frame uses the user's Aion2 screenshot as composition reference, not copied game art/logo. Built-in imagegen used; final prompt/source inventory in ArtSource/UI/MainHUD/README.md. PNG2172×724 has sampled corner alpha0; imported as UI/EditorIcon/no-mips. PNG excluded from Git under the existing source-only policy but retained locally.
+
+InventorySubsystem creates one extended QuickWidget rather than duplicate potion/HUD panels; serialized soft class is the cook reference, with old WBP_S1QuickSlots retained as fallback. Actual server HP cache, local LMB4-stage/Q presentation, existing potion1..4/count/drag/clear and I/O window APIs are wired. Alt-hold local cursor added with modal ownership protection. Existing dialogue HUD suppression retained. No MP/XP/currency/minimap or fabricated cooldown; class-role label KNIGHT is not a level claim. Current server CharacterInfo.level exists but selected identity HUD cache is not connected in this revision. Existing potion icon/font reused; attack/Q use text cards pending user-selected icon assets.
+
+Verified partial checkpoint, reported only new dirty texture/HUD2 packages then selectively saved; original QuickSlots/Map clean. Game/Editor builds and36 tests passed (35 clean +1 existing Q warning); real PIE/cook/package remain unverified. Details/files/evidence: [MainHUDImplementation_2026-10-20.md](MainHUDImplementation_2026-10-20.md).
+
+## Quest journal tab/detail revision — 2026-10-19
+
+Latest status: **tab/detail integration implemented / user PIE acceptance pending**. Only reported dirty WBP_S1QuestJournal saved after verified checkpoint; Dialogue/Tracker/MainMap remain clean. Editor/Game builds and35 automatic tests passed (34 clean +1 existing Q warning), including tab filtering, selected saved-description/reward bindings, empty/unready state cleanup, selection persistence and O/Esc. Historical in-progress wording below is superseded.
+
+WBP_S1QuestJournal is being revised under user request into left Active/Completed tab buttons and a scrollable title list, plus right selected quest detail (title, saved description, objective, state, reward icon/name/count). Existing O/Esc/Close ownership remains; read-only UI does not accept/claim quests. The current server supplies quest1 only, so this is not a new multi-quest/history protocol. Native view data is supplied by QuestSubsystem; UI does not parse packets. Status: **integration in progress / current tab revision PIE pending**. Exact files and validation: [QuestJournalTabs_2026-10-19.md](QuestJournalTabs_2026-10-19.md).
+
+## Quest tracker visual design — 2026-10-19
+
+Latest acceptance: user reported ‘체크 완료’ after the tracker visual revision. This is user-reported visual acceptance, not a new independently replayed two-client/package test. It supersedes the visual-pending wording in the historical paragraph below.
+
+User-provided Aion2 screenshot used as layout inspiration, not a copied game texture/logo. Existing WBP_S1QuestTracker now has a lightweight translucent TrackerCard, small diamond marker, gold18pt TrackerTitleText, ivory14pt TrackerObjectiveText, blue-grey12pt TrackerStatusText and O hint. Existing MaruBuri_Font Regular reused. Legacy QuestText remains for compatibility, hidden when the new authored texts are available. No invented quest distance/level or server-rule changes. Existing tracker runtime use remains Active; **new visual revision awaits user PIE appearance acceptance**.
+
+Checkpoint+SHA before mutation; only reported dirty tracker package saved. Game/Editor builds and35 automatic tests passed (34 clean +1 known Q warning), including saved-WBP text binding/empty-state/fallback checks. Dialogue/Journal/MainMap clean; no map/font/vendor/server/DB changes. Actual current-revision1/2-client rendering and packaging remain unverified. Edit/validation details: [QuestTrackerDesign_2026-10-19.md](QuestTrackerDesign_2026-10-19.md).
+
+## Quest UI presentation integration — 2026-10-19
+
+User-approved client-only follow-up: existing WBP_S1Dialogue now has RewardFrame/RewardIcon/RewardText beneath QuestDetailContents. New `/Game/S1/UI/WBP_S1QuestJournal` inherits `/Script/S1.S1QuestJournalWidget`, contains editable progress/completed sections and a close button, and is referenced by QuestSubsystem's serialized soft class for O-key use. Existing potion icon `/Game/_Resources/Rair_Potion.Rair_Potion` and MaruBuri_Font Regular reused. No new external art/fonts or UE5_RPG migration. Status: **Candidate / runtime integration implemented, rendered PIE acceptance pending**. Rewarded quests leave the HUD tracker and remain in the journal's completed section; Ready-to-report quests stay active. Current single-quest server contract is unchanged.
+
+Serial MCP read-only tree/parent/dirty inspection preceded mutations. Clean WBP_S1Dialogue was checkpointed with matching SHA. Only dirty WBP_S1Dialogue and new WBP_S1QuestJournal were reported and saved. Tracker WBP, NPC BP and MainMap remained clean; no DT/map/vendor/font save. Native display rules hide quickslots, tracker, NPC names and entity HP/name bars during local dialogue and restore their normal policies after it closes. Validation details and editing paths: [QuestUIPresentation_2026-10-19.md](QuestUIPresentation_2026-10-19.md).
+
+## Quest C reward integration — 2026-10-19
+
+Latest acceptance: user confirmed all requested current-revision PIE checks: each character receives only their own potion3 reward, no repeat grant after repeated dialogue/reconnect, inventory/quickslot count updates, and movement/attack/camera restore after dialogue. C reward NPC/dialogue use is now **Active / user-accepted PIE**. Server and editor logs independently match one committed reward request; they do not independently prove the entire two-account/reconnect sequence. No matching Error/Fatal/Ensure condition/Blueprint Runtime Error/Network Failure was found in the captured editor log. PIE teardown CrowdManager missing-Recast warning remains separate. Package and forced-failure PIE checks remain pending; the historical pending paragraph below is superseded by this acceptance.
+
+Existing BP_S1QuestNpc and DT_S1DialogueNodes now integrate the approved server-authoritative one-time potion reward flow. BP NPC properties select quest1 / Ready End6 / Rewarded End7 / Active End8; existing dialogue1..5 remain intact. MainMap placed NPC inherits these settings without saving the map. Both binary assets were checkpointed with SHA verification before changes; dirty state was reported before saving only these two packages. Native parent/generated class and warnings-as-errors compile call were verified through serial MCP. Existing WBP_S1Dialogue/WBP_S1QuestTracker layouts were not modified or saved.
+
+Status: **C reward integration implemented / fresh rendered PIE acceptance pending**; previous A/B NPC/dialogue acceptance remains valid history, not C validation. Editor/Game/Debug Server builds, isolated DB140 checks, Unreal33 tests (32 clean +1 known Q warning), server pure14+29 checks and actual eight-node Export v2 validation passed. No new assets/vendor edits/UE5_RPG migration. Current-revision reward PIE and package checks remain unverified. See [QuestStageCRewardImplementation_2026-10-19.md](QuestStageCRewardImplementation_2026-10-19.md).
 
 ## Change log
 

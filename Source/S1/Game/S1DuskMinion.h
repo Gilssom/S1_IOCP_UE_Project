@@ -32,6 +32,7 @@ public:
 	void PlayServerAttack(uint64 ActionInstanceId, float FacingYaw);
 	void SetLocalCombatTarget(bool bTargetsLocalPlayer);
 	void NotifyLocalCombatHit();
+	bool IsThreateningLocalPlayer() const { return bInLocalCombat && Hp>0; }
 
 private:
 	US1DuskAnimInstance* GetDuskAnimInstance() const;

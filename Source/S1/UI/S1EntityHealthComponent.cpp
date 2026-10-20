@@ -1,6 +1,8 @@
 #include "UI/S1EntityHealthComponent.h"
 #include "UI/S1EntityHealthWidget.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Quest/S1DialogueSubsystem.h"
+#include "Engine/World.h"
 
 US1EntityHealthComponent::US1EntityHealthComponent()
 {
@@ -16,6 +18,8 @@ US1EntityHealthComponent::US1EntityHealthComponent()
 }
 void US1EntityHealthComponent::BeginPlay()
 {
+ // Observe dialogue close even while the screen-space component is hidden.
+ SetTickMode(ETickMode::Enabled);
  // Hard default class reference ensures the passive WBP is reachable during cooking.
  if(HealthWidgetClass)SetWidgetClass(HealthWidgetClass);
  Super::BeginPlay();
@@ -34,12 +38,26 @@ void US1EntityHealthComponent::SetServerView(uint32 Current,uint32 Maximum,bool 
 }
 void US1EntityHealthComponent::RefreshView()
 {
- SetVisibility(bPresentationEnabled && MaxHp>0 && !(bHideOnDeath && bDead));
+ const auto* Dialogue=GetWorld()?GetWorld()->GetSubsystem<US1DialogueSubsystem>():nullptr;
+ bLastDialogueModal=Dialogue&&Dialogue->IsModal();
+ SetVisibility(!bLastDialogueModal && !bDialogueSuppressed && bPresentationEnabled && MaxHp>0 && !(bHideOnDeath && bDead));
  if(auto* View=Cast<US1EntityHealthWidget>(GetUserWidgetObject()))View->SetServerView(Hp,MaxHp,bDead,DisplayName);
+}
+void US1EntityHealthComponent::TickComponent(float DeltaTime,ELevelTick TickType,FActorComponentTickFunction* ThisTickFunction)
+{
+ Super::TickComponent(DeltaTime,TickType,ThisTickFunction);
+ const auto* Dialogue=GetWorld()?GetWorld()->GetSubsystem<US1DialogueSubsystem>():nullptr;
+ if(bLastDialogueModal!=bool(Dialogue&&Dialogue->IsModal()))RefreshView();
 }
 void US1EntityHealthComponent::SetPresentationEnabled(bool bEnabled)
 {
  if(bPresentationEnabled==bEnabled)return;
  bPresentationEnabled=bEnabled;
+ RefreshView();
+}
+void US1EntityHealthComponent::SetDialogueSuppressed(bool bSuppressed)
+{
+ if(bDialogueSuppressed==bSuppressed)return;
+ bDialogueSuppressed=bSuppressed;
  RefreshView();
 }

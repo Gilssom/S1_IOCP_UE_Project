@@ -31,7 +31,10 @@ public:
  virtual void Deinitialize() override;
  void BeginSession(uint64 Character,bool bSupported,bool bUseSupported=false,bool bMoveSupported=false,bool bStackSupported=false,bool bDiscardSupported=false);
  void ResetSession();
- void RequestPickup();
+ void RequestPickup(const FString& ExpectedDrop=FString());
+ FString GetPickupCandidate(float& DistanceSquared) const;
+ bool HasPendingPickup() const {return !PickupRequest.empty();}
+ void UpdateInteractionHint(const FString& VisibleKey,bool bHide);
  void RequestUseItem(uint64 ItemId);
  void ToggleInventory();
  void CloseInventory();
@@ -42,6 +45,7 @@ public:
  bool RequestMoveItem(uint64 ItemId,uint32 SourceSlot,uint32 Destination,uint64 Version,US1InventoryWidget* Source);
  bool HandleInventoryDrop(uint64 ItemId,uint32 SourceSlot,uint32 Destination,uint64 Target,uint64 Version,US1InventoryWidget* Source,bool bSplit,bool bSwap);
  uint64 GetInventoryVersion() const {return State.GetVersion();}
+ void RefreshAfterQuestReward(uint64 MinimumVersion);
  bool HandleDiscardDrop(uint64 Item,uint32 Source,uint64 Version,US1InventoryWidget* Owner);
  void ClearQuickSlot(int32 Slot);
  TSubclassOf<US1QuickSlotWidget> GetQuickSlotWidgetClass() const {return QuickSlotWidgetClass;}
@@ -81,6 +85,7 @@ private:
  UPROPERTY() TSubclassOf<US1InventorySplitWidget> SplitWidgetClass;
  // Exact native default reference makes the editable Widget Blueprint discoverable to the cooker.
  UPROPERTY() TSubclassOf<US1QuickSlotWidget> QuickSlotWidgetClass;
+ UPROPERTY() TSoftClassPtr<US1QuickSlotWidget> MainHUDClass;
  UPROPERTY() TSubclassOf<US1InventoryWidget> InventoryWidgetClass;
  FS1QuickSlotState QuickSlots;
  FString QuickIdentity;

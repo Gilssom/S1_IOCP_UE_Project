@@ -32,7 +32,7 @@ void US1QuickSlotWidget::ApplyUMGView(const TArray<int32>& Slots,int64 Count,con
    Images[I]->SetVisibility(bAssigned?ESlateVisibility::HitTestInvisible:ESlateVisibility::Hidden);
    Images[I]->SetRenderOpacity(bReady&&Count>0?1.f:0.4f);
   }
-  if(Counts[I])Counts[I]->SetText(FText::FromString(bAssigned?FString::Printf(TEXT("x%lld"),FMath::Max<int64>(0,Count)):TEXT("빈 슬롯")));
+  if(Counts[I])Counts[I]->SetText(FText::FromString(bAssigned?FString::Printf(TEXT("%lld"),FMath::Max<int64>(0,Count)):TEXT("")));
   if(States[I])States[I]->SetText(FText::FromString(bAssigned?State:FString()));
  }
 }
@@ -62,7 +62,7 @@ TSharedRef<SWidget> US1QuickSlotWidget::RebuildWidget()
      [SNew(SImage).Image(&Brush).Visibility_Lambda([this,I]{return Definitions.IsValidIndex(I)&&Definitions[I]==20001?EVisibility::Visible:EVisibility::Hidden;})
       .ColorAndOpacity_Lambda([this]{return bUsable&&Quantity>0?FLinearColor::White:FLinearColor(0.4f,0.4f,0.4f,1);})]
      +SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center)
-     [SNew(STextBlock).Text_Lambda([this,I]{return FText::FromString(Definitions.IsValidIndex(I)&&Definitions[I]==20001?FString::Printf(TEXT("x%lld"),Quantity):TEXT(""));})]
+     [SNew(STextBlock).Text_Lambda([this,I]{return FText::FromString(Definitions.IsValidIndex(I)&&Definitions[I]==20001?FString::Printf(TEXT("%lld"),Quantity):TEXT(""));})]
      +SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center)
      [SNew(STextBlock).Text_Lambda([this,I]{return FText::FromString(Definitions.IsValidIndex(I)&&Definitions[I]==20001?Status:FString());})]]]];
  return SNew(SVerticalBox)

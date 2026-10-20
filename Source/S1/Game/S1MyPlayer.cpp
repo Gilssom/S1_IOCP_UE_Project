@@ -22,9 +22,12 @@
 #include "UObject/ConstructorHelpers.h"
 #include "InputCoreTypes.h"
 #include "Loot/S1InventorySubsystem.h"
+#include "Quest/S1DialogueSubsystem.h"
+#include "Quest/S1QuestSubsystem.h"
 #include "DrawDebugHelpers.h"
 #include "EngineUtils.h"
 #include "Engine/World.h"
+#include "Framework/Application/SlateApplication.h"
 
 // Sets default values
 AS1MyPlayer::AS1MyPlayer()
@@ -116,6 +119,11 @@ void AS1MyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		PlayerInputComponent->BindKey(EKeys::Escape, IE_Pressed, this, &AS1MyPlayer::ClearTarget);
 		PlayerInputComponent->BindKey(EKeys::G, IE_Pressed, this, &AS1MyPlayer::PickupPotion);
 		PlayerInputComponent->BindKey(EKeys::I, IE_Pressed, this, &AS1MyPlayer::TogglePotionInventory);
+		PlayerInputComponent->BindKey(EKeys::O, IE_Pressed, this, &AS1MyPlayer::ToggleQuestJournal);
+		PlayerInputComponent->BindKey(EKeys::LeftAlt, IE_Pressed, this, &AS1MyPlayer::BeginHUDCursor);
+		PlayerInputComponent->BindKey(EKeys::LeftAlt, IE_Released, this, &AS1MyPlayer::EndHUDCursor);
+		PlayerInputComponent->BindKey(EKeys::RightAlt, IE_Pressed, this, &AS1MyPlayer::BeginHUDCursor);
+		PlayerInputComponent->BindKey(EKeys::RightAlt, IE_Released, this, &AS1MyPlayer::EndHUDCursor);
 	}
 	else
 	{
@@ -126,6 +134,7 @@ void AS1MyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 void AS1MyPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	UpdateHUDCursor();
 	UpdateTargets(DeltaTime);
 	const float Now = static_cast<float>(GetWorld()->GetTimeSeconds());
 	for (FPredictedPrimary& Prediction : PredictedPrimaryActions)
@@ -233,6 +242,7 @@ void AS1MyPlayer::BeginPlay()
 
 void AS1MyPlayer::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+	if(auto* Dialogue=GetWorld()->GetSubsystem<US1DialogueSubsystem>())Dialogue->AbortDialogue();
 	if(auto* InputOwner=QuickSlotInputOwner.Get())InputOwner->RemoveMappingContext(QuickSlotContext);
 	QuickSlotInputOwner.Reset();
 	ResetPredictedCombat();
@@ -546,6 +556,7 @@ void AS1MyPlayer::Look(const FInputActionValue& Value)
 
 bool AS1MyPlayer::CanUseGameplayInput() const
 {
+	if(auto* Dialogue=GetWorld()->GetSubsystem<US1DialogueSubsystem>();Dialogue&&Dialogue->IsModal())return false;
 	const APlayerController* PlayerController = Cast<APlayerController>(Controller);
 	return PlayerController != nullptr && !PlayerController->bShowMouseCursor &&
 		!PlayerController->IsPaused();
@@ -553,15 +564,58 @@ bool AS1MyPlayer::CanUseGameplayInput() const
 
 void AS1MyPlayer::PickupPotion()
 {
- if(CanUseGameplayInput())if(auto* Inventory=GetGameInstance()->GetSubsystem<US1InventorySubsystem>())Inventory->RequestPickup();
+ if(CanUseGameplayInput())if(auto* Dialogue=GetWorld()->GetSubsystem<US1DialogueSubsystem>())Dialogue->Interact();
+}
+void AS1MyPlayer::StopForDialogue()
+{
+ DesiredInput=FVector2D::ZeroVector;ConsumeMovementInputVector();StopJumping();
+ GetCharacterMovement()->StopMovementImmediately();
 }
 void AS1MyPlayer::TogglePotionInventory()
 {
+ if(auto* Quests=GetGameInstance()->GetSubsystem<US1QuestSubsystem>();Quests&&Quests->IsJournalOpen())return;
+ if(auto* Dialogue=GetWorld()->GetSubsystem<US1DialogueSubsystem>();Dialogue&&Dialogue->IsModal())return;
  if(auto* Inventory=GetGameInstance()->GetSubsystem<US1InventorySubsystem>())
  {
   DesiredInput=FVector2D::ZeroVector;
   ConsumeMovementInputVector();
   Inventory->ToggleInventory();
+ }
+}
+void AS1MyPlayer::ToggleQuestJournal()
+{
+ if(auto* Quests=GetGameInstance()->GetSubsystem<US1QuestSubsystem>())Quests->ToggleJournal();
+}
+void AS1MyPlayer::BeginHUDCursor()
+{
+ if(!CanUseGameplayInput())return;
+ bHUDCursorHeld=true;StopForDialogue();UpdateHUDCursor();
+}
+void AS1MyPlayer::EndHUDCursor()
+{
+ if(!bHUDCursorHeld)return;bHUDCursorHeld=false;
+ auto* PC=Cast<APlayerController>(GetController());if(!PC||!GetGameInstance())return;
+ const auto* Dialogue=GetWorld()->GetSubsystem<US1DialogueSubsystem>();
+ const auto* Inventory=GetGameInstance()->GetSubsystem<US1InventorySubsystem>();
+ const auto* Quests=GetGameInstance()->GetSubsystem<US1QuestSubsystem>();
+ if((Dialogue&&Dialogue->IsModal())||(Inventory&&Inventory->IsInventoryOpen())||(Quests&&Quests->IsJournalOpen()))return;
+ PC->bShowMouseCursor=false;PC->SetInputMode(FInputModeGameOnly());
+}
+void AS1MyPlayer::UpdateHUDCursor()
+{
+ if(!bHUDCursorHeld)return;
+ // UIOnly windows may consume key-up; Slate modifiers also release on focus loss.
+ if(FSlateApplication::IsInitialized()&&!FSlateApplication::Get().GetModifierKeys().IsAltDown())
+ {EndHUDCursor();return;}
+ auto* PC=Cast<APlayerController>(GetController());if(!PC||!PC->IsLocalController()||!GetGameInstance())return;
+ const auto* Dialogue=GetWorld()->GetSubsystem<US1DialogueSubsystem>();
+ const auto* Inventory=GetGameInstance()->GetSubsystem<US1InventorySubsystem>();
+ const auto* Quests=GetGameInstance()->GetSubsystem<US1QuestSubsystem>();
+ if((Dialogue&&Dialogue->IsModal())||(Inventory&&Inventory->IsInventoryOpen())||(Quests&&Quests->IsJournalOpen()))return;
+ if(!PC->bShowMouseCursor)
+ {
+  FInputModeGameAndUI Mode;Mode.SetHideCursorDuringCapture(false);Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+  PC->SetInputMode(Mode);PC->bShowMouseCursor=true;
  }
 }
 

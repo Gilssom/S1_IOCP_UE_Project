@@ -27,6 +27,7 @@ class S1_API AS1MyPlayer : public AS1Player
 	
 public:
 	AS1MyPlayer();
+	void StopForDialogue();
 	void ApplyCombatActionResult(const Protocol::S_COMBAT_ACTION_RESULT& Packet);
 	void ResetPredictedCombat(bool bResetSequence = false);
 
@@ -56,6 +57,11 @@ protected:
 	void ClearTarget();
 	void PickupPotion();
 	void TogglePotionInventory();
+	void ToggleQuestJournal();
+	void BeginHUDCursor();
+	void EndHUDCursor();
+	void UpdateHUDCursor();
+	bool bHUDCursorHeld=false;
 	void EnsureQuickSlotInput();
 	void UseQuickSlot(int32 Slot);
 	UPROPERTY(Transient) TObjectPtr<UInputMappingContext> QuickSlotContext;

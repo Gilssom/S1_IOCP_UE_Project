@@ -71,6 +71,7 @@ void US1AccountSubsystem::Deinitialize()
 void US1AccountSubsystem::ResetAuthenticationState()
 {
 	AuthenticatedAccountId = 0;
+	ActiveCharacterLevel = 0;
 	bLoginRequestPending = false;
 	bLoginUiActionAuthorized = false;
 	Characters.Reset();
@@ -200,6 +201,8 @@ void US1AccountSubsystem::EnterCharacter(int64 CharacterId)
 	Packet.set_inventory_stack_contract_version(1);
 	Packet.set_inventory_discard_contract_version(0); // Never fall back to permanent destruction.
 	Packet.set_player_field_drop_contract_version(1);
+	Packet.set_quest_contract_version(1);
+	Packet.set_quest_reward_contract_version(1);
 
 	NetworkSubsystem->SendPacket(
 		ClientPacketHandler::MakeSendBuffer(Packet));
@@ -300,6 +303,8 @@ void US1AccountSubsystem::HandleCharacterCreatedPacket(
 void US1AccountSubsystem::HandleEnterGamePacket(
 	const Protocol::S_ENTER_GAME& Packet)
 {
+	ActiveCharacterLevel = Packet.success() && Packet.has_player() && Packet.player().has_character_info()
+		? Packet.player().character_info().level() : 0;
 	OnEnterGameCompleted.Broadcast(
 		Packet.success(),
 		Packet.success()

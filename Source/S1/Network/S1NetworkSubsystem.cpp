@@ -301,6 +301,12 @@ void US1NetworkSubsystem::NotifyInventoryDiscardResultPacket(const Protocol::S_I
 {check(IsInGameThread());OnInventoryDiscardResultPacket.Broadcast(Packet);}
 void US1NetworkSubsystem::NotifyPlayerFieldDropResultPacket(const Protocol::S_PLAYER_FIELD_DROP_RESULT& Packet)
 {check(IsInGameThread());OnPlayerFieldDropResultPacket.Broadcast(Packet);}
+void US1NetworkSubsystem::NotifyQuestStatePacket(const Protocol::S_QUEST_STATE& Packet)
+{check(IsInGameThread());OnQuestStatePacket.Broadcast(Packet);}
+void US1NetworkSubsystem::NotifyQuestAcceptPacket(const Protocol::S_QUEST_ACCEPT_RESULT& Packet)
+{check(IsInGameThread());OnQuestAcceptPacket.Broadcast(Packet);}
+void US1NetworkSubsystem::NotifyQuestTurnInPacket(const Protocol::S_QUEST_TURN_IN_RESULT& Packet)
+{check(IsInGameThread());OnQuestTurnInPacket.Broadcast(Packet);}
 void US1NetworkSubsystem::NotifyPlayerHealedPacket(const Protocol::S_PLAYER_HEALED& Packet)
 {check(IsInGameThread());OnPlayerHealedPacket.Broadcast(Packet);}
 

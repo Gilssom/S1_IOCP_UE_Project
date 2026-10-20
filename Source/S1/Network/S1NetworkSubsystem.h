@@ -36,6 +36,9 @@ namespace Protocol
 	class S_INVENTORY_STACK_ACTION_RESULT;
 	class S_INVENTORY_DISCARD_RESULT;
 	class S_PLAYER_FIELD_DROP_RESULT;
+	class S_QUEST_STATE;
+	class S_QUEST_ACCEPT_RESULT;
+	class S_QUEST_TURN_IN_RESULT;
 }
 
 UENUM(BlueprintType)
@@ -100,6 +103,9 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1InventoryMoveResultPacket, const Protoc
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1InventoryStackResultPacket, const Protocol::S_INVENTORY_STACK_ACTION_RESULT&);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1InventoryDiscardResultPacket, const Protocol::S_INVENTORY_DISCARD_RESULT&);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1PlayerFieldDropResultPacket, const Protocol::S_PLAYER_FIELD_DROP_RESULT&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1QuestStatePacket, const Protocol::S_QUEST_STATE&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1QuestAcceptPacket, const Protocol::S_QUEST_ACCEPT_RESULT&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1QuestTurnInPacket, const Protocol::S_QUEST_TURN_IN_RESULT&);
 
 UCLASS()
 class S1_API US1NetworkSubsystem : public UGameInstanceSubsystem
@@ -152,6 +158,9 @@ public:
 	void NotifyInventoryStackResultPacket(const Protocol::S_INVENTORY_STACK_ACTION_RESULT& Packet);
 	void NotifyInventoryDiscardResultPacket(const Protocol::S_INVENTORY_DISCARD_RESULT& Packet);
 	void NotifyPlayerFieldDropResultPacket(const Protocol::S_PLAYER_FIELD_DROP_RESULT& Packet);
+	void NotifyQuestStatePacket(const Protocol::S_QUEST_STATE& Packet);
+	void NotifyQuestAcceptPacket(const Protocol::S_QUEST_ACCEPT_RESULT& Packet);
+	void NotifyQuestTurnInPacket(const Protocol::S_QUEST_TURN_IN_RESULT& Packet);
 
 	FOnS1ConnectionStateChanged OnConnectionStateChanged;
 	FOnS1LoginPacket OnLoginPacket;
@@ -180,6 +189,9 @@ public:
 	FOnS1InventoryStackResultPacket OnInventoryStackResultPacket;
 	FOnS1InventoryDiscardResultPacket OnInventoryDiscardResultPacket;
 	FOnS1PlayerFieldDropResultPacket OnPlayerFieldDropResultPacket;
+	FOnS1QuestStatePacket OnQuestStatePacket;
+	FOnS1QuestAcceptPacket OnQuestAcceptPacket;
+	FOnS1QuestTurnInPacket OnQuestTurnInPacket;
 
 private:
 	bool TickNetwork(float DeltaTime);

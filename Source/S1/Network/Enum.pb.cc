@@ -18,7 +18,7 @@
 PROTOBUF_PRAGMA_INIT_SEG
 namespace Protocol {
 }  // namespace Protocol
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_Enum_2eproto[15];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_Enum_2eproto[21];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_Enum_2eproto = nullptr;
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Enum_2eproto::offsets[1] = {};
 static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = nullptr;
@@ -103,11 +103,47 @@ const char descriptor_table_protodef_Enum_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "M_REASON_STACK_LIMIT\020\013\022\037\n\033ITEM_REASON_AL"
   "READY_CLAIMED\020\014\022$\n ITEM_REASON_UNSUPPORT"
   "ED_CONTRACT\020\r\022$\n ITEM_REASON_DATABASE_UN"
-  "AVAILABLE\020\016b\006proto3"
+  "AVAILABLE\020\016*S\n\013QuestStatus\022\026\n\022QUEST_NOT_"
+  "ACCEPTED\020\000\022\020\n\014QUEST_ACTIVE\020\001\022\032\n\026QUEST_RE"
+  "ADY_TO_TURN_IN\020\002*y\n\020QuestQueryStatus\022\024\n\020"
+  "QUEST_QUERY_NONE\020\000\022\025\n\021QUEST_QUERY_READY\020"
+  "\001\022\033\n\027QUEST_QUERY_UNCONFIRMED\020\002\022\033\n\027QUEST_"
+  "QUERY_UNSUPPORTED\020\003*\201\001\n\023QuestAcceptDecis"
+  "ion\022\025\n\021QUEST_ACCEPT_NONE\020\000\022\032\n\026QUEST_ACCE"
+  "PT_COMMITTED\020\001\022\031\n\025QUEST_ACCEPT_REJECTED\020"
+  "\002\022\034\n\030QUEST_ACCEPT_UNCONFIRMED\020\003*\330\003\n\021Ques"
+  "tAcceptReason\022\025\n\021QUEST_REASON_NONE\020\000\022 \n\034"
+  "QUEST_REASON_INVALID_REQUEST\020\001\022\034\n\030QUEST_"
+  "REASON_UNSUPPORTED\020\002\022\031\n\025QUEST_REASON_DIS"
+  "ABLED\020\003\022$\n QUEST_REASON_DEFINITION_MISMA"
+  "TCH\020\004\022\034\n\030QUEST_REASON_UNKNOWN_NPC\020\005\022\030\n\024Q"
+  "UEST_REASON_TOO_FAR\020\006\022\031\n\025QUEST_REASON_OC"
+  "CLUDED\020\007\022\036\n\032QUEST_REASON_STATE_BLOCKED\020\010"
+  "\022\025\n\021QUEST_REASON_BUSY\020\t\022!\n\035QUEST_REASON_"
+  "ALREADY_ACCEPTED\020\n\022\037\n\033QUEST_REASON_DB_UN"
+  "AVAILABLE\020\013\022!\n\035QUEST_REASON_REQUEST_CONF"
+  "LICT\020\014\022\032\n\026QUEST_REASON_NOT_READY\020\r\022\036\n\032QU"
+  "EST_REASON_UNKNOWN_QUEST\020\016*\205\001\n\023QuestTurn"
+  "InDecision\022\026\n\022QUEST_TURN_IN_NONE\020\000\022\033\n\027QU"
+  "EST_TURN_IN_COMMITTED\020\001\022\032\n\026QUEST_TURN_IN"
+  "_REJECTED\020\002\022\035\n\031QUEST_TURN_IN_UNCONFIRMED"
+  "\020\003*\371\003\n\021QuestTurnInReason\022\035\n\031QUEST_TURN_I"
+  "N_REASON_NONE\020\000\022!\n\035QUEST_TURN_IN_INVALID"
+  "_REQUEST\020\001\022\035\n\031QUEST_TURN_IN_UNSUPPORTED\020"
+  "\002\022\036\n\032QUEST_TURN_IN_NOT_ACCEPTED\020\003\022\033\n\027QUE"
+  "ST_TURN_IN_NOT_READY\020\004\022\035\n\031QUEST_TURN_IN_"
+  "UNKNOWN_NPC\020\005\022\031\n\025QUEST_TURN_IN_TOO_FAR\020\006"
+  "\022\032\n\026QUEST_TURN_IN_OCCLUDED\020\007\022\037\n\033QUEST_TU"
+  "RN_IN_STATE_BLOCKED\020\010\022 \n\034QUEST_TURN_IN_I"
+  "NVENTORY_FULL\020\t\022\026\n\022QUEST_TURN_IN_BUSY\020\n\022"
+  "\"\n\036QUEST_TURN_IN_ALREADY_REWARDED\020\013\022\"\n\036Q"
+  "UEST_TURN_IN_REQUEST_CONFLICT\020\014\022 \n\034QUEST"
+  "_TURN_IN_DB_UNAVAILABLE\020\r\022+\n\'QUEST_TURN_"
+  "IN_INVALID_REWARD_DEFINITION\020\016b\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Enum_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Enum_2eproto = {
-  false, false, 3139, descriptor_table_protodef_Enum_2eproto, "Enum.proto", 
+  false, false, 4598, descriptor_table_protodef_Enum_2eproto, "Enum.proto", 
   &descriptor_table_Enum_2eproto_once, nullptr, 0, 0,
   schemas, file_default_instances, TableStruct_Enum_2eproto::offsets,
   nullptr, file_level_enum_descriptors_Enum_2eproto, file_level_service_descriptors_Enum_2eproto,
@@ -372,6 +408,123 @@ const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ItemPickupReason_descriptor() {
   return file_level_enum_descriptors_Enum_2eproto[14];
 }
 bool ItemPickupReason_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* QuestStatus_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Enum_2eproto);
+  return file_level_enum_descriptors_Enum_2eproto[15];
+}
+bool QuestStatus_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* QuestQueryStatus_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Enum_2eproto);
+  return file_level_enum_descriptors_Enum_2eproto[16];
+}
+bool QuestQueryStatus_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* QuestAcceptDecision_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Enum_2eproto);
+  return file_level_enum_descriptors_Enum_2eproto[17];
+}
+bool QuestAcceptDecision_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* QuestAcceptReason_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Enum_2eproto);
+  return file_level_enum_descriptors_Enum_2eproto[18];
+}
+bool QuestAcceptReason_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* QuestTurnInDecision_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Enum_2eproto);
+  return file_level_enum_descriptors_Enum_2eproto[19];
+}
+bool QuestTurnInDecision_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* QuestTurnInReason_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Enum_2eproto);
+  return file_level_enum_descriptors_Enum_2eproto[20];
+}
+bool QuestTurnInReason_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:

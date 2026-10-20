@@ -20,6 +20,7 @@
 #include "NiagaraSystem.h"
 #include "Components/CapsuleComponent.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Quest/S1DialogueSubsystem.h"
 
 namespace
 {
@@ -48,6 +49,7 @@ void US1WorldEntitySubsystem::ConfigureOtherPlayerClass(
 
 void US1WorldEntitySubsystem::ResetRegistry()
 {
+	if(auto* Dialogue=GetWorld()->GetSubsystem<US1DialogueSubsystem>())Dialogue->AbortDialogue();
 	TArray<uint64> HealingIds;HealingEffects.GenerateKeyArray(HealingIds);
 	for(uint64 Id:HealingIds)ClearHealingEffects(Id);
 	DeadPlayers.Reset();RecentHealIds.Reset();HealIdOrder.Reset();
@@ -359,6 +361,8 @@ bool US1WorldEntitySubsystem::ApplyDamageResult(const Protocol::S_DAMAGE_RESULT&
 	if (Players.Contains(Packet.target_object_id()))
 	{
 		if(MyPlayer && Packet.target_object_id()==MyPlayer->GetPlayerInfo()->object_id())
+			if(auto* Dialogue=GetWorld()->GetSubsystem<US1DialogueSubsystem>())Dialogue->NotifyLocalDamage();
+		if(MyPlayer && Packet.target_object_id()==MyPlayer->GetPlayerInfo()->object_id())
 			if(auto* Source=Monsters.Find(Packet.source_object_id());Source && IsValid(Source->Get()))Source->Get()->NotifyLocalCombatHit();
 		if(Packet.current_hp()==0){DeadPlayers.Add(Packet.target_object_id());ClearHealingEffects(Packet.target_object_id());}
 		if (AS1Player* Player = Players[Packet.target_object_id()].Get())
@@ -386,6 +390,7 @@ bool US1WorldEntitySubsystem::ApplyPlayerStatus(const Protocol::S_PLAYER_STATUS&
 	Player->ApplyServerHealth(Packet.current_hp(), Packet.max_hp(), Packet.is_dead());
 	if (Packet.is_dead())
 	{
+		if(Player==MyPlayer)if(auto* Dialogue=GetWorld()->GetSubsystem<US1DialogueSubsystem>())Dialogue->AbortDialogue();
 		DeadPlayers.Add(Packet.object_id());ClearHealingEffects(Packet.object_id());
 		if (AS1MyPlayer* Local = Cast<AS1MyPlayer>(Player))
 			Local->ResetPredictedCombat();
