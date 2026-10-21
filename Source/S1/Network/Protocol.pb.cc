@@ -86,7 +86,8 @@ constexpr C_ENTER_GAME::C_ENTER_GAME(
   , inventory_discard_contract_version_(0u)
   , player_field_drop_contract_version_(0u)
   , quest_contract_version_(0u)
-  , quest_reward_contract_version_(0u){}
+  , quest_reward_contract_version_(0u)
+  , region_contract_version_(0u){}
 struct C_ENTER_GAMEDefaultTypeInternal {
   constexpr C_ENTER_GAMEDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -110,7 +111,9 @@ constexpr S_ENTER_GAME::S_ENTER_GAME(
   , inventory_discard_contract_version_(0u)
   , player_field_drop_contract_version_(0u)
   , quest_contract_version_(0u)
-  , quest_reward_contract_version_(0u){}
+  , quest_reward_contract_version_(0u)
+  , region_id_(0u)
+  , region_contract_version_(0u){}
 struct S_ENTER_GAMEDefaultTypeInternal {
   constexpr S_ENTER_GAMEDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -849,6 +852,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Protocol_2eproto::offsets[] PR
   PROTOBUF_FIELD_OFFSET(::Protocol::C_ENTER_GAME, player_field_drop_contract_version_),
   PROTOBUF_FIELD_OFFSET(::Protocol::C_ENTER_GAME, quest_contract_version_),
   PROTOBUF_FIELD_OFFSET(::Protocol::C_ENTER_GAME, quest_reward_contract_version_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::C_ENTER_GAME, region_contract_version_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S_ENTER_GAME, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -867,6 +871,8 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Protocol_2eproto::offsets[] PR
   PROTOBUF_FIELD_OFFSET(::Protocol::S_ENTER_GAME, quest_contract_version_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_ENTER_GAME, quest_session_id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_ENTER_GAME, quest_reward_contract_version_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_ENTER_GAME, region_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_ENTER_GAME, region_contract_version_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::C_LEAVE_GAME, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1285,48 +1291,48 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 17, -1, sizeof(::Protocol::C_SIGN_UP)},
   { 24, -1, sizeof(::Protocol::S_SIGN_UP)},
   { 32, -1, sizeof(::Protocol::C_ENTER_GAME)},
-  { 47, -1, sizeof(::Protocol::S_ENTER_GAME)},
-  { 65, -1, sizeof(::Protocol::C_LEAVE_GAME)},
-  { 70, -1, sizeof(::Protocol::S_LEAVE_GAME)},
-  { 75, -1, sizeof(::Protocol::S_SPAWN)},
-  { 83, -1, sizeof(::Protocol::S_DESPAWN)},
-  { 89, -1, sizeof(::Protocol::C_MOVE)},
-  { 95, -1, sizeof(::Protocol::S_MOVE)},
-  { 101, -1, sizeof(::Protocol::C_CHAT)},
-  { 107, -1, sizeof(::Protocol::S_CHAT)},
-  { 114, -1, sizeof(::Protocol::C_CREATE_CHARACTER)},
-  { 121, -1, sizeof(::Protocol::S_CREATE_CHARACTER)},
-  { 129, -1, sizeof(::Protocol::C_COMBAT_ACTION)},
-  { 139, -1, sizeof(::Protocol::S_COMBAT_ACTION)},
-  { 150, -1, sizeof(::Protocol::S_MONSTER_UPDATE)},
-  { 162, -1, sizeof(::Protocol::S_MONSTER_ATTACK)},
-  { 173, -1, sizeof(::Protocol::S_DAMAGE_RESULT)},
-  { 186, -1, sizeof(::Protocol::S_PLAYER_STATUS)},
-  { 197, -1, sizeof(::Protocol::S_COMBAT_ACTION_RESULT)},
-  { 210, -1, sizeof(::Protocol::S_LOOT_SNAPSHOT)},
-  { 218, -1, sizeof(::Protocol::S_LOOT_CREATED)},
-  { 225, -1, sizeof(::Protocol::S_LOOT_REMOVED)},
-  { 233, -1, sizeof(::Protocol::C_ITEM_PICKUP)},
-  { 241, -1, sizeof(::Protocol::S_ITEM_PICKUP_RESULT)},
-  { 253, -1, sizeof(::Protocol::C_INVENTORY_QUERY)},
-  { 260, -1, sizeof(::Protocol::S_INVENTORY_SNAPSHOT)},
-  { 271, -1, sizeof(::Protocol::C_ITEM_USE)},
-  { 280, -1, sizeof(::Protocol::S_ITEM_USE_RESULT)},
-  { 295, -1, sizeof(::Protocol::S_PLAYER_HEALED)},
-  { 306, -1, sizeof(::Protocol::C_INVENTORY_MOVE)},
-  { 317, -1, sizeof(::Protocol::S_INVENTORY_MOVE_RESULT)},
-  { 330, -1, sizeof(::Protocol::C_INVENTORY_STACK_ACTION)},
-  { 344, -1, sizeof(::Protocol::S_INVENTORY_STACK_ACTION_RESULT)},
-  { 361, -1, sizeof(::Protocol::C_INVENTORY_DISCARD)},
-  { 372, -1, sizeof(::Protocol::S_INVENTORY_DISCARD_RESULT)},
-  { 386, -1, sizeof(::Protocol::C_PLAYER_FIELD_DROP)},
-  { 397, -1, sizeof(::Protocol::S_PLAYER_FIELD_DROP_RESULT)},
-  { 412, -1, sizeof(::Protocol::C_QUEST_QUERY)},
-  { 420, -1, sizeof(::Protocol::S_QUEST_STATE)},
-  { 431, -1, sizeof(::Protocol::C_QUEST_ACCEPT)},
-  { 441, -1, sizeof(::Protocol::S_QUEST_ACCEPT_RESULT)},
-  { 453, -1, sizeof(::Protocol::C_QUEST_TURN_IN)},
-  { 463, -1, sizeof(::Protocol::S_QUEST_TURN_IN_RESULT)},
+  { 48, -1, sizeof(::Protocol::S_ENTER_GAME)},
+  { 68, -1, sizeof(::Protocol::C_LEAVE_GAME)},
+  { 73, -1, sizeof(::Protocol::S_LEAVE_GAME)},
+  { 78, -1, sizeof(::Protocol::S_SPAWN)},
+  { 86, -1, sizeof(::Protocol::S_DESPAWN)},
+  { 92, -1, sizeof(::Protocol::C_MOVE)},
+  { 98, -1, sizeof(::Protocol::S_MOVE)},
+  { 104, -1, sizeof(::Protocol::C_CHAT)},
+  { 110, -1, sizeof(::Protocol::S_CHAT)},
+  { 117, -1, sizeof(::Protocol::C_CREATE_CHARACTER)},
+  { 124, -1, sizeof(::Protocol::S_CREATE_CHARACTER)},
+  { 132, -1, sizeof(::Protocol::C_COMBAT_ACTION)},
+  { 142, -1, sizeof(::Protocol::S_COMBAT_ACTION)},
+  { 153, -1, sizeof(::Protocol::S_MONSTER_UPDATE)},
+  { 165, -1, sizeof(::Protocol::S_MONSTER_ATTACK)},
+  { 176, -1, sizeof(::Protocol::S_DAMAGE_RESULT)},
+  { 189, -1, sizeof(::Protocol::S_PLAYER_STATUS)},
+  { 200, -1, sizeof(::Protocol::S_COMBAT_ACTION_RESULT)},
+  { 213, -1, sizeof(::Protocol::S_LOOT_SNAPSHOT)},
+  { 221, -1, sizeof(::Protocol::S_LOOT_CREATED)},
+  { 228, -1, sizeof(::Protocol::S_LOOT_REMOVED)},
+  { 236, -1, sizeof(::Protocol::C_ITEM_PICKUP)},
+  { 244, -1, sizeof(::Protocol::S_ITEM_PICKUP_RESULT)},
+  { 256, -1, sizeof(::Protocol::C_INVENTORY_QUERY)},
+  { 263, -1, sizeof(::Protocol::S_INVENTORY_SNAPSHOT)},
+  { 274, -1, sizeof(::Protocol::C_ITEM_USE)},
+  { 283, -1, sizeof(::Protocol::S_ITEM_USE_RESULT)},
+  { 298, -1, sizeof(::Protocol::S_PLAYER_HEALED)},
+  { 309, -1, sizeof(::Protocol::C_INVENTORY_MOVE)},
+  { 320, -1, sizeof(::Protocol::S_INVENTORY_MOVE_RESULT)},
+  { 333, -1, sizeof(::Protocol::C_INVENTORY_STACK_ACTION)},
+  { 347, -1, sizeof(::Protocol::S_INVENTORY_STACK_ACTION_RESULT)},
+  { 364, -1, sizeof(::Protocol::C_INVENTORY_DISCARD)},
+  { 375, -1, sizeof(::Protocol::S_INVENTORY_DISCARD_RESULT)},
+  { 389, -1, sizeof(::Protocol::C_PLAYER_FIELD_DROP)},
+  { 400, -1, sizeof(::Protocol::S_PLAYER_FIELD_DROP_RESULT)},
+  { 415, -1, sizeof(::Protocol::C_QUEST_QUERY)},
+  { 423, -1, sizeof(::Protocol::S_QUEST_STATE)},
+  { 434, -1, sizeof(::Protocol::C_QUEST_ACCEPT)},
+  { 444, -1, sizeof(::Protocol::S_QUEST_ACCEPT_RESULT)},
+  { 456, -1, sizeof(::Protocol::C_QUEST_TURN_IN)},
+  { 466, -1, sizeof(::Protocol::S_QUEST_TURN_IN_RESULT)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -1390,7 +1396,7 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "_name\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"[\n\tS_SIGN_"
   "UP\022\017\n\007success\030\001 \001(\010\022&\n\006result\030\002 \001(\016" "2\026.Pr"
   "otocol.SignUpResult\022\025\n\rerror_message\030\003 \001"
-  "(\t\"\373\002\n\014C_ENTER_GAME\022\024\n\014character_id\030\001 \001("
+  "(\t\"\234\003\n\014C_ENTER_GAME\022\024\n\014character_id\030\001 \001("
   "\004\022\035\n\025loot_contract_version\030\002 \001(\r\022!\n\031loot"
   "_presentation_version\030\003 \001(\r\022!\n\031item_use_"
   "contract_version\030\004 \001(\r\022\'\n\037inventory_move"
@@ -1399,173 +1405,175 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "iscard_contract_version\030\007 \001(\r\022*\n\"player_"
   "field_drop_contract_version\030\010 \001(\r\022\036\n\026que"
   "st_contract_version\030\t \001(\r\022%\n\035quest_rewar"
-  "d_contract_version\030\n \001(\r\"\327\003\n\014S_ENTER_GAM"
-  "E\022\017\n\007success\030\001 \001(\010\022$\n\006player\030\002 \001(\013" "2\024.Pro"
-  "tocol.ObjectInfo\022\037\n\027combat_contract_vers"
-  "ion\030\003 \001(\r\022\035\n\025loot_contract_version\030\004 \001(\r"
-  "\022!\n\031loot_presentation_version\030\005 \001(\r\022!\n\031i"
-  "tem_use_contract_version\030\006 \001(\r\022\'\n\037invent"
-  "ory_move_contract_version\030\007 \001(\r\022(\n inven"
-  "tory_stack_contract_version\030\010 \001(\r\022*\n\"inv"
-  "entory_discard_contract_version\030\t \001(\r\022*\n"
-  "\"player_field_drop_contract_version\030\n \001("
-  "\r\022\036\n\026quest_contract_version\030\013 \001(\r\022\030\n\020que"
-  "st_session_id\030\014 \001(\014\022%\n\035quest_reward_cont"
-  "ract_version\030\r \001(\r\"\016\n\014C_LEAVE_GAME\"\016\n\014S_"
-  "LEAVE_GAME\"y\n\007S_SPAWN\022%\n\007players\030\001 \003(\013" "2\024"
-  ".Protocol.ObjectInfo\022&\n\010monsters\030\002 \003(\013" "2\024"
-  ".Protocol.ObjectInfo\022\037\n\027snapshot_event_s"
-  "equence\030\003 \001(\r\"\037\n\tS_DESPAWN\022\022\n\nobject_ids"
-  "\030\001 \003(\004\")\n\006C_MOVE\022\037\n\004info\030\001 \001(\013" "2\021.Protoco"
-  "l.PosInfo\")\n\006S_MOVE\022\037\n\004info\030\001 \001(\013" "2\021.Prot"
-  "ocol.PosInfo\"\025\n\006C_CHAT\022\013\n\003msg\030\001 \001(\t\"\'\n\006S"
-  "_CHAT\022\020\n\010playerId\030\001 \001(\004\022\013\n\003msg\030\002 \001(\t\"W\n\022"
-  "C_CREATE_CHARACTER\022\026\n\016character_name\030\001 \001"
-  "(\t\022)\n\013player_type\030\002 \001(\016" "2\024.Protocol.Playe"
-  "rType\"h\n\022S_CREATE_CHARACTER\022\017\n\007success\030\001"
-  " \001(\010\022*\n\tcharacter\030\002 \001(\013" "2\027.Protocol.Chara"
-  "cterInfo\022\025\n\rerror_message\030\003 \001(\t\"\235\001\n\017C_CO"
-  "MBAT_ACTION\022/\n\013action_type\030\001 \001(\016" "2\032.Proto"
-  "col.CombatActionType\022\022\n\ncombo_step\030\002 \001(\r"
-  "\022\020\n\010sequence\030\003 \001(\r\022\022\n\nfacing_yaw\030\004 \001(\002\022\037"
-  "\n\027combat_contract_version\030\005 \001(\r\"\253\001\n\017S_CO"
-  "MBAT_ACTION\022\021\n\tobject_id\030\001 \001(\004\022/\n\013action"
-  "_type\030\002 \001(\016" "2\032.Protocol.CombatActionType\022"
-  "\022\n\ncombo_step\030\003 \001(\r\022\020\n\010sequence\030\004 \001(\r\022\022\n"
-  "\nfacing_yaw\030\005 \001(\002\022\032\n\022action_instance_id\030"
-  "\006 \001(\004\"\314\001\n\020S_MONSTER_UPDATE\022\021\n\tobject_id\030"
-  "\001 \001(\004\022#\n\010pos_info\030\002 \001(\013" "2\021.Protocol.PosIn"
-  "fo\022%\n\005state\030\003 \001(\016" "2\026.Protocol.MonsterStat"
-  "e\022\022\n\ncurrent_hp\030\004 \001(\r\022\016\n\006max_hp\030\005 \001(\r\022\030\n"
-  "\020target_object_id\030\006 \001(\004\022\033\n\023room_event_se"
-  "quence\030\007 \001(\r\"\237\001\n\020S_MONSTER_ATTACK\022\021\n\tobj"
-  "ect_id\030\001 \001(\004\022\032\n\022action_instance_id\030\002 \001(\004"
-  "\022\030\n\020target_object_id\030\003 \001(\004\022\022\n\nfacing_yaw"
-  "\030\004 \001(\002\022\021\n\twindup_ms\030\005 \001(\r\022\033\n\023room_event_"
-  "sequence\030\006 \001(\r\"\305\001\n\017S_DAMAGE_RESULT\022\032\n\022ac"
-  "tion_instance_id\030\001 \001(\004\022\030\n\020source_object_"
-  "id\030\002 \001(\004\022\030\n\020target_object_id\030\003 \001(\004\022\016\n\006da"
-  "mage\030\004 \001(\r\022\022\n\ncurrent_hp\030\005 \001(\r\022\016\n\006max_hp"
-  "\030\006 \001(\r\022\033\n\023room_event_sequence\030\007 \001(\r\022\021\n\th"
-  "it_index\030\010 \001(\r\"\233\001\n\017S_PLAYER_STATUS\022\021\n\tob"
-  "ject_id\030\001 \001(\004\022\022\n\ncurrent_hp\030\002 \001(\r\022\016\n\006max"
-  "_hp\030\003 \001(\r\022\017\n\007is_dead\030\004 \001(\010\022#\n\010pos_info\030\005"
-  " \001(\013" "2\021.Protocol.PosInfo\022\033\n\023room_event_se"
-  "quence\030\006 \001(\r\"\243\002\n\026S_COMBAT_ACTION_RESULT\022"
-  "\030\n\020source_object_id\030\001 \001(\004\022\020\n\010sequence\030\002 "
-  "\001(\r\022/\n\013action_type\030\003 \001(\016" "2\032.Protocol.Comb"
-  "atActionType\022\022\n\ncombo_step\030\004 \001(\r\022" "0\n\010deci"
-  "sion\030\005 \001(\016" "2\036.Protocol.CombatActionDecisi"
-  "on\022\032\n\022action_instance_id\030\006 \001(\004\022" "2\n\006reason"
-  "\030\007 \001(\016" "2\".Protocol.CombatActionRejectReas"
-  "on\022\026\n\016server_tick_ms\030\010 \001(\004\"m\n\017S_LOOT_SNA"
-  "PSHOT\022%\n\005drops\030\001 \003(\013" "2\026.Protocol.LootDrop"
-  "Info\022\031\n\021snapshot_sequence\030\002 \001(\004\022\030\n\020contr"
-  "act_version\030\003 \001(\r\"N\n\016S_LOOT_CREATED\022$\n\004d"
-  "rop\030\001 \001(\013" "2\026.Protocol.LootDropInfo\022\026\n\016eve"
-  "nt_sequence\030\002 \001(\004\"f\n\016S_LOOT_REMOVED\022\017\n\007d"
-  "rop_id\030\001 \001(\014\022+\n\006reason\030\002 \001(\016" "2\033.Protocol."
-  "LootRemovalReason\022\026\n\016event_sequence\030\003 \001("
-  "\004\"N\n\rC_ITEM_PICKUP\022\017\n\007drop_id\030\001 \001(\014\022\022\n\nr"
-  "equest_id\030\002 \001(\014\022\030\n\020contract_version\030\003 \001("
-  "\r\"\345\001\n\024S_ITEM_PICKUP_RESULT\022\017\n\007drop_id\030\001 "
-  "\001(\014\022\022\n\nrequest_id\030\002 \001(\014\022.\n\010decision\030\003 \001("
-  "\016" "2\034.Protocol.ItemPickupDecision\022*\n\006reaso"
-  "n\030\004 \001(\016" "2\032.Protocol.ItemPickupReason\022\031\n\021i"
-  "nventory_version\030\005 \001(\004\022\030\n\020item_instance_"
-  "id\030\006 \001(\004\022\027\n\017resulting_count\030\007 \001(\r\"A\n\021C_I"
-  "NVENTORY_QUERY\022\022\n\nrequest_id\030\001 \001(\014\022\030\n\020co"
-  "ntract_version\030\002 \001(\r\"\303\001\n\024S_INVENTORY_SNA"
-  "PSHOT\022\022\n\nrequest_id\030\001 \001(\014\022\024\n\014character_i"
-  "d\030\002 \001(\004\022\031\n\021inventory_version\030\003 \001(\004\022)\n\007en"
-  "tries\030\004 \003(\013" "2\030.Protocol.InventoryEntry\022\017\n"
-  "\007success\030\005 \001(\010\022*\n\006reason\030\006 \001(\016" "2\032.Protoco"
-  "l.ItemPickupReason\"p\n\nC_ITEM_USE\022\022\n\nrequ"
-  "est_id\030\001 \001(\014\022\030\n\020item_instance_id\030\002 \001(\004\022\032"
-  "\n\022item_definition_id\030\003 \001(\r\022\030\n\020contract_v"
-  "ersion\030\004 \001(\r\"\250\002\n\021S_ITEM_USE_RESULT\022\022\n\nre"
-  "quest_id\030\001 \001(\014\022\024\n\014operation_id\030\002 \001(\014\022\024\n\014"
-  "character_id\030\003 \001(\004\022\030\n\020item_instance_id\030\004"
-  " \001(\004\022\032\n\022item_definition_id\030\005 \001(\r\022+\n\010deci"
-  "sion\030\006 \001(\016" "2\031.Protocol.ItemUseDecision\022\'\n"
-  "\006reason\030\007 \001(\016" "2\027.Protocol.ItemUseReason\022\031"
-  "\n\021inventory_version\030\010 \001(\004\022\027\n\017resulting_c"
-  "ount\030\t \001(\r\022\023\n\013actual_heal\030\n \001(\r\"\223\001\n\017S_PL"
-  "AYER_HEALED\022\021\n\tobject_id\030\001 \001(\004\022\027\n\017effect"
-  "_event_id\030\002 \001(\014\022\023\n\013actual_heal\030\003 \001(\r\022\022\n\n"
-  "current_hp\030\004 \001(\r\022\016\n\006max_hp\030\005 \001(\r\022\033\n\023room"
-  "_event_sequence\030\006 \001(\r\"\255\001\n\020C_INVENTORY_MO"
-  "VE\022\022\n\nrequest_id\030\001 \001(\014\022\030\n\020item_instance_"
-  "id\030\002 \001(\004\022\023\n\013source_slot\030\003 \001(\r\022\030\n\020destina"
-  "tion_slot\030\004 \001(\r\022\"\n\032expected_inventory_ve"
-  "rsion\030\005 \001(\004\022\030\n\020contract_version\030\006 \001(\r\"\311\001"
-  "\n\027S_INVENTORY_MOVE_RESULT\022\022\n\nrequest_id\030"
-  "\001 \001(\014\022\024\n\014character_id\030\002 \001(\004\022\030\n\020item_inst"
-  "ance_id\030\003 \001(\004\022\023\n\013source_slot\030\004 \001(\r\022\030\n\020de"
-  "stination_slot\030\005 \001(\r\022\031\n\021inventory_versio"
-  "n\030\006 \001(\004\022\020\n\010decision\030\007 \001(\r\022\016\n\006reason\030\010 \001("
-  "\r\"\371\001\n\030C_INVENTORY_STACK_ACTION\022\022\n\nreques"
-  "t_id\030\001 \001(\014\022\016\n\006action\030\002 \001(\r\022\026\n\016source_ite"
-  "m_id\030\003 \001(\004\022\023\n\013source_slot\030\004 \001(\r\022\030\n\020desti"
-  "nation_slot\030\005 \001(\r\022$\n\034expected_destinatio"
-  "n_item_id\030\006 \001(\004\022\"\n\032expected_inventory_ve"
-  "rsion\030\007 \001(\004\022\016\n\006amount\030\010 \001(\r\022\030\n\020contract_"
-  "version\030\t \001(\r\"\251\002\n\037S_INVENTORY_STACK_ACTI"
-  "ON_RESULT\022\022\n\nrequest_id\030\001 \001(\014\022\024\n\014charact"
-  "er_id\030\002 \001(\004\022\016\n\006action\030\003 \001(\r\022\026\n\016source_it"
-  "em_id\030\004 \001(\004\022\023\n\013source_slot\030\005 \001(\r\022\030\n\020dest"
-  "ination_slot\030\006 \001(\r\022\020\n\010decision\030\007 \001(\r\022\016\n\006"
-  "reason\030\010 \001(\r\022\031\n\021inventory_version\030\t \001(\004\022"
-  "\027\n\017created_item_id\030\n \001(\004\022\024\n\014source_count"
-  "\030\013 \001(\r\022\031\n\021destination_count\030\014 \001(\r\"\244\001\n\023C_"
-  "INVENTORY_DISCARD\022\022\n\nrequest_id\030\001 \001(\014\022\026\n"
-  "\016source_item_id\030\002 \001(\004\022\023\n\013source_slot\030\003 \001"
-  "(\r\022\016\n\006amount\030\004 \001(\r\022\"\n\032expected_inventory"
-  "_version\030\005 \001(\004\022\030\n\020contract_version\030\006 \001(\r"
-  "\"\343\001\n\032S_INVENTORY_DISCARD_RESULT\022\022\n\nreque"
-  "st_id\030\001 \001(\014\022\024\n\014character_id\030\002 \001(\004\022\026\n\016sou"
-  "rce_item_id\030\003 \001(\004\022\023\n\013source_slot\030\004 \001(\r\022\030"
-  "\n\020requested_amount\030\005 \001(\r\022\020\n\010decision\030\006 \001"
-  "(\r\022\016\n\006reason\030\007 \001(\r\022\031\n\021inventory_version\030"
-  "\010 \001(\004\022\027\n\017remaining_count\030\t \001(\r\"\244\001\n\023C_PLA"
-  "YER_FIELD_DROP\022\022\n\nrequest_id\030\001 \001(\014\022\026\n\016so"
-  "urce_item_id\030\002 \001(\004\022\023\n\013source_slot\030\003 \001(\r\022"
-  "\016\n\006amount\030\004 \001(\r\022\"\n\032expected_inventory_ve"
-  "rsion\030\005 \001(\004\022\030\n\020contract_version\030\006 \001(\r\"\364\001"
-  "\n\032S_PLAYER_FIELD_DROP_RESULT\022\022\n\nrequest_"
-  "id\030\001 \001(\014\022\024\n\014character_id\030\002 \001(\004\022\026\n\016source"
-  "_item_id\030\003 \001(\004\022\023\n\013source_slot\030\004 \001(\r\022\030\n\020r"
-  "equested_amount\030\005 \001(\r\022\020\n\010decision\030\006 \001(\r\022"
-  "\016\n\006reason\030\007 \001(\r\022\031\n\021inventory_version\030\010 \001"
-  "(\004\022\027\n\017remaining_count\030\t \001(\r\022\017\n\007drop_id\030\n"
-  " \001(\014\"O\n\rC_QUEST_QUERY\022\022\n\nrequest_id\030\001 \001("
-  "\014\022\020\n\010quest_id\030\002 \001(\r\022\030\n\020contract_version\030"
-  "\003 \001(\r\"\310\001\n\rS_QUEST_STATE\022\022\n\nrequest_id\030\001 "
-  "\001(\014\022\024\n\014character_id\030\002 \001(\004\022\030\n\020contract_ve"
-  "rsion\030\003 \001(\r\022\030\n\020quest_session_id\030\004 \001(\014\022" "0\n"
-  "\014query_status\030\005 \001(\016" "2\032.Protocol.QuestQuer"
-  "yStatus\022\'\n\005state\030\006 \001(\013" "2\030.Protocol.QuestS"
-  "tateInfo\"|\n\016C_QUEST_ACCEPT\022\022\n\nrequest_id"
-  "\030\001 \001(\014\022\020\n\010quest_id\030\002 \001(\r\022\032\n\022definition_v"
-  "ersion\030\003 \001(\r\022\016\n\006npc_id\030\004 \001(\r\022\030\n\020contract"
-  "_version\030\005 \001(\r\"\374\001\n\025S_QUEST_ACCEPT_RESULT"
-  "\022\022\n\nrequest_id\030\001 \001(\014\022\024\n\014character_id\030\002 \001"
-  "(\004\022\030\n\020contract_version\030\003 \001(\r\022\030\n\020quest_se"
-  "ssion_id\030\004 \001(\014\022/\n\010decision\030\005 \001(\016" "2\035.Proto"
-  "col.QuestAcceptDecision\022+\n\006reason\030\006 \001(\016" "2"
-  "\033.Protocol.QuestAcceptReason\022\'\n\005state\030\007 "
-  "\001(\013" "2\030.Protocol.QuestStateInfo\"\177\n\017C_QUEST"
-  "_TURN_IN\022\022\n\nrequest_id\030\001 \001(\014\022\020\n\010quest_id"
-  "\030\002 \001(\r\022\034\n\024accepted_instance_id\030\003 \001(\014\022\016\n\006"
-  "npc_id\030\004 \001(\r\022\030\n\020contract_version\030\005 \001(\r\"\230"
-  "\002\n\026S_QUEST_TURN_IN_RESULT\022\022\n\nrequest_id\030"
-  "\001 \001(\014\022\024\n\014character_id\030\002 \001(\004\022\030\n\020quest_ses"
-  "sion_id\030\003 \001(\014\022\030\n\020contract_version\030\004 \001(\r\022"
-  "/\n\010decision\030\005 \001(\016" "2\035.Protocol.QuestTurnIn"
-  "Decision\022+\n\006reason\030\006 \001(\016" "2\033.Protocol.Ques"
-  "tTurnInReason\022\'\n\005state\030\007 \001(\013" "2\030.Protocol."
-  "QuestStateInfo\022\031\n\021inventory_version\030\010 \001("
-  "\004b\006proto3"
+  "d_contract_version\030\n \001(\r\022\037\n\027region_contr"
+  "act_version\030\013 \001(\r\"\213\004\n\014S_ENTER_GAME\022\017\n\007su"
+  "ccess\030\001 \001(\010\022$\n\006player\030\002 \001(\013" "2\024.Protocol.O"
+  "bjectInfo\022\037\n\027combat_contract_version\030\003 \001"
+  "(\r\022\035\n\025loot_contract_version\030\004 \001(\r\022!\n\031loo"
+  "t_presentation_version\030\005 \001(\r\022!\n\031item_use"
+  "_contract_version\030\006 \001(\r\022\'\n\037inventory_mov"
+  "e_contract_version\030\007 \001(\r\022(\n inventory_st"
+  "ack_contract_version\030\010 \001(\r\022*\n\"inventory_"
+  "discard_contract_version\030\t \001(\r\022*\n\"player"
+  "_field_drop_contract_version\030\n \001(\r\022\036\n\026qu"
+  "est_contract_version\030\013 \001(\r\022\030\n\020quest_sess"
+  "ion_id\030\014 \001(\014\022%\n\035quest_reward_contract_ve"
+  "rsion\030\r \001(\r\022\021\n\tregion_id\030\016 \001(\r\022\037\n\027region"
+  "_contract_version\030\017 \001(\r\"\016\n\014C_LEAVE_GAME\""
+  "\016\n\014S_LEAVE_GAME\"y\n\007S_SPAWN\022%\n\007players\030\001 "
+  "\003(\013" "2\024.Protocol.ObjectInfo\022&\n\010monsters\030\002 "
+  "\003(\013" "2\024.Protocol.ObjectInfo\022\037\n\027snapshot_ev"
+  "ent_sequence\030\003 \001(\r\"\037\n\tS_DESPAWN\022\022\n\nobjec"
+  "t_ids\030\001 \003(\004\")\n\006C_MOVE\022\037\n\004info\030\001 \001(\013" "2\021.Pr"
+  "otocol.PosInfo\")\n\006S_MOVE\022\037\n\004info\030\001 \001(\013" "2\021"
+  ".Protocol.PosInfo\"\025\n\006C_CHAT\022\013\n\003msg\030\001 \001(\t"
+  "\"\'\n\006S_CHAT\022\020\n\010playerId\030\001 \001(\004\022\013\n\003msg\030\002 \001("
+  "\t\"W\n\022C_CREATE_CHARACTER\022\026\n\016character_nam"
+  "e\030\001 \001(\t\022)\n\013player_type\030\002 \001(\016" "2\024.Protocol."
+  "PlayerType\"h\n\022S_CREATE_CHARACTER\022\017\n\007succ"
+  "ess\030\001 \001(\010\022*\n\tcharacter\030\002 \001(\013" "2\027.Protocol."
+  "CharacterInfo\022\025\n\rerror_message\030\003 \001(\t\"\235\001\n"
+  "\017C_COMBAT_ACTION\022/\n\013action_type\030\001 \001(\016" "2\032."
+  "Protocol.CombatActionType\022\022\n\ncombo_step\030"
+  "\002 \001(\r\022\020\n\010sequence\030\003 \001(\r\022\022\n\nfacing_yaw\030\004 "
+  "\001(\002\022\037\n\027combat_contract_version\030\005 \001(\r\"\253\001\n"
+  "\017S_COMBAT_ACTION\022\021\n\tobject_id\030\001 \001(\004\022/\n\013a"
+  "ction_type\030\002 \001(\016" "2\032.Protocol.CombatAction"
+  "Type\022\022\n\ncombo_step\030\003 \001(\r\022\020\n\010sequence\030\004 \001"
+  "(\r\022\022\n\nfacing_yaw\030\005 \001(\002\022\032\n\022action_instanc"
+  "e_id\030\006 \001(\004\"\314\001\n\020S_MONSTER_UPDATE\022\021\n\tobjec"
+  "t_id\030\001 \001(\004\022#\n\010pos_info\030\002 \001(\013" "2\021.Protocol."
+  "PosInfo\022%\n\005state\030\003 \001(\016" "2\026.Protocol.Monste"
+  "rState\022\022\n\ncurrent_hp\030\004 \001(\r\022\016\n\006max_hp\030\005 \001"
+  "(\r\022\030\n\020target_object_id\030\006 \001(\004\022\033\n\023room_eve"
+  "nt_sequence\030\007 \001(\r\"\237\001\n\020S_MONSTER_ATTACK\022\021"
+  "\n\tobject_id\030\001 \001(\004\022\032\n\022action_instance_id\030"
+  "\002 \001(\004\022\030\n\020target_object_id\030\003 \001(\004\022\022\n\nfacin"
+  "g_yaw\030\004 \001(\002\022\021\n\twindup_ms\030\005 \001(\r\022\033\n\023room_e"
+  "vent_sequence\030\006 \001(\r\"\305\001\n\017S_DAMAGE_RESULT\022"
+  "\032\n\022action_instance_id\030\001 \001(\004\022\030\n\020source_ob"
+  "ject_id\030\002 \001(\004\022\030\n\020target_object_id\030\003 \001(\004\022"
+  "\016\n\006damage\030\004 \001(\r\022\022\n\ncurrent_hp\030\005 \001(\r\022\016\n\006m"
+  "ax_hp\030\006 \001(\r\022\033\n\023room_event_sequence\030\007 \001(\r"
+  "\022\021\n\thit_index\030\010 \001(\r\"\233\001\n\017S_PLAYER_STATUS\022"
+  "\021\n\tobject_id\030\001 \001(\004\022\022\n\ncurrent_hp\030\002 \001(\r\022\016"
+  "\n\006max_hp\030\003 \001(\r\022\017\n\007is_dead\030\004 \001(\010\022#\n\010pos_i"
+  "nfo\030\005 \001(\013" "2\021.Protocol.PosInfo\022\033\n\023room_eve"
+  "nt_sequence\030\006 \001(\r\"\243\002\n\026S_COMBAT_ACTION_RE"
+  "SULT\022\030\n\020source_object_id\030\001 \001(\004\022\020\n\010sequen"
+  "ce\030\002 \001(\r\022/\n\013action_type\030\003 \001(\016" "2\032.Protocol"
+  ".CombatActionType\022\022\n\ncombo_step\030\004 \001(\r\022" "0\n"
+  "\010decision\030\005 \001(\016" "2\036.Protocol.CombatActionD"
+  "ecision\022\032\n\022action_instance_id\030\006 \001(\004\022" "2\n\006r"
+  "eason\030\007 \001(\016" "2\".Protocol.CombatActionRejec"
+  "tReason\022\026\n\016server_tick_ms\030\010 \001(\004\"m\n\017S_LOO"
+  "T_SNAPSHOT\022%\n\005drops\030\001 \003(\013" "2\026.Protocol.Loo"
+  "tDropInfo\022\031\n\021snapshot_sequence\030\002 \001(\004\022\030\n\020"
+  "contract_version\030\003 \001(\r\"N\n\016S_LOOT_CREATED"
+  "\022$\n\004drop\030\001 \001(\013" "2\026.Protocol.LootDropInfo\022\026"
+  "\n\016event_sequence\030\002 \001(\004\"f\n\016S_LOOT_REMOVED"
+  "\022\017\n\007drop_id\030\001 \001(\014\022+\n\006reason\030\002 \001(\016" "2\033.Prot"
+  "ocol.LootRemovalReason\022\026\n\016event_sequence"
+  "\030\003 \001(\004\"N\n\rC_ITEM_PICKUP\022\017\n\007drop_id\030\001 \001(\014"
+  "\022\022\n\nrequest_id\030\002 \001(\014\022\030\n\020contract_version"
+  "\030\003 \001(\r\"\345\001\n\024S_ITEM_PICKUP_RESULT\022\017\n\007drop_"
+  "id\030\001 \001(\014\022\022\n\nrequest_id\030\002 \001(\014\022.\n\010decision"
+  "\030\003 \001(\016" "2\034.Protocol.ItemPickupDecision\022*\n\006"
+  "reason\030\004 \001(\016" "2\032.Protocol.ItemPickupReason"
+  "\022\031\n\021inventory_version\030\005 \001(\004\022\030\n\020item_inst"
+  "ance_id\030\006 \001(\004\022\027\n\017resulting_count\030\007 \001(\r\"A"
+  "\n\021C_INVENTORY_QUERY\022\022\n\nrequest_id\030\001 \001(\014\022"
+  "\030\n\020contract_version\030\002 \001(\r\"\303\001\n\024S_INVENTOR"
+  "Y_SNAPSHOT\022\022\n\nrequest_id\030\001 \001(\014\022\024\n\014charac"
+  "ter_id\030\002 \001(\004\022\031\n\021inventory_version\030\003 \001(\004\022"
+  ")\n\007entries\030\004 \003(\013" "2\030.Protocol.InventoryEnt"
+  "ry\022\017\n\007success\030\005 \001(\010\022*\n\006reason\030\006 \001(\016" "2\032.Pr"
+  "otocol.ItemPickupReason\"p\n\nC_ITEM_USE\022\022\n"
+  "\nrequest_id\030\001 \001(\014\022\030\n\020item_instance_id\030\002 "
+  "\001(\004\022\032\n\022item_definition_id\030\003 \001(\r\022\030\n\020contr"
+  "act_version\030\004 \001(\r\"\250\002\n\021S_ITEM_USE_RESULT\022"
+  "\022\n\nrequest_id\030\001 \001(\014\022\024\n\014operation_id\030\002 \001("
+  "\014\022\024\n\014character_id\030\003 \001(\004\022\030\n\020item_instance"
+  "_id\030\004 \001(\004\022\032\n\022item_definition_id\030\005 \001(\r\022+\n"
+  "\010decision\030\006 \001(\016" "2\031.Protocol.ItemUseDecisi"
+  "on\022\'\n\006reason\030\007 \001(\016" "2\027.Protocol.ItemUseRea"
+  "son\022\031\n\021inventory_version\030\010 \001(\004\022\027\n\017result"
+  "ing_count\030\t \001(\r\022\023\n\013actual_heal\030\n \001(\r\"\223\001\n"
+  "\017S_PLAYER_HEALED\022\021\n\tobject_id\030\001 \001(\004\022\027\n\017e"
+  "ffect_event_id\030\002 \001(\014\022\023\n\013actual_heal\030\003 \001("
+  "\r\022\022\n\ncurrent_hp\030\004 \001(\r\022\016\n\006max_hp\030\005 \001(\r\022\033\n"
+  "\023room_event_sequence\030\006 \001(\r\"\255\001\n\020C_INVENTO"
+  "RY_MOVE\022\022\n\nrequest_id\030\001 \001(\014\022\030\n\020item_inst"
+  "ance_id\030\002 \001(\004\022\023\n\013source_slot\030\003 \001(\r\022\030\n\020de"
+  "stination_slot\030\004 \001(\r\022\"\n\032expected_invento"
+  "ry_version\030\005 \001(\004\022\030\n\020contract_version\030\006 \001"
+  "(\r\"\311\001\n\027S_INVENTORY_MOVE_RESULT\022\022\n\nreques"
+  "t_id\030\001 \001(\014\022\024\n\014character_id\030\002 \001(\004\022\030\n\020item"
+  "_instance_id\030\003 \001(\004\022\023\n\013source_slot\030\004 \001(\r\022"
+  "\030\n\020destination_slot\030\005 \001(\r\022\031\n\021inventory_v"
+  "ersion\030\006 \001(\004\022\020\n\010decision\030\007 \001(\r\022\016\n\006reason"
+  "\030\010 \001(\r\"\371\001\n\030C_INVENTORY_STACK_ACTION\022\022\n\nr"
+  "equest_id\030\001 \001(\014\022\016\n\006action\030\002 \001(\r\022\026\n\016sourc"
+  "e_item_id\030\003 \001(\004\022\023\n\013source_slot\030\004 \001(\r\022\030\n\020"
+  "destination_slot\030\005 \001(\r\022$\n\034expected_desti"
+  "nation_item_id\030\006 \001(\004\022\"\n\032expected_invento"
+  "ry_version\030\007 \001(\004\022\016\n\006amount\030\010 \001(\r\022\030\n\020cont"
+  "ract_version\030\t \001(\r\"\251\002\n\037S_INVENTORY_STACK"
+  "_ACTION_RESULT\022\022\n\nrequest_id\030\001 \001(\014\022\024\n\014ch"
+  "aracter_id\030\002 \001(\004\022\016\n\006action\030\003 \001(\r\022\026\n\016sour"
+  "ce_item_id\030\004 \001(\004\022\023\n\013source_slot\030\005 \001(\r\022\030\n"
+  "\020destination_slot\030\006 \001(\r\022\020\n\010decision\030\007 \001("
+  "\r\022\016\n\006reason\030\010 \001(\r\022\031\n\021inventory_version\030\t"
+  " \001(\004\022\027\n\017created_item_id\030\n \001(\004\022\024\n\014source_"
+  "count\030\013 \001(\r\022\031\n\021destination_count\030\014 \001(\r\"\244"
+  "\001\n\023C_INVENTORY_DISCARD\022\022\n\nrequest_id\030\001 \001"
+  "(\014\022\026\n\016source_item_id\030\002 \001(\004\022\023\n\013source_slo"
+  "t\030\003 \001(\r\022\016\n\006amount\030\004 \001(\r\022\"\n\032expected_inve"
+  "ntory_version\030\005 \001(\004\022\030\n\020contract_version\030"
+  "\006 \001(\r\"\343\001\n\032S_INVENTORY_DISCARD_RESULT\022\022\n\n"
+  "request_id\030\001 \001(\014\022\024\n\014character_id\030\002 \001(\004\022\026"
+  "\n\016source_item_id\030\003 \001(\004\022\023\n\013source_slot\030\004 "
+  "\001(\r\022\030\n\020requested_amount\030\005 \001(\r\022\020\n\010decisio"
+  "n\030\006 \001(\r\022\016\n\006reason\030\007 \001(\r\022\031\n\021inventory_ver"
+  "sion\030\010 \001(\004\022\027\n\017remaining_count\030\t \001(\r\"\244\001\n\023"
+  "C_PLAYER_FIELD_DROP\022\022\n\nrequest_id\030\001 \001(\014\022"
+  "\026\n\016source_item_id\030\002 \001(\004\022\023\n\013source_slot\030\003"
+  " \001(\r\022\016\n\006amount\030\004 \001(\r\022\"\n\032expected_invento"
+  "ry_version\030\005 \001(\004\022\030\n\020contract_version\030\006 \001"
+  "(\r\"\364\001\n\032S_PLAYER_FIELD_DROP_RESULT\022\022\n\nreq"
+  "uest_id\030\001 \001(\014\022\024\n\014character_id\030\002 \001(\004\022\026\n\016s"
+  "ource_item_id\030\003 \001(\004\022\023\n\013source_slot\030\004 \001(\r"
+  "\022\030\n\020requested_amount\030\005 \001(\r\022\020\n\010decision\030\006"
+  " \001(\r\022\016\n\006reason\030\007 \001(\r\022\031\n\021inventory_versio"
+  "n\030\010 \001(\004\022\027\n\017remaining_count\030\t \001(\r\022\017\n\007drop"
+  "_id\030\n \001(\014\"O\n\rC_QUEST_QUERY\022\022\n\nrequest_id"
+  "\030\001 \001(\014\022\020\n\010quest_id\030\002 \001(\r\022\030\n\020contract_ver"
+  "sion\030\003 \001(\r\"\310\001\n\rS_QUEST_STATE\022\022\n\nrequest_"
+  "id\030\001 \001(\014\022\024\n\014character_id\030\002 \001(\004\022\030\n\020contra"
+  "ct_version\030\003 \001(\r\022\030\n\020quest_session_id\030\004 \001"
+  "(\014\022" "0\n\014query_status\030\005 \001(\016" "2\032.Protocol.Ques"
+  "tQueryStatus\022\'\n\005state\030\006 \001(\013" "2\030.Protocol.Q"
+  "uestStateInfo\"|\n\016C_QUEST_ACCEPT\022\022\n\nreque"
+  "st_id\030\001 \001(\014\022\020\n\010quest_id\030\002 \001(\r\022\032\n\022definit"
+  "ion_version\030\003 \001(\r\022\016\n\006npc_id\030\004 \001(\r\022\030\n\020con"
+  "tract_version\030\005 \001(\r\"\374\001\n\025S_QUEST_ACCEPT_R"
+  "ESULT\022\022\n\nrequest_id\030\001 \001(\014\022\024\n\014character_i"
+  "d\030\002 \001(\004\022\030\n\020contract_version\030\003 \001(\r\022\030\n\020que"
+  "st_session_id\030\004 \001(\014\022/\n\010decision\030\005 \001(\016" "2\035."
+  "Protocol.QuestAcceptDecision\022+\n\006reason\030\006"
+  " \001(\016" "2\033.Protocol.QuestAcceptReason\022\'\n\005sta"
+  "te\030\007 \001(\013" "2\030.Protocol.QuestStateInfo\"\177\n\017C_"
+  "QUEST_TURN_IN\022\022\n\nrequest_id\030\001 \001(\014\022\020\n\010que"
+  "st_id\030\002 \001(\r\022\034\n\024accepted_instance_id\030\003 \001("
+  "\014\022\016\n\006npc_id\030\004 \001(\r\022\030\n\020contract_version\030\005 "
+  "\001(\r\"\230\002\n\026S_QUEST_TURN_IN_RESULT\022\022\n\nreques"
+  "t_id\030\001 \001(\014\022\024\n\014character_id\030\002 \001(\004\022\030\n\020ques"
+  "t_session_id\030\003 \001(\014\022\030\n\020contract_version\030\004"
+  " \001(\r\022/\n\010decision\030\005 \001(\016" "2\035.Protocol.QuestT"
+  "urnInDecision\022+\n\006reason\030\006 \001(\016" "2\033.Protocol"
+  ".QuestTurnInReason\022\'\n\005state\030\007 \001(\013" "2\030.Prot"
+  "ocol.QuestStateInfo\022\031\n\021inventory_version"
+  "\030\010 \001(\004b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -1573,7 +1581,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Protocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Protocol_2eproto = {
-  false, false, 7409, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
+  false, false, 7494, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
   &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 47,
   schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
   file_level_metadata_Protocol_2eproto, file_level_enum_descriptors_Protocol_2eproto, file_level_service_descriptors_Protocol_2eproto,
@@ -2686,16 +2694,16 @@ C_ENTER_GAME::C_ENTER_GAME(const C_ENTER_GAME& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&character_id_, &from.character_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&quest_reward_contract_version_) -
-    reinterpret_cast<char*>(&character_id_)) + sizeof(quest_reward_contract_version_));
+    static_cast<size_t>(reinterpret_cast<char*>(&region_contract_version_) -
+    reinterpret_cast<char*>(&character_id_)) + sizeof(region_contract_version_));
   // @@protoc_insertion_point(copy_constructor:Protocol.C_ENTER_GAME)
 }
 
 void C_ENTER_GAME::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&character_id_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&quest_reward_contract_version_) -
-    reinterpret_cast<char*>(&character_id_)) + sizeof(quest_reward_contract_version_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&region_contract_version_) -
+    reinterpret_cast<char*>(&character_id_)) + sizeof(region_contract_version_));
 }
 
 C_ENTER_GAME::~C_ENTER_GAME() {
@@ -2725,8 +2733,8 @@ void C_ENTER_GAME::Clear() {
   (void) cached_has_bits;
 
   ::memset(&character_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&quest_reward_contract_version_) -
-      reinterpret_cast<char*>(&character_id_)) + sizeof(quest_reward_contract_version_));
+      reinterpret_cast<char*>(&region_contract_version_) -
+      reinterpret_cast<char*>(&character_id_)) + sizeof(region_contract_version_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -2803,6 +2811,13 @@ const char* C_ENTER_GAME::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
       case 10:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 80)) {
           quest_reward_contract_version_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 region_contract_version = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 88)) {
+          region_contract_version_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -2895,6 +2910,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(10, this->_internal_quest_reward_contract_version(), target);
   }
 
+  // uint32 region_contract_version = 11;
+  if (this->region_contract_version() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(11, this->_internal_region_contract_version(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2981,6 +3002,13 @@ size_t C_ENTER_GAME::ByteSizeLong() const {
         this->_internal_quest_reward_contract_version());
   }
 
+  // uint32 region_contract_version = 11;
+  if (this->region_contract_version() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_region_contract_version());
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
@@ -3042,6 +3070,9 @@ void C_ENTER_GAME::MergeFrom(const C_ENTER_GAME& from) {
   if (from.quest_reward_contract_version() != 0) {
     _internal_set_quest_reward_contract_version(from._internal_quest_reward_contract_version());
   }
+  if (from.region_contract_version() != 0) {
+    _internal_set_region_contract_version(from._internal_region_contract_version());
+  }
 }
 
 void C_ENTER_GAME::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -3066,8 +3097,8 @@ void C_ENTER_GAME::InternalSwap(C_ENTER_GAME* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(C_ENTER_GAME, quest_reward_contract_version_)
-      + sizeof(C_ENTER_GAME::quest_reward_contract_version_)
+      PROTOBUF_FIELD_OFFSET(C_ENTER_GAME, region_contract_version_)
+      + sizeof(C_ENTER_GAME::region_contract_version_)
       - PROTOBUF_FIELD_OFFSET(C_ENTER_GAME, character_id_)>(
           reinterpret_cast<char*>(&character_id_),
           reinterpret_cast<char*>(&other->character_id_));
@@ -3116,8 +3147,8 @@ S_ENTER_GAME::S_ENTER_GAME(const S_ENTER_GAME& from)
     player_ = nullptr;
   }
   ::memcpy(&success_, &from.success_,
-    static_cast<size_t>(reinterpret_cast<char*>(&quest_reward_contract_version_) -
-    reinterpret_cast<char*>(&success_)) + sizeof(quest_reward_contract_version_));
+    static_cast<size_t>(reinterpret_cast<char*>(&region_contract_version_) -
+    reinterpret_cast<char*>(&success_)) + sizeof(region_contract_version_));
   // @@protoc_insertion_point(copy_constructor:Protocol.S_ENTER_GAME)
 }
 
@@ -3125,8 +3156,8 @@ void S_ENTER_GAME::SharedCtor() {
 quest_session_id_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&player_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&quest_reward_contract_version_) -
-    reinterpret_cast<char*>(&player_)) + sizeof(quest_reward_contract_version_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&region_contract_version_) -
+    reinterpret_cast<char*>(&player_)) + sizeof(region_contract_version_));
 }
 
 S_ENTER_GAME::~S_ENTER_GAME() {
@@ -3163,8 +3194,8 @@ void S_ENTER_GAME::Clear() {
   }
   player_ = nullptr;
   ::memset(&success_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&quest_reward_contract_version_) -
-      reinterpret_cast<char*>(&success_)) + sizeof(quest_reward_contract_version_));
+      reinterpret_cast<char*>(&region_contract_version_) -
+      reinterpret_cast<char*>(&success_)) + sizeof(region_contract_version_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -3263,6 +3294,20 @@ const char* S_ENTER_GAME::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
       case 13:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 104)) {
           quest_reward_contract_version_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 region_id = 14;
+      case 14:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 112)) {
+          region_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 region_contract_version = 15;
+      case 15:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 120)) {
+          region_contract_version_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -3375,6 +3420,18 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(13, this->_internal_quest_reward_contract_version(), target);
   }
 
+  // uint32 region_id = 14;
+  if (this->region_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(14, this->_internal_region_id(), target);
+  }
+
+  // uint32 region_contract_version = 15;
+  if (this->region_contract_version() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(15, this->_internal_region_contract_version(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3480,6 +3537,20 @@ size_t S_ENTER_GAME::ByteSizeLong() const {
         this->_internal_quest_reward_contract_version());
   }
 
+  // uint32 region_id = 14;
+  if (this->region_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_region_id());
+  }
+
+  // uint32 region_contract_version = 15;
+  if (this->region_contract_version() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_region_contract_version());
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
@@ -3550,6 +3621,12 @@ void S_ENTER_GAME::MergeFrom(const S_ENTER_GAME& from) {
   if (from.quest_reward_contract_version() != 0) {
     _internal_set_quest_reward_contract_version(from._internal_quest_reward_contract_version());
   }
+  if (from.region_id() != 0) {
+    _internal_set_region_id(from._internal_region_id());
+  }
+  if (from.region_contract_version() != 0) {
+    _internal_set_region_contract_version(from._internal_region_contract_version());
+  }
 }
 
 void S_ENTER_GAME::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -3579,8 +3656,8 @@ void S_ENTER_GAME::InternalSwap(S_ENTER_GAME* other) {
       &other->quest_session_id_, other->GetArenaForAllocation()
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S_ENTER_GAME, quest_reward_contract_version_)
-      + sizeof(S_ENTER_GAME::quest_reward_contract_version_)
+      PROTOBUF_FIELD_OFFSET(S_ENTER_GAME, region_contract_version_)
+      + sizeof(S_ENTER_GAME::region_contract_version_)
       - PROTOBUF_FIELD_OFFSET(S_ENTER_GAME, player_)>(
           reinterpret_cast<char*>(&player_),
           reinterpret_cast<char*>(&other->player_));

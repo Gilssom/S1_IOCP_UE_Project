@@ -1,5 +1,21 @@
 # Monster Data Tables — 1차 Dusk 정의 전환
 
+## Unity 빌드 중복 함수 수정 — 2026-10-21
+
+사용자의 S1Editor 빌드에서 C2995 발생. S1MonsterData.cpp와 S1QuestData.cpp의
+anonymous namespace 안에 같은 시그니처의 Find<Row>(UDataTable*,int32)가 있었다.
+두 cpp가 Module.S1.cpp에 함께 포함되면 재정의된다. 마을 에셋 이관 때문이 아니다.
+이전 Adaptive non-unity 빌드는 작업 파일을 분리하여 이 결함을 노출하지 못했다.
+각 내부 helper를 FindMonsterDataRow / FindQuestDataRow로 구분하고 호출부만 변경했다.
+공개 API/행 검색 동작/콘텐츠/서버/프로토콜 변경 없음.
+
+수정 후 S1Editor Win64 Development 일반 빌드 성공(39.69초).
+이어 -DisableAdaptiveUnity를 이번 빌드 호출에만 적용해 두 cpp가 실제 같은
+Module.S1.cpp에 포함되는 것을 확인하고 Unity 컴파일·링크 성공(32.46초, exit0).
+영구 Target/빌드 설정은 변경하지 않았다. 첫 샌드박스 실행은 결과 로그 없이 exit1로
+종료되어 성공으로 계산하지 않고, 접근 권한이 있는 실행으로 위 두 빌드를 검증했다.
+이번 수정의 새 PIE/Blueprint 컴파일/패키징은 미실행이며 이전 인수를 재검증으로 쓰지 않는다.
+
 ## 최신 인수 기록 — 2026-10-21
 
 사용자가 직전에 제시한 전체 체크리스트의 1인·2인 PIE 테스트 완료를 보고했다.

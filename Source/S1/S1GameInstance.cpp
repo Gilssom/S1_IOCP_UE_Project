@@ -13,6 +13,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "TimerManager.h"
 #include "Loot/S1InventorySubsystem.h"
+#include "Level/S1RegionContract.h"
 
 void US1GameInstance::Init()
 {
@@ -308,12 +309,14 @@ void US1GameInstance::HandleEnterGamePacket(
 {
 	if (Packet.success())
 	{
+		auto* Flow=GetSubsystem<US1LevelFlowSubsystem>();
+		if(!Flow||!FS1RegionContract::Supports(Packet)||!Flow->SetInitialRegion(Packet.region_id()))return;
 		CombatContractVersion = Packet.combat_contract_version();
 		if(auto* Inventory=GetSubsystem<US1InventorySubsystem>())
 			Inventory->BeginSession(Packet.player().character_info().character_id(),Packet.loot_contract_version()==1,Packet.item_use_contract_version()==1,Packet.inventory_move_contract_version()==1,Packet.inventory_stack_contract_version()==1,Packet.player_field_drop_contract_version()==1);
-		if(auto* Flow=GetSubsystem<US1LevelFlowSubsystem>())
-			Flow->GetLootState().Reset(Packet.loot_presentation_version()==1);
+		Flow->GetLootState().Reset(Packet.loot_presentation_version()==1);
 		HandleSpawn(Packet);
+		BeginMainLevelTravel();
 	}
 }
 
@@ -428,7 +431,7 @@ void US1GameInstance::HandleCombatConnectionState(
 	{
 		CombatContractVersion = 0;
 		if(auto* Inventory=GetSubsystem<US1InventorySubsystem>())Inventory->ResetSession();
-		if(auto* Flow=GetSubsystem<US1LevelFlowSubsystem>())Flow->GetLootState().Reset();
+		if(auto* Flow=GetSubsystem<US1LevelFlowSubsystem>())Flow->EnterLobbyState();
 		if (US1WorldEntitySubsystem* Entities = GetWorldEntitySubsystem())
 		{
 			Entities->ResetLocalCombatPrediction(true);
@@ -671,8 +674,8 @@ void US1GameInstance::HandleAccountEnterGameCompleted(
 	const FString& Message)
 {
 	OnEnterGameCompleted.Broadcast(bSuccess, Message);
-	if (bSuccess)
-		BeginMainLevelTravel();
+	// Travel is owned by HandleEnterGamePacket after region validation/spawn queuing,
+	// independent of multicast delegate registration order.
 }
 
 void US1GameInstance::CreateCharacter(

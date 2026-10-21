@@ -16,6 +16,7 @@ class S1_API US1QuestSubsystem:public UGameInstanceSubsystem
  friend class FS1QuestContractTest;
  friend class FS1QuestRewardTest;
  friend class FS1QuestJournalTest;
+ friend class FS1UICookReferenceTest;
 public:
  US1QuestSubsystem();
  virtual void Initialize(FSubsystemCollectionBase& Collection) override;
@@ -59,9 +60,9 @@ private:
  double QueryAt=0,AcceptAt=0;
  FString StatusText;
  FTSTicker::FDelegateHandle Ticker;
- UPROPERTY() TSoftClassPtr<US1QuestTrackerWidget> TrackerClass;
+ UPROPERTY() TSubclassOf<US1QuestTrackerWidget> TrackerClass;
  UPROPERTY(Transient) TObjectPtr<US1QuestTrackerWidget> Tracker;
- UPROPERTY() TSoftClassPtr<US1QuestJournalWidget> JournalClass;
+ UPROPERTY() TSubclassOf<US1QuestJournalWidget> JournalClass;
  UPROPERTY(Transient) TObjectPtr<US1QuestJournalWidget> Journal;
  TWeakObjectPtr<APlayerController> JournalOwner;
 };

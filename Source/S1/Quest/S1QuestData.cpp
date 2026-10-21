@@ -3,7 +3,7 @@
 
 namespace
 {
- template<class Row> const Row* Find(const UDataTable* Table,int32 Id)
+ template<class Row> const Row* FindQuestDataRow(const UDataTable* Table,int32 Id)
  {
   if(!Table||Table->GetRowStruct()!=Row::StaticStruct())return nullptr;
   for(const auto& Pair:Table->GetRowMap())
@@ -20,8 +20,8 @@ namespace
   return TEXT("\"")+Value+TEXT("\""); // std::quoted-compatible; embedded newlines remain quoted.
  }
 }
-const FS1DialogueNodeRow* FS1QuestData::FindNode(const UDataTable* T,int32 Id){return Find<FS1DialogueNodeRow>(T,Id);}
-const FS1QuestDefinitionRow* FS1QuestData::FindQuest(const UDataTable* T,int32 Id){return Find<FS1QuestDefinitionRow>(T,Id);}
+const FS1DialogueNodeRow* FS1QuestData::FindNode(const UDataTable* T,int32 Id){return FindQuestDataRow<FS1DialogueNodeRow>(T,Id);}
+const FS1QuestDefinitionRow* FS1QuestData::FindQuest(const UDataTable* T,int32 Id){return FindQuestDataRow<FS1QuestDefinitionRow>(T,Id);}
 bool FS1QuestData::Validate(const UDataTable* Quests,const UDataTable* Nodes,FString& Error)
 {
  auto Fail=[&](const FString& Why){Error=Why;return false;};

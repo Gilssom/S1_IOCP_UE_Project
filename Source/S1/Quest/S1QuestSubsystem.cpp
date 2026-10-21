@@ -11,12 +11,14 @@
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 #include "HAL/PlatformTime.h"
+#include "UObject/ConstructorHelpers.h"
 
 US1QuestSubsystem::US1QuestSubsystem()
 {
- // Default-object soft reference is visible to the cooker (not assigned only at runtime).
- TrackerClass=TSoftClassPtr<US1QuestTrackerWidget>(FSoftObjectPath(TEXT("/Game/S1/UI/WBP_S1QuestTracker.WBP_S1QuestTracker_C")));
- JournalClass=TSoftClassPtr<US1QuestJournalWidget>(FSoftObjectPath(TEXT("/Game/S1/UI/WBP_S1QuestJournal.WBP_S1QuestJournal_C")));
+ // Required packaged UI uses explicit hard references, like inventory widgets.
+ static ConstructorHelpers::FClassFinder<US1QuestTrackerWidget> TrackerAsset(TEXT("/Game/S1/UI/WBP_S1QuestTracker"));
+ static ConstructorHelpers::FClassFinder<US1QuestJournalWidget> JournalAsset(TEXT("/Game/S1/UI/WBP_S1QuestJournal"));
+ TrackerClass=TrackerAsset.Class;JournalClass=JournalAsset.Class;
 }
 void US1QuestSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
@@ -153,7 +155,7 @@ bool US1QuestSubsystem::Tick(float)
  {bTurnInUnconfirmed=true;StatusText=TEXT("보상 응답 지연 · 결과 확인 중");Query();}
  if((!bReady||!QueryId.empty())&&Now-QueryAt>=5.)Query();
  if(!Tracker)
- {auto* Class=TrackerClass.LoadSynchronous();Tracker=CreateWidget<US1QuestTrackerWidget>(PC,Class?Class:US1QuestTrackerWidget::StaticClass());if(Tracker)Tracker->AddToViewport(8);}
+ {auto* Class=TrackerClass.Get();Tracker=CreateWidget<US1QuestTrackerWidget>(PC,Class?Class:US1QuestTrackerWidget::StaticClass());if(Tracker)Tracker->AddToViewport(8);}
  if(Tracker){const auto Text=TrackerText();Tracker->SetQuestText(FText::FromString(Text));Tracker->SetVisibility(bDialogue||Text.IsEmpty()?ESlateVisibility::Collapsed:ESlateVisibility::HitTestInvisible);}
  return true;
 }
@@ -173,7 +175,7 @@ void US1QuestSubsystem::ToggleJournal(bool bFromHUD)
  auto* Inventory=GetGameInstance()->GetSubsystem<US1InventorySubsystem>();
  if(!PC||!PC->IsLocalController()||!Flow||!Flow->IsMainLevelReady()||!bSupported||
   (Dialogue&&Dialogue->IsModal())||(Inventory&&Inventory->IsInventoryOpen())||(!bFromHUD&&PC->bShowMouseCursor))return;
- auto* Class=JournalClass.LoadSynchronous();if(!Class)return;
+ auto* Class=JournalClass.Get();if(!Class)return;
  Journal=CreateWidget<US1QuestJournalWidget>(PC,Class);if(!Journal)return;
  JournalOwner=PC;Journal->OnClose.BindUObject(this,&US1QuestSubsystem::CloseJournal);
  Journal->AddToViewport(30);

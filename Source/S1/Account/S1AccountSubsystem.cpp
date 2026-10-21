@@ -203,6 +203,7 @@ void US1AccountSubsystem::EnterCharacter(int64 CharacterId)
 	Packet.set_player_field_drop_contract_version(1);
 	Packet.set_quest_contract_version(1);
 	Packet.set_quest_reward_contract_version(1);
+	Packet.set_region_contract_version(1);
 
 	NetworkSubsystem->SendPacket(
 		ClientPacketHandler::MakeSendBuffer(Packet));

@@ -3,13 +3,17 @@
 #include "Engine/GameInstance.h"
 #include "Kismet/GameplayStatics.h"
 #include "Protocol.pb.h"
+#include "Level/S1RegionContract.h"
 
 const FName US1LevelFlowSubsystem::LobbyLevelName(
 	TEXT("/Game/Maps/LobbyMap"));
 const FName US1LevelFlowSubsystem::LoadingLevelName(
 	TEXT("/Game/Maps/LoadingMap"));
-const FName US1LevelFlowSubsystem::MainLevelName(
-	TEXT("/Game/Maps/MainMap"));
+bool US1LevelFlowSubsystem::SetInitialRegion(uint32 RegionId)
+{
+	if(LevelPhase!=ES1LevelPhase::Lobby||FS1RegionContract::MapFor(RegionId).IsNone())return false;
+	InitialRegionId=RegionId;return true;
+}
 
 void US1LevelFlowSubsystem::EnterLobbyState()
 {
@@ -17,11 +21,12 @@ void US1LevelFlowSubsystem::EnterLobbyState()
 	bMainLevelReady = false;
 	PendingEntitySpawns.Reset();
 	LootState.Reset();
+	InitialRegionId = 0;
 }
 
 void US1LevelFlowSubsystem::BeginMainLevelTravel()
 {
-	if (LevelPhase != ES1LevelPhase::Lobby)
+	if (LevelPhase != ES1LevelPhase::Lobby || FS1RegionContract::MapFor(InitialRegionId).IsNone())
 		return;
 
 	LevelPhase = ES1LevelPhase::Loading;
@@ -35,10 +40,12 @@ void US1LevelFlowSubsystem::OpenMainLevel()
 {
 	if (LevelPhase != ES1LevelPhase::Loading)
 		return;
+	const FName Destination=FS1RegionContract::MapFor(InitialRegionId);
+	if(Destination.IsNone())return;
 
 	UGameplayStatics::OpenLevel(
 		GetGameInstance(),
-		MainLevelName);
+		Destination);
 }
 
 void US1LevelFlowSubsystem::CompleteMainLevelEntry()

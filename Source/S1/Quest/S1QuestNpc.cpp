@@ -9,6 +9,7 @@
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/Pawn.h"
 #include "Engine/World.h"
+#include "Engine/Level.h"
 #include "Quest/S1QuestData.h"
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
@@ -61,38 +62,8 @@ void AS1QuestNpc::ExportQuestData()
 {
 #if WITH_EDITOR
  FString Text,Error;
- if(!FS1QuestData::ExportText(QuestDefinitions,DialogueNodes,Text,Error))
+ if(HasAnyFlags(RF_ClassDefaultObject)||!BuildWorldQuestExport(GetWorld(),QuestDefinitions,DialogueNodes,Text,Error))
  {UE_LOG(LogTemp,Warning,TEXT("Quest export rejected: %s"),*Error);return;}
- const UWorld* World=GetWorld();
- if(HasAnyFlags(RF_ClassDefaultObject)||!World||World->WorldType!=EWorldType::Editor||
-  World->GetOutermost()->GetName()!=TEXT("/Game/Maps/MainMap")||World->GetOutermost()->IsDirty())
- {UE_LOG(LogTemp,Warning,TEXT("Quest export rejected: use a placed NPC in saved MainMap (not CDO/PIE/dirty map)."));return;}
- TSet<int32> Required;
- for(const auto& Pair:QuestDefinitions->GetRowMap())
- {
-  const auto& Q=*reinterpret_cast<const FS1QuestDefinitionRow*>(Pair.Value);
-  Required.Add(Q.AcceptNpcId);Required.Add(Q.ReturnNpcId);
- }
- TMap<int32,const AS1QuestNpc*> Placement;
- for(TActorIterator<AS1QuestNpc> It(GetWorld());It;++It)
- {
-  const AS1QuestNpc* N=*It;if(!Required.Contains(N->NpcId))continue;
-  const FVector P=N->GetActorLocation();
-  if(Placement.Contains(N->NpcId)||N->QuestDefinitions!=QuestDefinitions||N->DialogueNodes!=DialogueNodes||N->GetOutermost()->IsDirty()||
-   P.ContainsNaN()||P.GetAbsMax()>10000000||!FMath::IsFinite(N->InteractionRadius)||N->InteractionRadius<50||N->InteractionRadius>2000)
-  {UE_LOG(LogTemp,Warning,TEXT("Quest export rejected: duplicate/mixed/dirty/invalid NPC placement. NpcId[%d]"),N->NpcId);return;}
-  Placement.Add(N->NpcId,N);
- }
- if(Placement.Num()!=Required.Num())
- {UE_LOG(LogTemp,Warning,TEXT("Quest export rejected: missing trusted NPC placement."));return;}
- Text.RemoveFromStart(TEXT("S1QUEST 1\n"));Text=TEXT("S1QUEST 2\n")+Text;
- Text+=FString::Printf(TEXT("NPCS %d\n"),Placement.Num());
- TArray<int32> Ids;Placement.GetKeys(Ids);Ids.Sort();
- for(int32 Id:Ids)
- {
-  const auto* N=Placement.FindChecked(Id);const FVector P=N->GetActorLocation();
-  Text+=FString::Printf(TEXT("N %d 1 %.9f %.9f %.9f %.9f 100 100 \"MainMap\"\n"),Id,P.X,P.Y,P.Z,N->InteractionRadius);
- }
  const FString Path=FPaths::ProjectSavedDir()/TEXT("QuestExports/QuestDefinitions.s1quest");
  IFileManager::Get().MakeDirectory(*FPaths::GetPath(Path),true);
  const FString Temporary=Path+TEXT(".tmp");
@@ -100,5 +71,48 @@ void AS1QuestNpc::ExportQuestData()
   !IFileManager::Get().Move(*Path,*Temporary,true,true))
  {UE_LOG(LogTemp,Warning,TEXT("Quest export write failed; previous export was not intentionally replaced."));return;}
  UE_LOG(LogTemp,Display,TEXT("QuestExportComplete v2: %s (trusted saved NPC placements; server validation/deploy required)"),*FPaths::ConvertRelativePathToFull(Path));
+#endif
+}
+bool AS1QuestNpc::BuildWorldQuestExport(const UWorld* World,const UDataTable* Quests,const UDataTable* Nodes,FString& Text,FString& Error)
+{
+#if WITH_EDITOR
+ if(!Quests||!Nodes||Quests->GetOutermost()->IsDirty()||Nodes->GetOutermost()->IsDirty())
+ {Error=TEXT("Use saved quest and dialogue tables.");return false;}
+ if(!FS1QuestData::ExportText(Quests,Nodes,Text,Error))return false;
+ const FString Map=World?World->GetOutermost()->GetName():FString();
+ if(!World||!World->PersistentLevel||World->WorldType==EWorldType::PIE||
+  (Map!=TEXT("/Game/Maps/MainMap")&&Map!=TEXT("/Game/Maps/VillageMap"))||World->GetOutermost()->IsDirty())
+ {Error=TEXT("Use a saved MainMap/VillageMap, not PIE/dirty map.");return false;}
+ TSet<int32> Required;
+ for(const auto& Pair:Quests->GetRowMap())
+ {
+  const auto& Q=*reinterpret_cast<const FS1QuestDefinitionRow*>(Pair.Value);
+  Required.Add(Q.AcceptNpcId);Required.Add(Q.ReturnNpcId);
+ }
+ TMap<int32,const AS1QuestNpc*> Placement;
+ for(AActor* Actor:World->PersistentLevel->Actors)
+ {
+  const AS1QuestNpc* N=Cast<AS1QuestNpc>(Actor);if(!N||!Required.Contains(N->NpcId))continue;
+  // Saved commandlet worlds have not registered components yet.
+  if(USceneComponent* Root=N->GetRootComponent())Root->UpdateComponentToWorld();
+  const FVector P=N->GetActorLocation();
+  if(Placement.Contains(N->NpcId)||N->QuestDefinitions!=Quests||N->DialogueNodes!=Nodes||N->GetOutermost()->IsDirty()||
+   P.ContainsNaN()||P.GetAbsMax()>10000000||!FMath::IsFinite(N->InteractionRadius)||N->InteractionRadius<50||N->InteractionRadius>2000)
+  {Error=TEXT("Duplicate/mixed/dirty/invalid NPC placement.");return false;}
+  Placement.Add(N->NpcId,N);
+ }
+ if(Placement.Num()!=Required.Num())
+ {Error=TEXT("Missing trusted NPC placement.");return false;}
+ Text.RemoveFromStart(TEXT("S1QUEST 1\n"));Text=TEXT("S1QUEST 2\n")+Text;
+ Text+=FString::Printf(TEXT("NPCS %d\n"),Placement.Num());
+ TArray<int32> Ids;Placement.GetKeys(Ids);Ids.Sort();
+ for(int32 Id:Ids)
+ {
+  const auto* N=Placement.FindChecked(Id);const FVector P=N->GetActorLocation();
+  Text+=FString::Printf(TEXT("N %d %d %.9f %.9f %.9f %.9f 100 100 \"%s\"\n"),Id,Map.EndsWith(TEXT("VillageMap"))?2:1,P.X,P.Y,P.Z,N->InteractionRadius,Map.EndsWith(TEXT("VillageMap"))?TEXT("VillageMap"):TEXT("MainMap"));
+ }
+ return true;
+#else
+ Error=TEXT("Editor only");return false;
 #endif
 }

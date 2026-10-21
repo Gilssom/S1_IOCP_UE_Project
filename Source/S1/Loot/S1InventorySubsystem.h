@@ -25,6 +25,7 @@ class S1_API US1InventorySubsystem : public UGameInstanceSubsystem
  friend class FS1InventoryMoveCoordinatorTest;
  friend class FS1InventoryStackCoordinatorTest;
  friend class FS1InventoryDiscardTest;
+ friend class FS1UICookReferenceTest;
 public:
  US1InventorySubsystem();
  virtual void Initialize(FSubsystemCollectionBase& Collection) override;
@@ -85,7 +86,7 @@ private:
  UPROPERTY() TSubclassOf<US1InventorySplitWidget> SplitWidgetClass;
  // Exact native default reference makes the editable Widget Blueprint discoverable to the cooker.
  UPROPERTY() TSubclassOf<US1QuickSlotWidget> QuickSlotWidgetClass;
- UPROPERTY() TSoftClassPtr<US1QuickSlotWidget> MainHUDClass;
+ UPROPERTY() TSubclassOf<US1QuickSlotWidget> MainHUDClass;
  UPROPERTY() TSubclassOf<US1InventoryWidget> InventoryWidgetClass;
  FS1QuickSlotState QuickSlots;
  FString QuickIdentity;

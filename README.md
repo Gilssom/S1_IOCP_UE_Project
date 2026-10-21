@@ -28,7 +28,8 @@ S1 Blueprints/maps/widgets. This Git repository is not a complete asset backup.
 | VFX_StatusEffect01 — /Game/VFX_StatusEffect01/FXS/FXS_healing000 | Healing effect |
 | /Game/_Resources/Rair_Potion | Inventory/quick-slot icon |
 | ARPG_Halberd — /Game/ARPG_Halberd | Imported candidate, not active equipped weapon |
-| /Game/Blueprints, /Game/S1, /Game/Maps | S1 gameplay/animation/input/UI and Lobby/Loading/Main |
+| Elderboom Village — /Game/ElderboomVillage | Local village environment; source map retained, VillageMap is the gameplay copy |
+| /Game/Blueprints, /Game/S1, /Game/Maps | S1 gameplay/animation/input/UI and Lobby/Loading/Main/Village |
 
 Other imported folders include MedievalClassicUI, MaterialFunctionCollection,
 Characters and LevelPrototyping; presence is not evidence of active usage.
@@ -52,5 +53,18 @@ Previous inventory revision passed game/editor builds, 20 automated tests and
 Windows packaging. User accepted PIE screen/controls; styling is deferred.
 Git registration does not repeat testing or prove full restore, DB recovery or
 packaged two-account acceptance.
+
+Latest village revision (2026-10-21): initial/reconnected logins follow Lobby ->
+Loading -> Village, using server region contract1. Deploy the matching external
+server/protocol and trusted village exports separately; old client/server pairs
+are rejected. MainMap combat remains preserved, but region-transfer portals and
+last-location reconnect persistence are not implemented.
+
+This revision passed game/editor builds, 40 automation tests (one existing
+GameplayCue-path warning), and Windows Development packaging. User accepted the
+two-client PIE village checklist, then packaged gameplay with a Main HUD omission;
+the HUD-fix package explicitly cooks MainHUD/Minimap/Currency/QuestTracker/Journal,
+and the user separately accepted its HUD/quest/dialogue hide-restore checks.
+See [village implementation and evidence](Docs/VillageEntryContract_2026-10-21.md).
 See [Git guide](Docs/GitManagement.md), [inventory](Docs/InventoryWidgetBlueprint.md)
 and [recovery roadmap](Docs/RecoveryAndOperationsRoadmap_2026-10-07.md).

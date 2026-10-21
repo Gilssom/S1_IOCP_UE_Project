@@ -46,6 +46,8 @@ public:
 	void OpenMainLevel();
 	void CompleteMainLevelEntry();
 	void TravelToLobby();
+	bool SetInitialRegion(uint32 RegionId);
+	uint32 GetInitialRegion() const {return InitialRegionId;}
 
 	ES1LevelPhase GetLevelPhase() const
 	{
@@ -72,8 +74,8 @@ private:
 	bool bMainLevelReady = false;
 	TMap<uint64, FS1PendingEntitySpawn> PendingEntitySpawns;
 	FS1LootState LootState;
+	uint32 InitialRegionId = 0;
 
 	static const FName LobbyLevelName;
 	static const FName LoadingLevelName;
-	static const FName MainLevelName;
 };

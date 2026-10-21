@@ -2,7 +2,7 @@
 #include "Game/S1DuskMinion.h"
 namespace
 {
- template<class Row> const Row* Find(const UDataTable* Table,int32 Id)
+ template<class Row> const Row* FindMonsterDataRow(const UDataTable* Table,int32 Id)
  {
   if(!Table||Table->GetRowStruct()!=Row::StaticStruct())return nullptr;
   for(const auto& P:Table->GetRowMap()){const auto* R=reinterpret_cast<const Row*>(P.Value);if(R->MonsterDefinitionId==Id)return R;}
@@ -11,8 +11,8 @@ namespace
 }
 UDataTable* FS1MonsterData::LoadDefinitions(){return LoadObject<UDataTable>(nullptr,TEXT("/Game/S1/Monsters/Data/DT_S1MonsterDefinitions.DT_S1MonsterDefinitions"));}
 UDataTable* FS1MonsterData::LoadPresentations(){return LoadObject<UDataTable>(nullptr,TEXT("/Game/S1/Monsters/Data/DT_S1MonsterPresentations.DT_S1MonsterPresentations"));}
-const FS1MonsterDefinitionRow* FS1MonsterData::FindDefinition(const UDataTable* T,int32 Id){return Find<FS1MonsterDefinitionRow>(T,Id);}
-const FS1MonsterPresentationRow* FS1MonsterData::FindPresentation(const UDataTable* T,int32 Id){return Find<FS1MonsterPresentationRow>(T,Id);}
+const FS1MonsterDefinitionRow* FS1MonsterData::FindDefinition(const UDataTable* T,int32 Id){return FindMonsterDataRow<FS1MonsterDefinitionRow>(T,Id);}
+const FS1MonsterPresentationRow* FS1MonsterData::FindPresentation(const UDataTable* T,int32 Id){return FindMonsterDataRow<FS1MonsterPresentationRow>(T,Id);}
 bool FS1MonsterData::ValidateRow(const FS1MonsterDefinitionRow& D,FString& Error)
 {
  for(float V:{D.CapsuleRadius,D.CapsuleHalfHeight,D.MoveSpeed,D.AcquireRadius,D.HomeLeash,D.LoseRadius,D.AttackStartRadius,D.HitRadius,D.HitHeight,D.HitFacingDot})

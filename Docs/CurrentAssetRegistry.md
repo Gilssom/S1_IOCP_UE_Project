@@ -1,5 +1,79 @@
 # S1 Current Asset Registry
 
+2026-10-21 VillageMap initial-entry integration (user PIE accepted; package pending):
+User renamed the saved staging map to `/Game/Maps/VillageMap`; MainMap_Test now remains
+a redirector. Approved region contract1 sends initial/reconnected logins via existing
+LoadingMap into server VillageRoom2 (no Dusk). Combat MainMap1/vendor map unchanged.
+Saved PlayerStart(6840,1880,192),Yaw-180 and NPC1(5830,1760,100) exported/deployed with
+separate Village collision data. No map/Blueprint binaries saved in this integration;
+VillageMap matches its verified checkpoint. Existing village walking/visual acceptance
+does not certify the new server login flow. Editor/Server/Game builds and offline tests
+passed. User subsequently accepted the full latest1-/2-player PIE village flow,
+NPC/inventory/potion/fielddrop and reconnect; fixed-entry reconnect is intentional.
+After Editor closure, new Windows Development Build/Cook/Stage/Package/Archive succeeded
+(ExitCode0, cook1597 packages,0 errors/0 warnings); all four maps are in the cooked registry.
+Two fresh archived clients reached LobbyMap. Authenticated two-account packaged gameplay
+acceptance is still pending; first LiveCoding-blocked attempt is retained separately.
+User then completed the package gameplay checklist but reported missing Main HUD.
+Actual client logs/registry confirmed MainHUD/QuestTracker absent, with Minimap/Currency/
+QuestJournal also not cooked. Explicit native hard references now cover MainHUD/Tracker/
+Journal; Blueprint design and all content binaries are unchanged. The HUD-fix package
+Build/Cook1605/Stage/Package/Archive passed with0 errors/0 warnings and all five WBP names
+in the cooked registry. Automation40 passed (one pre-existing GameplayCue warning).
+User accepted the latest two HUD-fix package clients' HUD/quest window/dialogue hide-restore
+visual check. Logs confirm both Lobby→Loading→Village entries and no WBP-load/Fatal/Ensure/
+BlueprintRuntime/NetworkFailure matches. Client1 had three explained pre-entry invalid-login
+rejections, then entered normally; do not report the entire log as Error0.
+See VillageEntryContract_2026-10-21.md for files, evidence, limitations and partial backup.
+
+2026-10-21 MainMap_Test editor navigation integrated (Candidate; not server deployed):
+enabled navigation, added NavMeshBounds_S1Village over landscape bounds, generated Static
+Recast35radius/144height/44slope. First saved-data check found zero polygons; explicit
+Build Paths and selective map resave fixed this. Independent commandlet read3297polys/
+7406edges, exit0. Diagnostic only in Saved/Diagnostics, not serverData/deployed.
+Node heights110..1170 are NOT compatible with existing flatZ-0.5 server contract.
+Before/after map checkpoint verified; old MainMap/vendor map unchanged, existing
+ABP_S1Terra dirty state preserved/unsaved. No new PIE/chase/package acceptance.
+See MainMapTestNavigation_2026-10-21.md for exact settings, evidence and remaining scope.
+
+2026-10-21 MainMap_Test inspection (Candidate, user-authored staging map):
+/Game/Maps/MainMap_Test created/saved by user. MCP confirms S1MainGameMode override,
+NPC1(ID1/quest DT/nonpreview), spawn marker1(ID1/type1/enabled), PlayerStart1.
+Map clean; old MainMap and vendor map hashes unchanged. Navigation disabled/no bounds;
+spawn feetZ100 violates current exporter flatZ-0.5 contract, so not server-deploy-ready.
+User's latest2 PIE worlds started/stopped, but both logged ABP_S1Terra divide-by-zero;
+no server-entry evidence in that interval. No new agent-run PIE or asset changes.
+See MainMapVillagePreflight_2026-10-21.md latest inspection; not Active runtime acceptance.
+
+2026-10-21 Elderboom MainMap preflight (Candidate; no replacement):
+MCP connected to S1 with L_ElderboomVillage open, PIE=false; both map packages clean
+before/after read-only checks. defaultGameMode=None, navigation disabled, no Nav bounds,
+no S1 NPC/spawn markers; PlayerStart(6840,1880,192) and nonflat Landscape present.
+No LevelScriptActor found; graph inspection is not certified. Direct dependency/referencer
+queries completed. Existing MainMap/server flat-ground data cannot be reused unchanged.
+25-file hash-verified partial checkpoint retained, no asset saved/map replaced/server data deployed.
+See MainMapVillagePreflight_2026-10-21.md for backup location, findings and pending checks.
+
+2026-10-21 Elderboom village environment intake (Candidate; migrated, not S1 runtime verified):
+user migrated /Game/ElderboomVillage/Maps/L_ElderboomVillage and dependencies from
+E:/UnrealEngine/ElderBoomHollowMassiveMed (EngineAssociation5.8, logs5.8.2).
+S1 Content/ElderboomVillage contains410 files/about6.37GiB; source has411 files,
+with only Maps/L_ShowCase.umap absent from destination (separate showcase not selected).
+Source AssetTools log records successful migration to S1. Packages were rewritten during
+migration; file sizes/map SHA differ, so no byte-identical-copy claim is made.
+Source .uproject has no enabled explicitly listed plugin (SkeletalMeshModelingTools disabled);
+map-level dependency/parent/dirty checks remain pending because MCP8000 refused connection.
+User reported source project appears normal in5.8. Source logs show a stale missing
+BP_FirstPersonGameMode config reference and Nanite foliage WPO/raytracing warning;
+do not migrate source Config or use its GameInstance/GameMode in S1.
+S1 Config has no tracked diff; existing MainMap/default maps/server unchanged by this check.
+Provenance: Fab ElderBoom Hollow Massive Medieval Village Environment, listing
+https://www.fab.com/listings/e12de9d5-be28-40df-a387-42ae6f84e05c (karaman).
+License entitlement/portfolio-use terms not yet recorded; confirm before public release.
+No UE5_RPG assets copied. Imported assets remain excluded from source-only Git.
+Next: open migrated map in S1, inspect dependencies/World Settings/Level Blueprint/dirty state,
+and validate visuals/collision before configuring a separate VillageMap or server travel.
+
 2026-10-21 Monster Data Table user acceptance:
 user reported the full latest 1-/2-client PIE checklist complete, including multi-Dusk
 spawn/combat/navigation/return/reengagement/recovery/death/respawn, potion/quest and

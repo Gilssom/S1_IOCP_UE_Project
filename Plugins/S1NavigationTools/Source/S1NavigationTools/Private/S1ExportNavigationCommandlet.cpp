@@ -5,6 +5,10 @@
 #include "Engine/StaticMesh.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/InstancedStaticMeshComponent.h"
+#include "LandscapeHeightfieldCollisionComponent.h"
+#include "GameFramework/PlayerStart.h"
+#include "Quest/S1QuestNpc.h"
+#include "Misc/PackageName.h"
 #include "PhysicsEngine/BodySetup.h"
 #include "HAL/FileManager.h"
 #include "Misc/CommandLine.h"
@@ -28,9 +32,18 @@ namespace
 
 	// Saved static collision-blocking geometry only. Render bounds are deliberately
 	// conservative OBBs; concave mesh openings can be overblocked, never inferred clear.
-	bool ExportLootObstacles(UWorld* World, const FString& Path)
+	bool ExportLootObstacles(UWorld* World, const FString& Path,const FString& MapName)
 	{
 		TArray<FString> Rows;
+		auto AddBounds=[&](const FBox& Bounds,const FTransform& Transform)
+		{
+			const FVector Center=Transform.TransformPosition(Bounds.GetCenter());
+			const FVector Extent=Bounds.GetExtent()*Transform.GetScale3D().GetAbs();
+			if(!Bounds.IsValid||Center.ContainsNaN()||Extent.ContainsNaN()||Extent.GetMin()<=0.)return false;
+			const FVector X=Transform.GetRotation().GetAxisX(),Y=Transform.GetRotation().GetAxisY(),Z=Transform.GetRotation().GetAxisZ();
+			Rows.Add(FString::Printf(TEXT("B %.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f\n"),
+			 Center.X,Center.Y,Center.Z,Extent.X,Extent.Y,Extent.Z,X.X,X.Y,X.Z,Y.X,Y.Y,Y.Z,Z.X,Z.Y,Z.Z));return true;
+		};
 		TArray<ULevel*> Levels = World->GetLevels();
 		Levels.AddUnique(World->PersistentLevel); // Loaded but uninitialized commandlet world.
 		for (ULevel* Level : Levels)
@@ -45,8 +58,16 @@ namespace
 					*Component->GetName(), static_cast<int32>(Component->Mobility), Component->IsQueryCollisionEnabled(), static_cast<int32>(Component->GetCollisionResponseToChannel(ECC_Pawn)));
 				if (!Component->IsQueryCollisionEnabled() ||
 					Component->GetCollisionResponseToChannel(ECC_Pawn) != ECR_Block) continue;
+				// Terrain bounds are conservative occlusion only, NOT server movement/height data.
+				if(MapName==TEXT("VillageMap")&&Component->IsA<ULandscapeHeightfieldCollisionComponent>())
+				{
+					Component->UpdateComponentToWorld();
+					const FBox Box=Component->CalcBounds(Component->GetComponentTransform()).GetBox();
+					if(!AddBounds(Box,FTransform::Identity))return false;
+					continue;
+				}
 				auto* Mesh = Cast<UStaticMeshComponent>(Component);
-				if (!Mesh || !Mesh->GetStaticMesh() || Mesh->IsA<UInstancedStaticMeshComponent>())
+				if (!Mesh || !Mesh->GetStaticMesh() || (MapName!=TEXT("VillageMap")&&Mesh->IsA<UInstancedStaticMeshComponent>()))
 				{
 					UE_LOG(LogTemp, Error, TEXT("Unsupported static pickup blocker: %s"), *Component->GetPathName());
 					return false;
@@ -57,14 +78,44 @@ namespace
 					Actor->GetClass()->HasAnyClassFlags(CLASS_CompiledFromBlueprint))
 				{UE_LOG(LogTemp, Error, TEXT("Dynamic pickup blocker unsupported: %s"), *Component->GetPathName());return false;}
 				FBox Bounds = Mesh->GetStaticMesh()->GetBoundingBox();
+				TArray<FBox> SimpleBounds;
 				if (UBodySetup* Body = Mesh->GetBodySetup())
 				{
 					const FBox Collision = Body->AggGeom.CalcAABB(FTransform::Identity);
 					if (Collision.IsValid) Bounds += Collision; // Include custom collision outside render bounds.
+					const auto& G=Body->AggGeom;
+					const int32 Supported=G.BoxElems.Num()+G.SphereElems.Num()+G.SphylElems.Num()+G.ConvexElems.Num();
+					if(MapName==TEXT("VillageMap")&&Body->GetCollisionTraceFlag()!=CTF_UseComplexAsSimple&&Supported>0&&Supported==G.GetElementCount())
+					{
+						// Each simple collision shape encloses real blocking geometry, not foliage render bounds.
+						for(const auto& E:G.BoxElems)SimpleBounds.Add(E.CalcAABB(FTransform::Identity,1.f));
+						for(const auto& E:G.SphereElems)SimpleBounds.Add(E.CalcAABB(FTransform::Identity,1.f));
+						for(const auto& E:G.SphylElems)SimpleBounds.Add(E.CalcAABB(FTransform::Identity,1.f));
+						for(const auto& E:G.ConvexElems)SimpleBounds.Add(E.CalcAABB(FTransform::Identity,FVector::OneVector));
+					}
 				}
 				// LoadPackage worlds have unregistered components; cached world transforms
 				// are not yet current. Update this transient loaded hierarchy, never save it.
 				Mesh->UpdateComponentToWorld();
+				auto AddMeshBounds=[&](const FTransform& Transform)
+				{
+					if(SimpleBounds.IsEmpty())return AddBounds(Bounds,Transform);
+					for(const FBox& Shape:SimpleBounds)if(!AddBounds(Shape,Transform))return false;
+					return true;
+				};
+				if(auto* Instances=Cast<UInstancedStaticMeshComponent>(Mesh))
+				{
+					for(int32 I=0;I<Instances->GetInstanceCount();++I)
+					{
+						FTransform Instance;if(!Instances->GetInstanceTransform(I,Instance,true)||!AddMeshBounds(Instance))return false;
+					}
+					continue;
+				}
+				if(!SimpleBounds.IsEmpty())
+				{
+					if(!AddMeshBounds(Mesh->GetComponentTransform()))return false;
+					continue;
+				}
 				const FTransform Transform = Mesh->GetComponentTransform();
 				const FVector Center = Transform.TransformPosition(Bounds.GetCenter());
 				const FVector Extent = Bounds.GetExtent() * Transform.GetScale3D().GetAbs();
@@ -76,13 +127,34 @@ namespace
 				UE_LOG(LogTemp, Display, TEXT("Pickup blocker %s Center[%s] Extent[%s]"), *Component->GetPathName(), *Center.ToString(), *Extent.ToString());
 			}
 		}
-		if (Rows.IsEmpty() || Rows.Num() > 4096)
+		if (Rows.IsEmpty() || Rows.Num() > (MapName==TEXT("VillageMap")?8192:4096))
 		{UE_LOG(LogTemp, Error, TEXT("Invalid pickup blocker count: %d"), Rows.Num());return false;}
 		Rows.Sort();
-		FString Text = FString::Printf(TEXT("S1OBB 1 MainMap\nBOXES %d\n"), Rows.Num());
+		FString Text = FString::Printf(TEXT("S1OBB 1 %s\nBOXES %d\n"),*MapName, Rows.Num());
 		for (const FString& Row : Rows) Text += Row;
 		IFileManager::Get().MakeDirectory(*FPaths::GetPath(Path), true);
 		return FFileHelper::SaveStringToFile(Text, *Path, FFileHelper::EEncodingOptions::ForceUTF8WithoutBOM);
+	}
+	bool ExportVillagePlacement(UWorld* World,const FString& EntryPath,const FString& QuestPath)
+	{
+		if(World->GetOutermost()->GetName()!=TEXT("/Game/Maps/VillageMap")||World->GetOutermost()->IsDirty())return false;
+		APlayerStart* Start=nullptr;AS1QuestNpc* Npc=nullptr;
+		for(AActor* Actor:World->PersistentLevel->Actors)
+		{
+			if(auto* S=Cast<APlayerStart>(Actor)){if(Start)return false;Start=S;}
+			if(auto* N=Cast<AS1QuestNpc>(Actor)){if(!Npc)Npc=N;}
+		}
+		if(!Start||!Npc)return false;
+		Start->GetRootComponent()->UpdateComponentToWorld();
+		const FVector P=Start->GetActorLocation();const float Yaw=FRotator::NormalizeAxis(Start->GetActorRotation().Yaw);
+		if(P.ContainsNaN()||P.GetAbsMax()>10000000||!FMath::IsFinite(Yaw))return false;
+		FString Quests,Error;
+		if(!AS1QuestNpc::BuildWorldQuestExport(World,Npc->QuestDefinitions,Npc->DialogueNodes,Quests,Error))
+		{UE_LOG(LogTemp,Error,TEXT("Village quest placement rejected: %s"),*Error);return false;}
+		const FString Entry=FString::Printf(TEXT("S1REGION 1\nREGION 2 VillageMap\nSPAWN %.9f %.9f %.9f %.9f\n"),P.X,P.Y,P.Z,Yaw);
+		for(const FString& Path:{EntryPath,QuestPath})IFileManager::Get().MakeDirectory(*FPaths::GetPath(Path),true);
+		return FFileHelper::SaveStringToFile(Entry,*EntryPath,FFileHelper::EEncodingOptions::ForceUTF8WithoutBOM)&&
+		 FFileHelper::SaveStringToFile(Quests,*QuestPath,FFileHelper::EEncodingOptions::ForceUTF8WithoutBOM);
 	}
 }
 
@@ -104,10 +176,13 @@ int32 US1ExportNavigationCommandlet::Main(const FString& Params)
 	FString MapPath = TEXT("/Game/Maps/MainMap");
 	FString OutputPath;
 	FString ObstaclesPath;
+	FString EntryPath,QuestPath;
+	FParse::Value(*Params,TEXT("Entry="),EntryPath);
+	FParse::Value(*Params,TEXT("Quests="),QuestPath);
 	FParse::Value(*Params, TEXT("Obstacles="), ObstaclesPath);
 	FParse::Value(*Params, TEXT("Map="), MapPath);
 	FParse::Value(*Params, TEXT("Output="), OutputPath);
-	if (OutputPath.IsEmpty() && ObstaclesPath.IsEmpty())
+	if (OutputPath.IsEmpty() && ObstaclesPath.IsEmpty() && EntryPath.IsEmpty())
 	{
 		UE_LOG(LogTemp, Error, TEXT("Missing required Output= path."));
 		return 2;
@@ -126,9 +201,15 @@ int32 US1ExportNavigationCommandlet::Main(const FString& Params)
 		UE_LOG(LogTemp, Error, TEXT("Map package has no persistent world: %s"), *MapPath);
 		return 4;
 	}
+	if(!EntryPath.IsEmpty())
+	{
+		if(QuestPath.IsEmpty()||!ExportVillagePlacement(World,EntryPath,QuestPath))return 10;
+		UE_LOG(LogTemp,Display,TEXT("Village entry/quest placement export complete."));
+		if(OutputPath.IsEmpty()&&ObstaclesPath.IsEmpty())return 0;
+	}
 	if (!ObstaclesPath.IsEmpty())
 	{
-		if (MapPath != TEXT("/Game/Maps/MainMap") || !ExportLootObstacles(World, ObstaclesPath)) return 8;
+		if ((MapPath != TEXT("/Game/Maps/MainMap")&&MapPath!=TEXT("/Game/Maps/VillageMap")) || !ExportLootObstacles(World, ObstaclesPath,FPackageName::GetShortName(MapPath))) return 8;
 		UE_LOG(LogTemp, Display, TEXT("S1 pickup obstacles export complete: %s"), *ObstaclesPath);
 		if (OutputPath.IsEmpty()) return 0; // Leave existing navigation data unchanged.
 	}

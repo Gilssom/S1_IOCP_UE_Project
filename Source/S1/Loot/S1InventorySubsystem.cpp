@@ -35,7 +35,10 @@ namespace
 
 US1InventorySubsystem::US1InventorySubsystem()
 {
- MainHUDClass=TSoftClassPtr<US1QuickSlotWidget>(FSoftObjectPath(TEXT("/Game/S1/UI/WBP_S1MainHUD.WBP_S1MainHUD_C")));
+ // Match the existing inventory/quick-slot hard cooker references: a C++ soft path alone
+ // was absent from the packaged registry despite loading successfully in editor tests.
+ static ConstructorHelpers::FClassFinder<US1QuickSlotWidget> MainHUDAsset(TEXT("/Game/S1/UI/WBP_S1MainHUD"));
+ MainHUDClass=MainHUDAsset.Class;
  static ConstructorHelpers::FClassFinder<US1QuickSlotWidget> WidgetAsset(TEXT("/Game/S1/UI/WBP_S1QuickSlots"));
  QuickSlotWidgetClass=WidgetAsset.Class;
  static ConstructorHelpers::FClassFinder<US1InventoryWidget> InventoryAsset(TEXT("/Game/S1/UI/WBP_S1InventoryGrid"));
@@ -136,7 +139,7 @@ bool US1InventorySubsystem::Tick(float Delta)
  if(QuickWidget&&QuickWidget->GetWorld()!=GetWorld()){QuickWidget->RemoveFromParent();QuickWidget=nullptr;}
  if(!QuickWidget&&LocalPC&&LocalPC->IsLocalController())
  {
-  auto* HUD=MainHUDClass.LoadSynchronous();
+  auto* HUD=MainHUDClass.Get();
   QuickWidget=CreateWidget<US1QuickSlotWidget>(LocalPC,HUD?HUD:QuickSlotWidgetClass.Get()?QuickSlotWidgetClass.Get():US1QuickSlotWidget::StaticClass());
   if(QuickWidget){QuickWidget->SetIsFocusable(false);QuickWidget->SetVisibility(ESlateVisibility::HitTestInvisible);QuickWidget->AddToViewport(10);}
  }

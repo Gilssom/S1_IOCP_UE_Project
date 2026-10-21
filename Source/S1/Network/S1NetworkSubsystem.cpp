@@ -4,6 +4,7 @@
 #include "Network/PacketSession.h"
 #include "SocketSubsystem.h"
 #include "Sockets.h"
+#include "Level/S1RegionContract.h"
 
 void US1NetworkSubsystem::Initialize(
 	FSubsystemCollectionBase& Collection)
@@ -170,7 +171,9 @@ void US1NetworkSubsystem::HandleRecvPackets()
 	if (!IsConnected())
 		return;
 
-	GameServerSession->HandleRecvPackets();
+	// A contract rejection can disconnect/reset the member while dispatching a packet.
+	const auto ActiveSession=GameServerSession;
+	ActiveSession->HandleRecvPackets();
 }
 
 void US1NetworkSubsystem::NotifyLoginPacket(
@@ -194,6 +197,15 @@ void US1NetworkSubsystem::NotifyCharacterCreatedPacket(
 void US1NetworkSubsystem::NotifyEnterGamePacket(
 	const Protocol::S_ENTER_GAME& Packet)
 {
+	// Reject an incompatible success before any account/world/quest consumer sees it.
+	if(Packet.success()&&!FS1RegionContract::Supports(Packet))
+	{
+		UE_LOG(LogTemp,Warning,TEXT("Initial region contract rejected. Version[%u] Region[%u]"),Packet.region_contract_version(),Packet.region_id());
+		Protocol::S_ENTER_GAME Rejected;
+		OnEnterGamePacket.Broadcast(Rejected);
+		Disconnect(TEXT("Unsupported initial-region contract; update client and server together"));
+		return;
+	}
 	OnEnterGamePacket.Broadcast(Packet);
 }
 

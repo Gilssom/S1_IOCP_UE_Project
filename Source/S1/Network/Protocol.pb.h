@@ -1024,6 +1024,7 @@ class C_ENTER_GAME final :
     kPlayerFieldDropContractVersionFieldNumber = 8,
     kQuestContractVersionFieldNumber = 9,
     kQuestRewardContractVersionFieldNumber = 10,
+    kRegionContractVersionFieldNumber = 11,
   };
   // uint64 character_id = 1;
   void clear_character_id();
@@ -1115,6 +1116,15 @@ class C_ENTER_GAME final :
   void _internal_set_quest_reward_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // uint32 region_contract_version = 11;
+  void clear_region_contract_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 region_contract_version() const;
+  void set_region_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_region_contract_version() const;
+  void _internal_set_region_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.C_ENTER_GAME)
  private:
   class _Internal;
@@ -1132,6 +1142,7 @@ class C_ENTER_GAME final :
   ::PROTOBUF_NAMESPACE_ID::uint32 player_field_drop_contract_version_;
   ::PROTOBUF_NAMESPACE_ID::uint32 quest_contract_version_;
   ::PROTOBUF_NAMESPACE_ID::uint32 quest_reward_contract_version_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 region_contract_version_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -1258,6 +1269,8 @@ class S_ENTER_GAME final :
     kPlayerFieldDropContractVersionFieldNumber = 10,
     kQuestContractVersionFieldNumber = 11,
     kQuestRewardContractVersionFieldNumber = 13,
+    kRegionIdFieldNumber = 14,
+    kRegionContractVersionFieldNumber = 15,
   };
   // bytes quest_session_id = 12;
   void clear_quest_session_id();
@@ -1390,6 +1403,24 @@ class S_ENTER_GAME final :
   void _internal_set_quest_reward_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // uint32 region_id = 14;
+  void clear_region_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 region_id() const;
+  void set_region_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_region_id() const;
+  void _internal_set_region_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 region_contract_version = 15;
+  void clear_region_contract_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 region_contract_version() const;
+  void set_region_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_region_contract_version() const;
+  void _internal_set_region_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.S_ENTER_GAME)
  private:
   class _Internal;
@@ -1410,6 +1441,8 @@ class S_ENTER_GAME final :
   ::PROTOBUF_NAMESPACE_ID::uint32 player_field_drop_contract_version_;
   ::PROTOBUF_NAMESPACE_ID::uint32 quest_contract_version_;
   ::PROTOBUF_NAMESPACE_ID::uint32 quest_reward_contract_version_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 region_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 region_contract_version_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -9570,6 +9603,26 @@ inline void C_ENTER_GAME::set_quest_reward_contract_version(::PROTOBUF_NAMESPACE
   // @@protoc_insertion_point(field_set:Protocol.C_ENTER_GAME.quest_reward_contract_version)
 }
 
+// uint32 region_contract_version = 11;
+inline void C_ENTER_GAME::clear_region_contract_version() {
+  region_contract_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_ENTER_GAME::_internal_region_contract_version() const {
+  return region_contract_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_ENTER_GAME::region_contract_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_ENTER_GAME.region_contract_version)
+  return _internal_region_contract_version();
+}
+inline void C_ENTER_GAME::_internal_set_region_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  region_contract_version_ = value;
+}
+inline void C_ENTER_GAME::set_region_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_region_contract_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_ENTER_GAME.region_contract_version)
+}
+
 // -------------------------------------------------------------------
 
 // S_ENTER_GAME
@@ -9916,6 +9969,46 @@ inline void S_ENTER_GAME::_internal_set_quest_reward_contract_version(::PROTOBUF
 inline void S_ENTER_GAME::set_quest_reward_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_quest_reward_contract_version(value);
   // @@protoc_insertion_point(field_set:Protocol.S_ENTER_GAME.quest_reward_contract_version)
+}
+
+// uint32 region_id = 14;
+inline void S_ENTER_GAME::clear_region_id() {
+  region_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_ENTER_GAME::_internal_region_id() const {
+  return region_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_ENTER_GAME::region_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_ENTER_GAME.region_id)
+  return _internal_region_id();
+}
+inline void S_ENTER_GAME::_internal_set_region_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  region_id_ = value;
+}
+inline void S_ENTER_GAME::set_region_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_region_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_ENTER_GAME.region_id)
+}
+
+// uint32 region_contract_version = 15;
+inline void S_ENTER_GAME::clear_region_contract_version() {
+  region_contract_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_ENTER_GAME::_internal_region_contract_version() const {
+  return region_contract_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_ENTER_GAME::region_contract_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_ENTER_GAME.region_contract_version)
+  return _internal_region_contract_version();
+}
+inline void S_ENTER_GAME::_internal_set_region_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  region_contract_version_ = value;
+}
+inline void S_ENTER_GAME::set_region_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_region_contract_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_ENTER_GAME.region_contract_version)
 }
 
 // -------------------------------------------------------------------

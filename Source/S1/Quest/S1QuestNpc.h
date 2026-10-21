@@ -46,6 +46,8 @@ public:
  /** Test branches only; never sends acceptance or saves progress. */
  UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="NPC|Dialogue Data") bool bPreviewQuestBranches=false;
  UFUNCTION(CallInEditor,Category="NPC|Dialogue Data") void ExportQuestData();
+ /** Saved editor-world placement export shared by the offline commandlet. Does not save assets. */
+ static bool BuildWorldQuestExport(const UWorld* World,const UDataTable* Quests,const UDataTable* Nodes,FString& Text,FString& Error);
  UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="NPC|Dialogue",meta=(ClampMin="50")) float InteractionRadius=250.f;
  UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="NPC|Dialogue",meta=(ClampMin="50")) float ExitRadius=350.f;
  UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="NPC|Camera") FVector CameraOffset=FVector(-320.f,240.f,160.f);
