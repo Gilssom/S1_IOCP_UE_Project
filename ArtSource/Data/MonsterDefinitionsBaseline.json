@@ -1,0 +1,3 @@
+[
+ {"Name":"Dusk","MonsterDefinitionId":1,"DefinitionVersion":1,"BehaviorId":1,"MaxHP":200,"CapsuleRadius":28,"CapsuleHalfHeight":62,"MoveSpeed":220,"AcquireRadius":800,"HomeLeash":1200,"LoseRadius":1000,"AttackStartRadius":170,"HitRadius":190,"HitHeight":150,"HitFacingDot":0.57,"Damage":10,"AttackIntervalMs":2000,"AttackDurationMs":1000,"HitDelayMs":420,"DespawnMs":3000,"RespawnMs":8000,"HomeRecoveryMs":4000}
+]

@@ -1,5 +1,6 @@
 #include "S1ExportSpawnPointsCommandlet.h"
 #include "Game/S1MonsterSpawnPoint.h"
+#include "Game/S1MonsterData.h"
 #include "Engine/World.h"
 #include "Engine/Level.h"
 #include "Components/SceneComponent.h"
@@ -39,6 +40,11 @@ int32 US1ExportSpawnPointsCommandlet::Main(const FString& Params)
 	{ UE_LOG(LogTemp, Error, TEXT("Saved MainMap requires 1..16 spawn markers and main Recast navmesh.")); return 5; }
 	Markers.Sort([](const AS1MonsterSpawnPoint& A, const AS1MonsterSpawnPoint& B) { return A.SpawnPointId < B.SpawnPointId; });
 	TSet<int32> Ids;
+	const auto* Definitions=FS1MonsterData::LoadDefinitions();
+	const auto* Presentations=FS1MonsterData::LoadPresentations();
+	FString DefinitionError;
+	if(!FS1MonsterData::Validate(Definitions,Presentations,DefinitionError))
+	{UE_LOG(LogTemp,Error,TEXT("Monster tables invalid: %s"),*DefinitionError);return 6;}
 	FString Text = FString::Printf(TEXT("S1SPAWN 2 MainMap\nPOINTS %d\n"), Markers.Num());
 	for (AS1MonsterSpawnPoint* Marker : Markers)
 	{
@@ -46,7 +52,7 @@ int32 US1ExportSpawnPointsCommandlet::Main(const FString& Params)
 		{ UE_LOG(LogTemp, Error, TEXT("Duplicate/nonpositive spawn ID: %d"), Marker->SpawnPointId); return 4; }
 		Ids.Add(Marker->SpawnPointId);
 		// Dusk remains the only registered type. Unknown IDs are not rendered as Dusk fallback.
-		if (Marker->MonsterDefinitionId != 1)
+		if (!FS1MonsterData::FindDefinition(Definitions,Marker->MonsterDefinitionId))
 		{ UE_LOG(LogTemp, Error, TEXT("Unregistered monster definition: %d"), Marker->MonsterDefinitionId); return 6; }
 		Marker->GetRootComponent()->UpdateComponentToWorld();
 		const FVector Feet = Marker->GetActorLocation();

@@ -18,7 +18,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="S1|Spawn")
 	bool bEnabled = true;
 
-	// Common authoring field; only registered Dusk definition 1 is currently supported.
+	// Must exist in the exported monster definitions and client presentation table.
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="S1|Spawn", meta=(ClampMin="1"))
 	int32 MonsterDefinitionId = 1;
 

@@ -97,15 +97,19 @@ void AS1DuskMinion::ApplyBlueprintTuning()
 {
 	// Collision is a mirror of the external server contract, not an artistic
 	// Blueprint override. Scale and facing remain presentation tunables.
-	CollisionRadius = S1DuskDefinition::CapsuleRadiusCm;
-	CollisionHalfHeight = S1DuskDefinition::CapsuleHalfHeightCm;
 	GetCapsuleComponent()->SetCapsuleSize(
-		S1DuskDefinition::CapsuleRadiusCm,
-		S1DuskDefinition::CapsuleHalfHeightCm);
+		CollisionRadius,
+		CollisionHalfHeight);
 	GetMesh()->SetRelativeLocation(FVector(
-		0.f, 0.f, -S1DuskDefinition::CapsuleHalfHeightCm));
+		0.f, 0.f, -CollisionHalfHeight));
 	GetMesh()->SetRelativeRotation(FRotator(0.f, MeshFacingYawOffset, 0.f));
 	GetMesh()->SetRelativeScale3D(MeshVisualScale);
+}
+void AS1DuskMinion::ConfigureDefinition(const FText& Name,float Radius,float HalfHeight)
+{
+	DefinitionDisplayName=Name;
+	CollisionRadius=Radius;CollisionHalfHeight=HalfHeight;
+	ApplyBlueprintTuning();RefreshLabel();
 }
 
 void AS1DuskMinion::Tick(float DeltaSeconds)
@@ -292,7 +296,7 @@ void AS1DuskMinion::PlayServerAttack(uint64 ActionInstanceId, float FacingYaw)
 void AS1DuskMinion::RefreshLabel()
 {
 	RefreshHealthVisibility();
-	if(EntityHealth)EntityHealth->SetServerView(Hp,HpMax,VisualState==5||Hp==0,FText::FromString(TEXT("Dusk")));
+	if(EntityHealth)EntityHealth->SetServerView(Hp,HpMax,VisualState==5||Hp==0,DefinitionDisplayName);
 	if (StatusLabel == nullptr)
 	{
 		return;

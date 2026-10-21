@@ -1,5 +1,28 @@
 # S1 Current Asset Registry
 
+2026-10-21 Monster Data Table user acceptance:
+user reported the full latest 1-/2-client PIE checklist complete, including multi-Dusk
+spawn/combat/navigation/return/reengagement/recovery/death/respawn, potion/quest and
+reconnect regression. DT_S1MonsterDefinitions and DT_S1MonsterPresentations are
+Active for this user-accepted PIE flow. No new agent-run gameplay/log audit is implied;
+latest packaged two-account gameplay remains unverified. See MonsterDataTables_2026-10-20.md.
+
+2026-10-20 Monster Data Table integration (history; PIE acceptance superseded above):
+new /Game/S1/Monsters/Data/DT_S1MonsterDefinitions (S1MonsterDefinitionRow) and
+DT_S1MonsterPresentations (S1MonsterPresentationRow), Dusk row ID1, authored from
+existing server values without balance changes. Presentation class references existing
+BP_S1DuskMinion; scale0.7/yaw+90/capsule28x62/flat center61.5 unchanged.
+Only two new tables saved after dirty report/checkpoint; existing BP/MainMap clean.
+WorldEntity now resolves ID via tables, rejects unknown/missing classes without Dusk
+fallback; server loads validated offline export before DB/network and seals it.
+No new assets from UE5_RPG/vendor, protocol/DB change, or new AI/loot rules.
+See MonsterDataTables_2026-10-20.md for tuning/export/deploy/restart and validation.
+Final Game/Editor/Debug server builds,92 parser checks,43 actual Room offline checks,
+38 Unreal checks passed. Fixed a discovered native soft-path Cook omission with
+explicit hard table CDO roots; final Windows package and IoStore inclusion plus
+packaged two-table/Dusk-class load smoke passed. Server/Editor/MCP restarted;
+new-revision1-/2-client PIE/economy/quest/reconnect and packaged gameplay remain pending.
+
 2026-10-20 latest Main HUD user acceptance:
 user reported all requested checks complete for the current HUD expansion.
 WBP_S1MainHUD, WBP_S1Minimap, WBP_S1Currency and the generated

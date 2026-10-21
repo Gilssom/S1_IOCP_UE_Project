@@ -9,6 +9,7 @@ class AS1DuskMinion;
 class UParticleSystem;
 class UNiagaraComponent;
 class AS1LootActor;
+class UDataTable;
 struct FS1LootPresentation;
 
 namespace Protocol
@@ -79,9 +80,11 @@ private:
 	void ClearHealingEffects(uint64 ObjectId);
 	bool AcceptHealthEvent(uint64 ObjectId,uint32 Sequence);
 
-	// Hard CDO asset reference: runtime-only LoadClass paths are not cook roots.
+	// Hard CDO references: native-only soft paths were not collected by the cooker.
 	UPROPERTY()
-	TSubclassOf<AS1DuskMinion> DuskPresentationClass;
+	TObjectPtr<UDataTable> MonsterDefinitions;
+	UPROPERTY()
+	TObjectPtr<UDataTable> MonsterPresentations;
 
 	UPROPERTY(Transient)
 	TMap<int32, TObjectPtr<UParticleSystem>> LoadedImpactParticles;

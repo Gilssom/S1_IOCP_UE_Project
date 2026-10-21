@@ -28,6 +28,7 @@ public:
 	void ApplyInitialServerState(int32 State, uint32 CurrentHp, uint32 MaxHp);
 	void ApplyServerState(int32 State, uint32 CurrentHp, uint32 MaxHp);
 	void ApplyServerHealth(uint32 CurrentHp, uint32 MaxHp);
+	void ConfigureDefinition(const FText& Name,float Radius,float HalfHeight);
 	void ApplyServerTransform(const FVector& Location, float Yaw);
 	void PlayServerAttack(uint64 ActionInstanceId, float FacingYaw);
 	void SetLocalCombatTarget(bool bTargetsLocalPlayer);
@@ -43,6 +44,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="Dusk|HP",meta=(ClampMin="0.0"))
 	float HealthBarCombatExitDelay=3.f;
 	bool bInLocalCombat=false;
+	FText DefinitionDisplayName=FText::FromString(TEXT("Dusk"));
 	double HealthBarVisibleUntil=-1.0;
 	void UpdateDeathFade(float DeltaSeconds);
 	friend class FS1DuskDeathPresentationTest;

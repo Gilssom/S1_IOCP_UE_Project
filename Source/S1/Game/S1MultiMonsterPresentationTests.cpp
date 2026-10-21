@@ -1,6 +1,7 @@
 #if WITH_DEV_AUTOMATION_TESTS
 #include "World/S1WorldEntitySubsystem.h"
 #include "Game/S1DuskMinion.h"
+#include "Game/S1MonsterData.h"
 #include "Engine/Engine.h"
 #include "Engine/World.h"
 #include "Components/TextRenderComponent.h"
@@ -19,8 +20,11 @@ bool FS1MultiMonsterPresentationTest::RunTest(const FString& Parameters)
 	auto* BlueprintClass = LoadClass<AS1DuskMinion>(nullptr,
 		TEXT("/Game/S1/Monsters/BP_S1DuskMinion.BP_S1DuskMinion_C"));
 	TestNotNull(TEXT("Authored Dusk class exists"), BlueprintClass);
-	TestTrue(TEXT("Native CDO anchors the exact Dusk Blueprint for cooking"),
-		GetDefault<US1WorldEntitySubsystem>()->DuskPresentationClass.Get() == BlueprintClass);
+	const auto* Visual=FS1MonsterData::FindPresentation(FS1MonsterData::LoadPresentations(),1);
+	TestTrue(TEXT("Presentation table anchors the exact Dusk Blueprint"),Visual&&Visual->ActorClass.Get()==BlueprintClass);
+	TestTrue(TEXT("Native hard table cook roots"),GetDefault<US1WorldEntitySubsystem>()->MonsterDefinitions.Get()==FS1MonsterData::LoadDefinitions()&&
+		GetDefault<US1WorldEntitySubsystem>()->MonsterPresentations.Get()==FS1MonsterData::LoadPresentations());
+	TestFalse(TEXT("Unknown definition has no Dusk fallback"),FS1MonsterData::FindPresentation(FS1MonsterData::LoadPresentations(),999999)!=nullptr);
 	Protocol::ObjectInfo Info;
 	Info.set_creature_type(Protocol::CREATURE_TYPE_MONSTER);
 	Info.set_monster_definition_id(1); Info.set_current_hp(200); Info.set_max_hp(200);
@@ -60,6 +64,7 @@ bool FS1MultiMonsterPresentationTest::RunTest(const FString& Parameters)
 	TestTrue(TEXT("Respawn uses new object identity"), Entities->SpawnMonster(Info));
 	TestEqual(TEXT("Three entries after independent respawn"), Entities->Monsters.Num(), 3);
 	Info.set_object_id(999); Info.set_monster_definition_id(999);
+	AddExpectedMessagePlain(TEXT("Monster presentation rejected. Definition[999]"),ELogVerbosity::Warning);
 	TestFalse(TEXT("Unregistered definition is not a Dusk fallback"), Entities->SpawnMonster(Info));
 	Entities->ResetRegistry();
 	TestEqual(TEXT("Reconnect reset clears all monster actors"), Entities->Monsters.Num(), 0);

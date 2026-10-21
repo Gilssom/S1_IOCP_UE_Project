@@ -5,6 +5,7 @@
 #include "Game/S1Player.h"
 #include "Game/S1MyPlayer.h"
 #include "Game/S1DuskMinion.h"
+#include "Game/S1MonsterData.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "HAL/PlatformTime.h"
@@ -22,17 +23,11 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Quest/S1DialogueSubsystem.h"
 
-namespace
-{
-	const TCHAR* DuskBlueprintClassPath =
-		TEXT("/Game/S1/Monsters/BP_S1DuskMinion.BP_S1DuskMinion_C");
-}
-
 US1WorldEntitySubsystem::US1WorldEntitySubsystem()
 {
-	static ConstructorHelpers::FClassFinder<AS1DuskMinion> DuskBlueprint(
-		TEXT("/Game/S1/Monsters/BP_S1DuskMinion"));
-	DuskPresentationClass = DuskBlueprint.Class;
+	static ConstructorHelpers::FObjectFinder<UDataTable> Definitions(TEXT("/Game/S1/Monsters/Data/DT_S1MonsterDefinitions.DT_S1MonsterDefinitions"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> Presentations(TEXT("/Game/S1/Monsters/Data/DT_S1MonsterPresentations.DT_S1MonsterPresentations"));
+	MonsterDefinitions=Definitions.Object;MonsterPresentations=Presentations.Object;
 }
 
 void US1WorldEntitySubsystem::Deinitialize()
@@ -123,7 +118,7 @@ void US1WorldEntitySubsystem::ResetLocalCombatPrediction(bool bResetSequence)
 bool US1WorldEntitySubsystem::SpawnMonster(const Protocol::ObjectInfo& ObjectInfo)
 {
 	if (ObjectInfo.creature_type() != Protocol::CREATURE_TYPE_MONSTER ||
-		ObjectInfo.monster_definition_id() != 1 || ObjectInfo.object_id() == 0)
+		ObjectInfo.monster_definition_id() == 0 || ObjectInfo.monster_definition_id() > 1000000 || ObjectInfo.object_id() == 0)
 	{
 		return false;
 	}
@@ -142,23 +137,20 @@ bool US1WorldEntitySubsystem::SpawnMonster(const Protocol::ObjectInfo& ObjectInf
 	const float Yaw = ObjectInfo.pos_info().yaw();
 	FActorSpawnParameters Parameters;
 	Parameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	if (DuskPresentationClass == nullptr)
-	{
-		DuskPresentationClass = LoadClass<AS1DuskMinion>(nullptr, DuskBlueprintClassPath);
-		if (DuskPresentationClass == nullptr)
-		{
-			UE_LOG(LogTemp, Warning,
-				TEXT("Dusk Blueprint class was not found; using native fallback. Path[%s]"),
-				DuskBlueprintClassPath);
-			DuskPresentationClass = AS1DuskMinion::StaticClass();
-		}
-	}
+	const auto* Definitions=MonsterDefinitions.Get();
+	const auto* Presentations=MonsterPresentations.Get();
+	FString Error;
+	const auto* Definition=FS1MonsterData::FindDefinition(Definitions,ObjectInfo.monster_definition_id());
+	const auto* Presentation=FS1MonsterData::FindPresentation(Presentations,ObjectInfo.monster_definition_id());
+	if(!FS1MonsterData::Validate(Definitions,Presentations,Error)||!Definition||!Presentation)
+	{UE_LOG(LogTemp,Warning,TEXT("Monster presentation rejected. Definition[%u] Reason[%s]"),ObjectInfo.monster_definition_id(),Error.IsEmpty()?TEXT("Unregistered monster ID"):*Error);return false;}
 	AS1DuskMinion* Monster = World->SpawnActor<AS1DuskMinion>(
-		DuskPresentationClass, Location, FRotator(0.f, Yaw, 0.f), Parameters);
+		Presentation->ActorClass, Location, FRotator(0.f, Yaw, 0.f), Parameters);
 	if (Monster == nullptr)
 	{
 		return false;
 	}
+	Monster->ConfigureDefinition(Presentation->DisplayName,Definition->CapsuleRadius,Definition->CapsuleHalfHeight);
 	Monster->ApplyServerTransform(Location, Yaw);
 	Monster->ApplyInitialServerState(static_cast<int32>(ObjectInfo.monster_state()),
 		ObjectInfo.current_hp(), ObjectInfo.max_hp());

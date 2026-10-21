@@ -2,8 +2,8 @@
 
 #include "CoreMinimal.h"
 
-// Client mirror of GameServer/GameServer/DuskDefinition.h. The external IOCP
-// server remains authoritative; these values only configure its presentation.
+// Native/editor preview defaults before a definition row is applied. Runtime
+// capsule values use the same authored table exported to the authoritative server.
 namespace S1DuskDefinition
 {
 	inline constexpr uint32 MonsterDefinitionId = 1;
