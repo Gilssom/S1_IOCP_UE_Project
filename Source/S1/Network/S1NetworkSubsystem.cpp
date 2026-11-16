@@ -215,6 +215,11 @@ void US1NetworkSubsystem::NotifyLeaveGamePacket(
 	OnLeaveGamePacket.Broadcast(Packet);
 }
 
+void US1NetworkSubsystem::NotifyPortalPreparePacket(const Protocol::S_PORTAL_TRANSFER_PREPARE& Packet)
+{ OnPortalPreparePacket.Broadcast(Packet); }
+void US1NetworkSubsystem::NotifyPortalCommitPacket(const Protocol::S_PORTAL_TRANSFER_COMMIT& Packet)
+{ OnPortalCommitPacket.Broadcast(Packet); }
+
 void US1NetworkSubsystem::NotifySpawnPacket(
 	const Protocol::S_SPAWN& Packet)
 {

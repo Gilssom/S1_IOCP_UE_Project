@@ -48,7 +48,7 @@ struct TableStruct_Protocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[47]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[52]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -98,6 +98,15 @@ extern C_MOVEDefaultTypeInternal _C_MOVE_default_instance_;
 class C_PLAYER_FIELD_DROP;
 struct C_PLAYER_FIELD_DROPDefaultTypeInternal;
 extern C_PLAYER_FIELD_DROPDefaultTypeInternal _C_PLAYER_FIELD_DROP_default_instance_;
+class C_PORTAL_TRANSFER_READY;
+struct C_PORTAL_TRANSFER_READYDefaultTypeInternal;
+extern C_PORTAL_TRANSFER_READYDefaultTypeInternal _C_PORTAL_TRANSFER_READY_default_instance_;
+class C_PORTAL_TRANSFER_REQUEST;
+struct C_PORTAL_TRANSFER_REQUESTDefaultTypeInternal;
+extern C_PORTAL_TRANSFER_REQUESTDefaultTypeInternal _C_PORTAL_TRANSFER_REQUEST_default_instance_;
+class C_PORTAL_WORLD_READY;
+struct C_PORTAL_WORLD_READYDefaultTypeInternal;
+extern C_PORTAL_WORLD_READYDefaultTypeInternal _C_PORTAL_WORLD_READY_default_instance_;
 class C_QUEST_ACCEPT;
 struct C_QUEST_ACCEPTDefaultTypeInternal;
 extern C_QUEST_ACCEPTDefaultTypeInternal _C_QUEST_ACCEPT_default_instance_;
@@ -182,6 +191,12 @@ extern S_PLAYER_HEALEDDefaultTypeInternal _S_PLAYER_HEALED_default_instance_;
 class S_PLAYER_STATUS;
 struct S_PLAYER_STATUSDefaultTypeInternal;
 extern S_PLAYER_STATUSDefaultTypeInternal _S_PLAYER_STATUS_default_instance_;
+class S_PORTAL_TRANSFER_COMMIT;
+struct S_PORTAL_TRANSFER_COMMITDefaultTypeInternal;
+extern S_PORTAL_TRANSFER_COMMITDefaultTypeInternal _S_PORTAL_TRANSFER_COMMIT_default_instance_;
+class S_PORTAL_TRANSFER_PREPARE;
+struct S_PORTAL_TRANSFER_PREPAREDefaultTypeInternal;
+extern S_PORTAL_TRANSFER_PREPAREDefaultTypeInternal _S_PORTAL_TRANSFER_PREPARE_default_instance_;
 class S_QUEST_ACCEPT_RESULT;
 struct S_QUEST_ACCEPT_RESULTDefaultTypeInternal;
 extern S_QUEST_ACCEPT_RESULTDefaultTypeInternal _S_QUEST_ACCEPT_RESULT_default_instance_;
@@ -213,6 +228,9 @@ template<> ::Protocol::C_LEAVE_GAME* Arena::CreateMaybeMessage<::Protocol::C_LEA
 template<> ::Protocol::C_LOGIN* Arena::CreateMaybeMessage<::Protocol::C_LOGIN>(Arena*);
 template<> ::Protocol::C_MOVE* Arena::CreateMaybeMessage<::Protocol::C_MOVE>(Arena*);
 template<> ::Protocol::C_PLAYER_FIELD_DROP* Arena::CreateMaybeMessage<::Protocol::C_PLAYER_FIELD_DROP>(Arena*);
+template<> ::Protocol::C_PORTAL_TRANSFER_READY* Arena::CreateMaybeMessage<::Protocol::C_PORTAL_TRANSFER_READY>(Arena*);
+template<> ::Protocol::C_PORTAL_TRANSFER_REQUEST* Arena::CreateMaybeMessage<::Protocol::C_PORTAL_TRANSFER_REQUEST>(Arena*);
+template<> ::Protocol::C_PORTAL_WORLD_READY* Arena::CreateMaybeMessage<::Protocol::C_PORTAL_WORLD_READY>(Arena*);
 template<> ::Protocol::C_QUEST_ACCEPT* Arena::CreateMaybeMessage<::Protocol::C_QUEST_ACCEPT>(Arena*);
 template<> ::Protocol::C_QUEST_QUERY* Arena::CreateMaybeMessage<::Protocol::C_QUEST_QUERY>(Arena*);
 template<> ::Protocol::C_QUEST_TURN_IN* Arena::CreateMaybeMessage<::Protocol::C_QUEST_TURN_IN>(Arena*);
@@ -241,6 +259,8 @@ template<> ::Protocol::S_MOVE* Arena::CreateMaybeMessage<::Protocol::S_MOVE>(Are
 template<> ::Protocol::S_PLAYER_FIELD_DROP_RESULT* Arena::CreateMaybeMessage<::Protocol::S_PLAYER_FIELD_DROP_RESULT>(Arena*);
 template<> ::Protocol::S_PLAYER_HEALED* Arena::CreateMaybeMessage<::Protocol::S_PLAYER_HEALED>(Arena*);
 template<> ::Protocol::S_PLAYER_STATUS* Arena::CreateMaybeMessage<::Protocol::S_PLAYER_STATUS>(Arena*);
+template<> ::Protocol::S_PORTAL_TRANSFER_COMMIT* Arena::CreateMaybeMessage<::Protocol::S_PORTAL_TRANSFER_COMMIT>(Arena*);
+template<> ::Protocol::S_PORTAL_TRANSFER_PREPARE* Arena::CreateMaybeMessage<::Protocol::S_PORTAL_TRANSFER_PREPARE>(Arena*);
 template<> ::Protocol::S_QUEST_ACCEPT_RESULT* Arena::CreateMaybeMessage<::Protocol::S_QUEST_ACCEPT_RESULT>(Arena*);
 template<> ::Protocol::S_QUEST_STATE* Arena::CreateMaybeMessage<::Protocol::S_QUEST_STATE>(Arena*);
 template<> ::Protocol::S_QUEST_TURN_IN_RESULT* Arena::CreateMaybeMessage<::Protocol::S_QUEST_TURN_IN_RESULT>(Arena*);
@@ -8970,6 +8990,832 @@ class S_QUEST_TURN_IN_RESULT final :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
+// -------------------------------------------------------------------
+
+class C_PORTAL_TRANSFER_REQUEST final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C_PORTAL_TRANSFER_REQUEST) */ {
+ public:
+  inline C_PORTAL_TRANSFER_REQUEST() : C_PORTAL_TRANSFER_REQUEST(nullptr) {}
+  ~C_PORTAL_TRANSFER_REQUEST() override;
+  explicit constexpr C_PORTAL_TRANSFER_REQUEST(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C_PORTAL_TRANSFER_REQUEST(const C_PORTAL_TRANSFER_REQUEST& from);
+  C_PORTAL_TRANSFER_REQUEST(C_PORTAL_TRANSFER_REQUEST&& from) noexcept
+    : C_PORTAL_TRANSFER_REQUEST() {
+    *this = ::std::move(from);
+  }
+
+  inline C_PORTAL_TRANSFER_REQUEST& operator=(const C_PORTAL_TRANSFER_REQUEST& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C_PORTAL_TRANSFER_REQUEST& operator=(C_PORTAL_TRANSFER_REQUEST&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C_PORTAL_TRANSFER_REQUEST& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C_PORTAL_TRANSFER_REQUEST* internal_default_instance() {
+    return reinterpret_cast<const C_PORTAL_TRANSFER_REQUEST*>(
+               &_C_PORTAL_TRANSFER_REQUEST_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    47;
+
+  friend void swap(C_PORTAL_TRANSFER_REQUEST& a, C_PORTAL_TRANSFER_REQUEST& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C_PORTAL_TRANSFER_REQUEST* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C_PORTAL_TRANSFER_REQUEST* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C_PORTAL_TRANSFER_REQUEST* New() const final {
+    return new C_PORTAL_TRANSFER_REQUEST();
+  }
+
+  C_PORTAL_TRANSFER_REQUEST* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<C_PORTAL_TRANSFER_REQUEST>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const C_PORTAL_TRANSFER_REQUEST& from);
+  void MergeFrom(const C_PORTAL_TRANSFER_REQUEST& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C_PORTAL_TRANSFER_REQUEST* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C_PORTAL_TRANSFER_REQUEST";
+  }
+  protected:
+  explicit C_PORTAL_TRANSFER_REQUEST(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kPortalIdFieldNumber = 2,
+    kContractVersionFieldNumber = 3,
+  };
+  // bytes request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // uint32 portal_id = 2;
+  void clear_portal_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 portal_id() const;
+  void set_portal_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_portal_id() const;
+  void _internal_set_portal_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 contract_version = 3;
+  void clear_contract_version();
+  ::PROTOBUF_NAMESPACE_ID::uint32 contract_version() const;
+  void set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_contract_version() const;
+  void _internal_set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C_PORTAL_TRANSFER_REQUEST)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 portal_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 contract_version_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_PORTAL_TRANSFER_PREPARE final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_PORTAL_TRANSFER_PREPARE) */ {
+ public:
+  inline S_PORTAL_TRANSFER_PREPARE() : S_PORTAL_TRANSFER_PREPARE(nullptr) {}
+  ~S_PORTAL_TRANSFER_PREPARE() override;
+  explicit constexpr S_PORTAL_TRANSFER_PREPARE(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_PORTAL_TRANSFER_PREPARE(const S_PORTAL_TRANSFER_PREPARE& from);
+  S_PORTAL_TRANSFER_PREPARE(S_PORTAL_TRANSFER_PREPARE&& from) noexcept
+    : S_PORTAL_TRANSFER_PREPARE() {
+    *this = ::std::move(from);
+  }
+
+  inline S_PORTAL_TRANSFER_PREPARE& operator=(const S_PORTAL_TRANSFER_PREPARE& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_PORTAL_TRANSFER_PREPARE& operator=(S_PORTAL_TRANSFER_PREPARE&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_PORTAL_TRANSFER_PREPARE& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_PORTAL_TRANSFER_PREPARE* internal_default_instance() {
+    return reinterpret_cast<const S_PORTAL_TRANSFER_PREPARE*>(
+               &_S_PORTAL_TRANSFER_PREPARE_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    48;
+
+  friend void swap(S_PORTAL_TRANSFER_PREPARE& a, S_PORTAL_TRANSFER_PREPARE& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_PORTAL_TRANSFER_PREPARE* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_PORTAL_TRANSFER_PREPARE* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_PORTAL_TRANSFER_PREPARE* New() const final {
+    return new S_PORTAL_TRANSFER_PREPARE();
+  }
+
+  S_PORTAL_TRANSFER_PREPARE* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_PORTAL_TRANSFER_PREPARE>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_PORTAL_TRANSFER_PREPARE& from);
+  void MergeFrom(const S_PORTAL_TRANSFER_PREPARE& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_PORTAL_TRANSFER_PREPARE* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_PORTAL_TRANSFER_PREPARE";
+  }
+  protected:
+  explicit S_PORTAL_TRANSFER_PREPARE(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kAcceptedFieldNumber = 2,
+    kReasonFieldNumber = 3,
+    kGenerationFieldNumber = 4,
+    kSourceRegionFieldNumber = 5,
+    kDestinationRegionFieldNumber = 6,
+  };
+  // bytes request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // bool accepted = 2;
+  void clear_accepted();
+  bool accepted() const;
+  void set_accepted(bool value);
+  private:
+  bool _internal_accepted() const;
+  void _internal_set_accepted(bool value);
+  public:
+
+  // uint32 reason = 3;
+  void clear_reason();
+  ::PROTOBUF_NAMESPACE_ID::uint32 reason() const;
+  void set_reason(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_reason() const;
+  void _internal_set_reason(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint64 generation = 4;
+  void clear_generation();
+  ::PROTOBUF_NAMESPACE_ID::uint64 generation() const;
+  void set_generation(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_generation() const;
+  void _internal_set_generation(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 source_region = 5;
+  void clear_source_region();
+  ::PROTOBUF_NAMESPACE_ID::uint32 source_region() const;
+  void set_source_region(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_source_region() const;
+  void _internal_set_source_region(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 destination_region = 6;
+  void clear_destination_region();
+  ::PROTOBUF_NAMESPACE_ID::uint32 destination_region() const;
+  void set_destination_region(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_destination_region() const;
+  void _internal_set_destination_region(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_PORTAL_TRANSFER_PREPARE)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+  bool accepted_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 reason_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 generation_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 source_region_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 destination_region_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class C_PORTAL_TRANSFER_READY final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C_PORTAL_TRANSFER_READY) */ {
+ public:
+  inline C_PORTAL_TRANSFER_READY() : C_PORTAL_TRANSFER_READY(nullptr) {}
+  ~C_PORTAL_TRANSFER_READY() override;
+  explicit constexpr C_PORTAL_TRANSFER_READY(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C_PORTAL_TRANSFER_READY(const C_PORTAL_TRANSFER_READY& from);
+  C_PORTAL_TRANSFER_READY(C_PORTAL_TRANSFER_READY&& from) noexcept
+    : C_PORTAL_TRANSFER_READY() {
+    *this = ::std::move(from);
+  }
+
+  inline C_PORTAL_TRANSFER_READY& operator=(const C_PORTAL_TRANSFER_READY& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C_PORTAL_TRANSFER_READY& operator=(C_PORTAL_TRANSFER_READY&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C_PORTAL_TRANSFER_READY& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C_PORTAL_TRANSFER_READY* internal_default_instance() {
+    return reinterpret_cast<const C_PORTAL_TRANSFER_READY*>(
+               &_C_PORTAL_TRANSFER_READY_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    49;
+
+  friend void swap(C_PORTAL_TRANSFER_READY& a, C_PORTAL_TRANSFER_READY& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C_PORTAL_TRANSFER_READY* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C_PORTAL_TRANSFER_READY* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C_PORTAL_TRANSFER_READY* New() const final {
+    return new C_PORTAL_TRANSFER_READY();
+  }
+
+  C_PORTAL_TRANSFER_READY* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<C_PORTAL_TRANSFER_READY>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const C_PORTAL_TRANSFER_READY& from);
+  void MergeFrom(const C_PORTAL_TRANSFER_READY& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C_PORTAL_TRANSFER_READY* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C_PORTAL_TRANSFER_READY";
+  }
+  protected:
+  explicit C_PORTAL_TRANSFER_READY(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kGenerationFieldNumber = 2,
+  };
+  // bytes request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // uint64 generation = 2;
+  void clear_generation();
+  ::PROTOBUF_NAMESPACE_ID::uint64 generation() const;
+  void set_generation(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_generation() const;
+  void _internal_set_generation(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C_PORTAL_TRANSFER_READY)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 generation_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_PORTAL_TRANSFER_COMMIT final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_PORTAL_TRANSFER_COMMIT) */ {
+ public:
+  inline S_PORTAL_TRANSFER_COMMIT() : S_PORTAL_TRANSFER_COMMIT(nullptr) {}
+  ~S_PORTAL_TRANSFER_COMMIT() override;
+  explicit constexpr S_PORTAL_TRANSFER_COMMIT(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_PORTAL_TRANSFER_COMMIT(const S_PORTAL_TRANSFER_COMMIT& from);
+  S_PORTAL_TRANSFER_COMMIT(S_PORTAL_TRANSFER_COMMIT&& from) noexcept
+    : S_PORTAL_TRANSFER_COMMIT() {
+    *this = ::std::move(from);
+  }
+
+  inline S_PORTAL_TRANSFER_COMMIT& operator=(const S_PORTAL_TRANSFER_COMMIT& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_PORTAL_TRANSFER_COMMIT& operator=(S_PORTAL_TRANSFER_COMMIT&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_PORTAL_TRANSFER_COMMIT& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_PORTAL_TRANSFER_COMMIT* internal_default_instance() {
+    return reinterpret_cast<const S_PORTAL_TRANSFER_COMMIT*>(
+               &_S_PORTAL_TRANSFER_COMMIT_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    50;
+
+  friend void swap(S_PORTAL_TRANSFER_COMMIT& a, S_PORTAL_TRANSFER_COMMIT& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_PORTAL_TRANSFER_COMMIT* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_PORTAL_TRANSFER_COMMIT* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_PORTAL_TRANSFER_COMMIT* New() const final {
+    return new S_PORTAL_TRANSFER_COMMIT();
+  }
+
+  S_PORTAL_TRANSFER_COMMIT* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_PORTAL_TRANSFER_COMMIT>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_PORTAL_TRANSFER_COMMIT& from);
+  void MergeFrom(const S_PORTAL_TRANSFER_COMMIT& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_PORTAL_TRANSFER_COMMIT* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_PORTAL_TRANSFER_COMMIT";
+  }
+  protected:
+  explicit S_PORTAL_TRANSFER_COMMIT(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kPlayerFieldNumber = 4,
+    kGenerationFieldNumber = 2,
+    kDestinationRegionFieldNumber = 3,
+  };
+  // bytes request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // .Protocol.ObjectInfo player = 4;
+  bool has_player() const;
+  private:
+  bool _internal_has_player() const;
+  public:
+  void clear_player();
+  const ::Protocol::ObjectInfo& player() const;
+  PROTOBUF_FUTURE_MUST_USE_RESULT ::Protocol::ObjectInfo* release_player();
+  ::Protocol::ObjectInfo* mutable_player();
+  void set_allocated_player(::Protocol::ObjectInfo* player);
+  private:
+  const ::Protocol::ObjectInfo& _internal_player() const;
+  ::Protocol::ObjectInfo* _internal_mutable_player();
+  public:
+  void unsafe_arena_set_allocated_player(
+      ::Protocol::ObjectInfo* player);
+  ::Protocol::ObjectInfo* unsafe_arena_release_player();
+
+  // uint64 generation = 2;
+  void clear_generation();
+  ::PROTOBUF_NAMESPACE_ID::uint64 generation() const;
+  void set_generation(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_generation() const;
+  void _internal_set_generation(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 destination_region = 3;
+  void clear_destination_region();
+  ::PROTOBUF_NAMESPACE_ID::uint32 destination_region() const;
+  void set_destination_region(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_destination_region() const;
+  void _internal_set_destination_region(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_PORTAL_TRANSFER_COMMIT)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+  ::Protocol::ObjectInfo* player_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 generation_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 destination_region_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class C_PORTAL_WORLD_READY final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C_PORTAL_WORLD_READY) */ {
+ public:
+  inline C_PORTAL_WORLD_READY() : C_PORTAL_WORLD_READY(nullptr) {}
+  ~C_PORTAL_WORLD_READY() override;
+  explicit constexpr C_PORTAL_WORLD_READY(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C_PORTAL_WORLD_READY(const C_PORTAL_WORLD_READY& from);
+  C_PORTAL_WORLD_READY(C_PORTAL_WORLD_READY&& from) noexcept
+    : C_PORTAL_WORLD_READY() {
+    *this = ::std::move(from);
+  }
+
+  inline C_PORTAL_WORLD_READY& operator=(const C_PORTAL_WORLD_READY& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C_PORTAL_WORLD_READY& operator=(C_PORTAL_WORLD_READY&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C_PORTAL_WORLD_READY& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C_PORTAL_WORLD_READY* internal_default_instance() {
+    return reinterpret_cast<const C_PORTAL_WORLD_READY*>(
+               &_C_PORTAL_WORLD_READY_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    51;
+
+  friend void swap(C_PORTAL_WORLD_READY& a, C_PORTAL_WORLD_READY& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C_PORTAL_WORLD_READY* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C_PORTAL_WORLD_READY* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C_PORTAL_WORLD_READY* New() const final {
+    return new C_PORTAL_WORLD_READY();
+  }
+
+  C_PORTAL_WORLD_READY* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<C_PORTAL_WORLD_READY>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const C_PORTAL_WORLD_READY& from);
+  void MergeFrom(const C_PORTAL_WORLD_READY& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C_PORTAL_WORLD_READY* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C_PORTAL_WORLD_READY";
+  }
+  protected:
+  explicit C_PORTAL_WORLD_READY(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kGenerationFieldNumber = 2,
+  };
+  // bytes request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // uint64 generation = 2;
+  void clear_generation();
+  ::PROTOBUF_NAMESPACE_ID::uint64 generation() const;
+  void set_generation(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_generation() const;
+  void _internal_set_generation(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C_PORTAL_WORLD_READY)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 generation_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
 // ===================================================================
 
 
@@ -15767,9 +16613,563 @@ inline void S_QUEST_TURN_IN_RESULT::set_inventory_version(::PROTOBUF_NAMESPACE_I
   // @@protoc_insertion_point(field_set:Protocol.S_QUEST_TURN_IN_RESULT.inventory_version)
 }
 
+// -------------------------------------------------------------------
+
+// C_PORTAL_TRANSFER_REQUEST
+
+// bytes request_id = 1;
+inline void C_PORTAL_TRANSFER_REQUEST::clear_request_id() {
+  request_id_.ClearToEmpty();
+}
+inline const std::string& C_PORTAL_TRANSFER_REQUEST::request_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_PORTAL_TRANSFER_REQUEST.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_PORTAL_TRANSFER_REQUEST::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ request_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_PORTAL_TRANSFER_REQUEST.request_id)
+}
+inline std::string* C_PORTAL_TRANSFER_REQUEST::mutable_request_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.C_PORTAL_TRANSFER_REQUEST.request_id)
+  return _internal_mutable_request_id();
+}
+inline const std::string& C_PORTAL_TRANSFER_REQUEST::_internal_request_id() const {
+  return request_id_.Get();
+}
+inline void C_PORTAL_TRANSFER_REQUEST::_internal_set_request_id(const std::string& value) {
+  
+  request_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* C_PORTAL_TRANSFER_REQUEST::_internal_mutable_request_id() {
+  
+  return request_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* C_PORTAL_TRANSFER_REQUEST::release_request_id() {
+  // @@protoc_insertion_point(field_release:Protocol.C_PORTAL_TRANSFER_REQUEST.request_id)
+  return request_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void C_PORTAL_TRANSFER_REQUEST::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  request_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), request_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_PORTAL_TRANSFER_REQUEST.request_id)
+}
+
+// uint32 portal_id = 2;
+inline void C_PORTAL_TRANSFER_REQUEST::clear_portal_id() {
+  portal_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_PORTAL_TRANSFER_REQUEST::_internal_portal_id() const {
+  return portal_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_PORTAL_TRANSFER_REQUEST::portal_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_PORTAL_TRANSFER_REQUEST.portal_id)
+  return _internal_portal_id();
+}
+inline void C_PORTAL_TRANSFER_REQUEST::_internal_set_portal_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  portal_id_ = value;
+}
+inline void C_PORTAL_TRANSFER_REQUEST::set_portal_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_portal_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_PORTAL_TRANSFER_REQUEST.portal_id)
+}
+
+// uint32 contract_version = 3;
+inline void C_PORTAL_TRANSFER_REQUEST::clear_contract_version() {
+  contract_version_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_PORTAL_TRANSFER_REQUEST::_internal_contract_version() const {
+  return contract_version_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_PORTAL_TRANSFER_REQUEST::contract_version() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_PORTAL_TRANSFER_REQUEST.contract_version)
+  return _internal_contract_version();
+}
+inline void C_PORTAL_TRANSFER_REQUEST::_internal_set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  contract_version_ = value;
+}
+inline void C_PORTAL_TRANSFER_REQUEST::set_contract_version(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_contract_version(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_PORTAL_TRANSFER_REQUEST.contract_version)
+}
+
+// -------------------------------------------------------------------
+
+// S_PORTAL_TRANSFER_PREPARE
+
+// bytes request_id = 1;
+inline void S_PORTAL_TRANSFER_PREPARE::clear_request_id() {
+  request_id_.ClearToEmpty();
+}
+inline const std::string& S_PORTAL_TRANSFER_PREPARE::request_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_PORTAL_TRANSFER_PREPARE.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S_PORTAL_TRANSFER_PREPARE::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ request_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S_PORTAL_TRANSFER_PREPARE.request_id)
+}
+inline std::string* S_PORTAL_TRANSFER_PREPARE::mutable_request_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_PORTAL_TRANSFER_PREPARE.request_id)
+  return _internal_mutable_request_id();
+}
+inline const std::string& S_PORTAL_TRANSFER_PREPARE::_internal_request_id() const {
+  return request_id_.Get();
+}
+inline void S_PORTAL_TRANSFER_PREPARE::_internal_set_request_id(const std::string& value) {
+  
+  request_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* S_PORTAL_TRANSFER_PREPARE::_internal_mutable_request_id() {
+  
+  return request_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* S_PORTAL_TRANSFER_PREPARE::release_request_id() {
+  // @@protoc_insertion_point(field_release:Protocol.S_PORTAL_TRANSFER_PREPARE.request_id)
+  return request_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void S_PORTAL_TRANSFER_PREPARE::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  request_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), request_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_PORTAL_TRANSFER_PREPARE.request_id)
+}
+
+// bool accepted = 2;
+inline void S_PORTAL_TRANSFER_PREPARE::clear_accepted() {
+  accepted_ = false;
+}
+inline bool S_PORTAL_TRANSFER_PREPARE::_internal_accepted() const {
+  return accepted_;
+}
+inline bool S_PORTAL_TRANSFER_PREPARE::accepted() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_PORTAL_TRANSFER_PREPARE.accepted)
+  return _internal_accepted();
+}
+inline void S_PORTAL_TRANSFER_PREPARE::_internal_set_accepted(bool value) {
+  
+  accepted_ = value;
+}
+inline void S_PORTAL_TRANSFER_PREPARE::set_accepted(bool value) {
+  _internal_set_accepted(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_PORTAL_TRANSFER_PREPARE.accepted)
+}
+
+// uint32 reason = 3;
+inline void S_PORTAL_TRANSFER_PREPARE::clear_reason() {
+  reason_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_PORTAL_TRANSFER_PREPARE::_internal_reason() const {
+  return reason_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_PORTAL_TRANSFER_PREPARE::reason() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_PORTAL_TRANSFER_PREPARE.reason)
+  return _internal_reason();
+}
+inline void S_PORTAL_TRANSFER_PREPARE::_internal_set_reason(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  reason_ = value;
+}
+inline void S_PORTAL_TRANSFER_PREPARE::set_reason(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_reason(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_PORTAL_TRANSFER_PREPARE.reason)
+}
+
+// uint64 generation = 4;
+inline void S_PORTAL_TRANSFER_PREPARE::clear_generation() {
+  generation_ = uint64_t{0u};
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_PORTAL_TRANSFER_PREPARE::_internal_generation() const {
+  return generation_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_PORTAL_TRANSFER_PREPARE::generation() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_PORTAL_TRANSFER_PREPARE.generation)
+  return _internal_generation();
+}
+inline void S_PORTAL_TRANSFER_PREPARE::_internal_set_generation(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  generation_ = value;
+}
+inline void S_PORTAL_TRANSFER_PREPARE::set_generation(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_generation(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_PORTAL_TRANSFER_PREPARE.generation)
+}
+
+// uint32 source_region = 5;
+inline void S_PORTAL_TRANSFER_PREPARE::clear_source_region() {
+  source_region_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_PORTAL_TRANSFER_PREPARE::_internal_source_region() const {
+  return source_region_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_PORTAL_TRANSFER_PREPARE::source_region() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_PORTAL_TRANSFER_PREPARE.source_region)
+  return _internal_source_region();
+}
+inline void S_PORTAL_TRANSFER_PREPARE::_internal_set_source_region(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  source_region_ = value;
+}
+inline void S_PORTAL_TRANSFER_PREPARE::set_source_region(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_source_region(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_PORTAL_TRANSFER_PREPARE.source_region)
+}
+
+// uint32 destination_region = 6;
+inline void S_PORTAL_TRANSFER_PREPARE::clear_destination_region() {
+  destination_region_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_PORTAL_TRANSFER_PREPARE::_internal_destination_region() const {
+  return destination_region_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_PORTAL_TRANSFER_PREPARE::destination_region() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_PORTAL_TRANSFER_PREPARE.destination_region)
+  return _internal_destination_region();
+}
+inline void S_PORTAL_TRANSFER_PREPARE::_internal_set_destination_region(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  destination_region_ = value;
+}
+inline void S_PORTAL_TRANSFER_PREPARE::set_destination_region(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_destination_region(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_PORTAL_TRANSFER_PREPARE.destination_region)
+}
+
+// -------------------------------------------------------------------
+
+// C_PORTAL_TRANSFER_READY
+
+// bytes request_id = 1;
+inline void C_PORTAL_TRANSFER_READY::clear_request_id() {
+  request_id_.ClearToEmpty();
+}
+inline const std::string& C_PORTAL_TRANSFER_READY::request_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_PORTAL_TRANSFER_READY.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_PORTAL_TRANSFER_READY::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ request_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_PORTAL_TRANSFER_READY.request_id)
+}
+inline std::string* C_PORTAL_TRANSFER_READY::mutable_request_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.C_PORTAL_TRANSFER_READY.request_id)
+  return _internal_mutable_request_id();
+}
+inline const std::string& C_PORTAL_TRANSFER_READY::_internal_request_id() const {
+  return request_id_.Get();
+}
+inline void C_PORTAL_TRANSFER_READY::_internal_set_request_id(const std::string& value) {
+  
+  request_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* C_PORTAL_TRANSFER_READY::_internal_mutable_request_id() {
+  
+  return request_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* C_PORTAL_TRANSFER_READY::release_request_id() {
+  // @@protoc_insertion_point(field_release:Protocol.C_PORTAL_TRANSFER_READY.request_id)
+  return request_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void C_PORTAL_TRANSFER_READY::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  request_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), request_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_PORTAL_TRANSFER_READY.request_id)
+}
+
+// uint64 generation = 2;
+inline void C_PORTAL_TRANSFER_READY::clear_generation() {
+  generation_ = uint64_t{0u};
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 C_PORTAL_TRANSFER_READY::_internal_generation() const {
+  return generation_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 C_PORTAL_TRANSFER_READY::generation() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_PORTAL_TRANSFER_READY.generation)
+  return _internal_generation();
+}
+inline void C_PORTAL_TRANSFER_READY::_internal_set_generation(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  generation_ = value;
+}
+inline void C_PORTAL_TRANSFER_READY::set_generation(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_generation(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_PORTAL_TRANSFER_READY.generation)
+}
+
+// -------------------------------------------------------------------
+
+// S_PORTAL_TRANSFER_COMMIT
+
+// bytes request_id = 1;
+inline void S_PORTAL_TRANSFER_COMMIT::clear_request_id() {
+  request_id_.ClearToEmpty();
+}
+inline const std::string& S_PORTAL_TRANSFER_COMMIT::request_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_PORTAL_TRANSFER_COMMIT.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S_PORTAL_TRANSFER_COMMIT::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ request_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S_PORTAL_TRANSFER_COMMIT.request_id)
+}
+inline std::string* S_PORTAL_TRANSFER_COMMIT::mutable_request_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_PORTAL_TRANSFER_COMMIT.request_id)
+  return _internal_mutable_request_id();
+}
+inline const std::string& S_PORTAL_TRANSFER_COMMIT::_internal_request_id() const {
+  return request_id_.Get();
+}
+inline void S_PORTAL_TRANSFER_COMMIT::_internal_set_request_id(const std::string& value) {
+  
+  request_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* S_PORTAL_TRANSFER_COMMIT::_internal_mutable_request_id() {
+  
+  return request_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* S_PORTAL_TRANSFER_COMMIT::release_request_id() {
+  // @@protoc_insertion_point(field_release:Protocol.S_PORTAL_TRANSFER_COMMIT.request_id)
+  return request_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void S_PORTAL_TRANSFER_COMMIT::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  request_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), request_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_PORTAL_TRANSFER_COMMIT.request_id)
+}
+
+// uint64 generation = 2;
+inline void S_PORTAL_TRANSFER_COMMIT::clear_generation() {
+  generation_ = uint64_t{0u};
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_PORTAL_TRANSFER_COMMIT::_internal_generation() const {
+  return generation_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 S_PORTAL_TRANSFER_COMMIT::generation() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_PORTAL_TRANSFER_COMMIT.generation)
+  return _internal_generation();
+}
+inline void S_PORTAL_TRANSFER_COMMIT::_internal_set_generation(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  generation_ = value;
+}
+inline void S_PORTAL_TRANSFER_COMMIT::set_generation(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_generation(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_PORTAL_TRANSFER_COMMIT.generation)
+}
+
+// uint32 destination_region = 3;
+inline void S_PORTAL_TRANSFER_COMMIT::clear_destination_region() {
+  destination_region_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_PORTAL_TRANSFER_COMMIT::_internal_destination_region() const {
+  return destination_region_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 S_PORTAL_TRANSFER_COMMIT::destination_region() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_PORTAL_TRANSFER_COMMIT.destination_region)
+  return _internal_destination_region();
+}
+inline void S_PORTAL_TRANSFER_COMMIT::_internal_set_destination_region(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  destination_region_ = value;
+}
+inline void S_PORTAL_TRANSFER_COMMIT::set_destination_region(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_destination_region(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_PORTAL_TRANSFER_COMMIT.destination_region)
+}
+
+// .Protocol.ObjectInfo player = 4;
+inline bool S_PORTAL_TRANSFER_COMMIT::_internal_has_player() const {
+  return this != internal_default_instance() && player_ != nullptr;
+}
+inline bool S_PORTAL_TRANSFER_COMMIT::has_player() const {
+  return _internal_has_player();
+}
+inline const ::Protocol::ObjectInfo& S_PORTAL_TRANSFER_COMMIT::_internal_player() const {
+  const ::Protocol::ObjectInfo* p = player_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::ObjectInfo&>(
+      ::Protocol::_ObjectInfo_default_instance_);
+}
+inline const ::Protocol::ObjectInfo& S_PORTAL_TRANSFER_COMMIT::player() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_PORTAL_TRANSFER_COMMIT.player)
+  return _internal_player();
+}
+inline void S_PORTAL_TRANSFER_COMMIT::unsafe_arena_set_allocated_player(
+    ::Protocol::ObjectInfo* player) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(player_);
+  }
+  player_ = player;
+  if (player) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S_PORTAL_TRANSFER_COMMIT.player)
+}
+inline ::Protocol::ObjectInfo* S_PORTAL_TRANSFER_COMMIT::release_player() {
+  
+  ::Protocol::ObjectInfo* temp = player_;
+  player_ = nullptr;
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::Protocol::ObjectInfo* S_PORTAL_TRANSFER_COMMIT::unsafe_arena_release_player() {
+  // @@protoc_insertion_point(field_release:Protocol.S_PORTAL_TRANSFER_COMMIT.player)
+  
+  ::Protocol::ObjectInfo* temp = player_;
+  player_ = nullptr;
+  return temp;
+}
+inline ::Protocol::ObjectInfo* S_PORTAL_TRANSFER_COMMIT::_internal_mutable_player() {
+  
+  if (player_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::ObjectInfo>(GetArenaForAllocation());
+    player_ = p;
+  }
+  return player_;
+}
+inline ::Protocol::ObjectInfo* S_PORTAL_TRANSFER_COMMIT::mutable_player() {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_PORTAL_TRANSFER_COMMIT.player)
+  return _internal_mutable_player();
+}
+inline void S_PORTAL_TRANSFER_COMMIT::set_allocated_player(::Protocol::ObjectInfo* player) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(player_);
+  }
+  if (player) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
+            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(player));
+    if (message_arena != submessage_arena) {
+      player = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, player, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  player_ = player;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_PORTAL_TRANSFER_COMMIT.player)
+}
+
+// -------------------------------------------------------------------
+
+// C_PORTAL_WORLD_READY
+
+// bytes request_id = 1;
+inline void C_PORTAL_WORLD_READY::clear_request_id() {
+  request_id_.ClearToEmpty();
+}
+inline const std::string& C_PORTAL_WORLD_READY::request_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_PORTAL_WORLD_READY.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_PORTAL_WORLD_READY::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ request_id_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_PORTAL_WORLD_READY.request_id)
+}
+inline std::string* C_PORTAL_WORLD_READY::mutable_request_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.C_PORTAL_WORLD_READY.request_id)
+  return _internal_mutable_request_id();
+}
+inline const std::string& C_PORTAL_WORLD_READY::_internal_request_id() const {
+  return request_id_.Get();
+}
+inline void C_PORTAL_WORLD_READY::_internal_set_request_id(const std::string& value) {
+  
+  request_id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* C_PORTAL_WORLD_READY::_internal_mutable_request_id() {
+  
+  return request_id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* C_PORTAL_WORLD_READY::release_request_id() {
+  // @@protoc_insertion_point(field_release:Protocol.C_PORTAL_WORLD_READY.request_id)
+  return request_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void C_PORTAL_WORLD_READY::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  request_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), request_id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_PORTAL_WORLD_READY.request_id)
+}
+
+// uint64 generation = 2;
+inline void C_PORTAL_WORLD_READY::clear_generation() {
+  generation_ = uint64_t{0u};
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 C_PORTAL_WORLD_READY::_internal_generation() const {
+  return generation_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 C_PORTAL_WORLD_READY::generation() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_PORTAL_WORLD_READY.generation)
+  return _internal_generation();
+}
+inline void C_PORTAL_WORLD_READY::_internal_set_generation(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  generation_ = value;
+}
+inline void C_PORTAL_WORLD_READY::set_generation(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_generation(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_PORTAL_WORLD_READY.generation)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

@@ -59,6 +59,11 @@ enum : uint16
 	PKT_S_QUEST_ACCEPT_RESULT = 1044,
 	PKT_C_QUEST_TURN_IN = 1045,
 	PKT_S_QUEST_TURN_IN_RESULT = 1046,
+	PKT_C_PORTAL_TRANSFER_REQUEST = 1047,
+	PKT_S_PORTAL_TRANSFER_PREPARE = 1048,
+	PKT_C_PORTAL_TRANSFER_READY = 1049,
+	PKT_S_PORTAL_TRANSFER_COMMIT = 1050,
+	PKT_C_PORTAL_WORLD_READY = 1051,
 };
 
 // Custom Handler
@@ -92,6 +97,8 @@ bool Handle_S_PLAYER_FIELD_DROP_RESULT(PacketSessionRef& session, Protocol::S_PL
 bool Handle_S_QUEST_STATE(PacketSessionRef& session, Protocol::S_QUEST_STATE& pkt);
 bool Handle_S_QUEST_ACCEPT_RESULT(PacketSessionRef& session, Protocol::S_QUEST_ACCEPT_RESULT& pkt);
 bool Handle_S_QUEST_TURN_IN_RESULT(PacketSessionRef& session, Protocol::S_QUEST_TURN_IN_RESULT& pkt);
+bool Handle_S_PORTAL_TRANSFER_PREPARE(PacketSessionRef& session, Protocol::S_PORTAL_TRANSFER_PREPARE& pkt);
+bool Handle_S_PORTAL_TRANSFER_COMMIT(PacketSessionRef& session, Protocol::S_PORTAL_TRANSFER_COMMIT& pkt);
 
 class ClientPacketHandler
 {
@@ -129,6 +136,8 @@ public:
 		GPacketHandler[PKT_S_QUEST_STATE] = [](PacketSessionRef& session, BYTE* buffer, int32 len){ return HandlePacket<Protocol::S_QUEST_STATE>(Handle_S_QUEST_STATE, session, buffer, len); };
 		GPacketHandler[PKT_S_QUEST_ACCEPT_RESULT] = [](PacketSessionRef& session, BYTE* buffer, int32 len){ return HandlePacket<Protocol::S_QUEST_ACCEPT_RESULT>(Handle_S_QUEST_ACCEPT_RESULT, session, buffer, len); };
 		GPacketHandler[PKT_S_QUEST_TURN_IN_RESULT] = [](PacketSessionRef& session, BYTE* buffer, int32 len){ return HandlePacket<Protocol::S_QUEST_TURN_IN_RESULT>(Handle_S_QUEST_TURN_IN_RESULT, session, buffer, len); };
+		GPacketHandler[PKT_S_PORTAL_TRANSFER_PREPARE] = [](PacketSessionRef& session, BYTE* buffer, int32 len){ return HandlePacket<Protocol::S_PORTAL_TRANSFER_PREPARE>(Handle_S_PORTAL_TRANSFER_PREPARE, session, buffer, len); };
+		GPacketHandler[PKT_S_PORTAL_TRANSFER_COMMIT] = [](PacketSessionRef& session, BYTE* buffer, int32 len){ return HandlePacket<Protocol::S_PORTAL_TRANSFER_COMMIT>(Handle_S_PORTAL_TRANSFER_COMMIT, session, buffer, len); };
 	}
 
 	static bool HandlePacket(PacketSessionRef& session, BYTE* buffer, int32 len)
@@ -154,6 +163,9 @@ public:
 	static SendBufferRef MakeSendBuffer(Protocol::C_QUEST_QUERY& pkt) { return MakeSendBuffer(pkt, PKT_C_QUEST_QUERY); }
 	static SendBufferRef MakeSendBuffer(Protocol::C_QUEST_ACCEPT& pkt) { return MakeSendBuffer(pkt, PKT_C_QUEST_ACCEPT); }
 	static SendBufferRef MakeSendBuffer(Protocol::C_QUEST_TURN_IN& pkt) { return MakeSendBuffer(pkt, PKT_C_QUEST_TURN_IN); }
+	static SendBufferRef MakeSendBuffer(Protocol::C_PORTAL_TRANSFER_REQUEST& pkt) { return MakeSendBuffer(pkt, PKT_C_PORTAL_TRANSFER_REQUEST); }
+	static SendBufferRef MakeSendBuffer(Protocol::C_PORTAL_TRANSFER_READY& pkt) { return MakeSendBuffer(pkt, PKT_C_PORTAL_TRANSFER_READY); }
+	static SendBufferRef MakeSendBuffer(Protocol::C_PORTAL_WORLD_READY& pkt) { return MakeSendBuffer(pkt, PKT_C_PORTAL_WORLD_READY); }
 
 private:
 	template<typename PacketType, typename ProcessFunc>

@@ -17,6 +17,8 @@ class S1_API FS1LootState
 {
 public:
  void Reset(bool bEnabled=false);
+ // A region change needs a fresh snapshot but keeps the session negotiation.
+ void ResetForRegion() { Reset(bEnabled); }
  bool ApplySnapshot(const Protocol::S_LOOT_SNAPSHOT& Packet);
  bool ApplyCreated(const Protocol::S_LOOT_CREATED& Packet);
  bool ApplyRemoved(const Protocol::S_LOOT_REMOVED& Packet);

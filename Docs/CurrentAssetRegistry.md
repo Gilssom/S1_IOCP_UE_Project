@@ -1,5 +1,15 @@
 # S1 Current Asset Registry
 
+2026-11-15 `/Game/RPGEnvironmentVFX/VFX/Niagara/NS_TeleportZone` — Candidate:
+user selected it for a portal. MCP identified NiagaraSystem, clean package; direct
+material dependencies include MI_Mist and MI_Particles, with one demo-map referencer.
+Local SHA256 5E40D18F94398A5D4EF4F3B0F4AC1F9F303A756CB0EF98B48D2F2E830F21FF16.
+Source/license for public portfolio use is not yet recorded. `/Game/S1/World/BP_S1Portal`
+is a saved Blueprint derived from `/Script/S1.S1Portal`, with this Niagara system in
+its inherited PortalEffect component and a Pawn-overlap TriggerVolume. Candidate until
+the user checks visual presentation and a real packaged build. This scaffold has no
+overlap callback, fade, server request or map travel. No original Niagara asset was edited.
+
 2026-10-21 VillageMap initial-entry integration (user PIE accepted; package pending):
 User renamed the saved staging map to `/Game/Maps/VillageMap`; MainMap_Test now remains
 a redirector. Approved region contract1 sends initial/reconnected logins via existing

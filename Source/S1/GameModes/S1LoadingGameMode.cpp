@@ -14,6 +14,7 @@ AS1LoadingGameMode::AS1LoadingGameMode()
 void AS1LoadingGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+	if(US1GameInstance* Instance=GetGameInstance<US1GameInstance>())Instance->PortalLoadingStarted();
 
 	GetWorldTimerManager().SetTimerForNextTick([this]()
 	{

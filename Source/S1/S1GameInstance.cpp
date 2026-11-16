@@ -14,6 +14,10 @@
 #include "TimerManager.h"
 #include "Loot/S1InventorySubsystem.h"
 #include "Level/S1RegionContract.h"
+#include "ClientPacketHandler.h"
+#include "Camera/PlayerCameraManager.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 void US1GameInstance::Init()
 {
@@ -22,6 +26,8 @@ void US1GameInstance::Init()
 	if (US1NetworkSubsystem* NetworkSubsystem =
 		GetSubsystem<US1NetworkSubsystem>())
 	{
+		NetworkSubsystem->OnPortalPreparePacket.AddUObject(this,&US1GameInstance::HandlePortalPrepare);
+		NetworkSubsystem->OnPortalCommitPacket.AddUObject(this,&US1GameInstance::HandlePortalCommit);
 		NetworkSubsystem->OnConnectionStateChanged.AddUObject(
 			this, &US1GameInstance::HandleCombatConnectionState);
 		NetworkSubsystem->OnEnterGamePacket.AddUObject(
@@ -81,6 +87,8 @@ void US1GameInstance::Shutdown()
 	if (US1NetworkSubsystem* NetworkSubsystem =
 		GetSubsystem<US1NetworkSubsystem>())
 	{
+		NetworkSubsystem->OnPortalPreparePacket.RemoveAll(this);
+		NetworkSubsystem->OnPortalCommitPacket.RemoveAll(this);
 		NetworkSubsystem->OnEnterGamePacket.RemoveAll(this);
 		NetworkSubsystem->OnLeaveGamePacket.RemoveAll(this);
 		NetworkSubsystem->OnSpawnPacket.RemoveAll(this);
@@ -176,6 +184,11 @@ void US1GameInstance::BeginMainLevelTravel()
 
 void US1GameInstance::OpenMainLevel()
 {
+	if(bPortalTransferActive)
+	{
+		bPortalMinimumElapsed=true;
+		if(bPortalWaitingCommit)return;
+	}
 	if (US1LevelFlowSubsystem* LevelFlowSubsystem =
 		GetSubsystem<US1LevelFlowSubsystem>())
 	{
@@ -198,7 +211,100 @@ void US1GameInstance::CompleteMainLevelEntry()
 		LevelFlowSubsystem->CompleteMainLevelEntry();
 		FlushPendingSpawns();
 		FlushLootPresentation();
+		if(bPortalTransferActive)
+		{
+			auto* Entities=GetWorldEntitySubsystem();
+			if(!Entities||!Entities->HasLocalPlayer())
+			{
+				if(UWorld* World=GetWorld())World->GetTimerManager().SetTimerForNextTick(this,&US1GameInstance::CompleteMainLevelEntry);
+				return;
+			}
+			Protocol::C_PORTAL_WORLD_READY Ready;Ready.set_request_id(PortalRequestId);Ready.set_generation(PortalGeneration);
+			SendPacket(ClientPacketHandler::MakeSendBuffer(Ready));
+			PortalRequestId.clear();PortalGeneration=0;PortalDestination=0;bPortalTransferActive=false;
+			if(auto* PC=UGameplayStatics::GetPlayerController(this,0))
+			{
+				PC->SetIgnoreMoveInput(false);PC->SetIgnoreLookInput(false);
+				if(PC->PlayerCameraManager)PC->PlayerCameraManager->StartCameraFade(1.f,0.f,0.4f,FLinearColor::Black,false,false);
+			}
+		}
 	}
+}
+
+void US1GameInstance::RequestPortalTransfer(int32 PortalId)
+{
+	if(PortalId<=0||!PortalRequestId.empty()||bPortalTransferActive||!IsConnectedToGameServer()||
+		GetLevelPhase()!=ES1LevelPhase::Main)return;
+	const FGuid Id=FGuid::NewGuid();
+	PortalRequestId.assign(reinterpret_cast<const char*>(&Id),sizeof(Id));
+	Protocol::C_PORTAL_TRANSFER_REQUEST Packet;Packet.set_request_id(PortalRequestId);
+	Packet.set_portal_id(PortalId);Packet.set_contract_version(1);
+	SendPacket(ClientPacketHandler::MakeSendBuffer(Packet));
+	const std::string Request=PortalRequestId;
+	if(UWorld* World=GetWorld())
+	{
+		FTimerHandle Timeout;
+		World->GetTimerManager().SetTimer(Timeout,FTimerDelegate::CreateWeakLambda(this,[this,Request]()
+		{
+			if(PortalRequestId==Request&&!bPortalTransferActive)
+			{
+				PortalRequestId.clear();
+				if(auto* Network=GetSubsystem<US1NetworkSubsystem>())Network->Disconnect(TEXT("Portal response timeout"));
+			}
+		}),10.f,false);
+	}
+}
+
+void US1GameInstance::HandlePortalPrepare(const Protocol::S_PORTAL_TRANSFER_PREPARE& Packet)
+{
+	if(PortalRequestId.empty()||Packet.request_id()!=PortalRequestId||bPortalTransferActive)return;
+	if(!Packet.accepted())
+	{
+		UE_LOG(LogTemp,Warning,TEXT("Portal transfer rejected. Reason[%u]"),Packet.reason());
+		PortalRequestId.clear();return;
+	}
+	auto* Flow=GetSubsystem<US1LevelFlowSubsystem>();
+	if(!Flow||Flow->GetLevelPhase()!=ES1LevelPhase::Main||Packet.source_region()!=Flow->GetInitialRegion()||
+		FS1RegionContract::MapFor(Packet.destination_region()).IsNone()||!Packet.generation())
+	{
+		if(auto* Network=GetSubsystem<US1NetworkSubsystem>())Network->Disconnect(TEXT("Invalid portal prepare"));return;
+	}
+	PortalGeneration=Packet.generation();PortalDestination=Packet.destination_region();
+	bPortalTransferActive=true;bPortalWaitingCommit=true;bPortalMinimumElapsed=false;
+	if(auto* PC=UGameplayStatics::GetPlayerController(this,0))
+	{
+		PC->SetIgnoreMoveInput(true);PC->SetIgnoreLookInput(true);
+		if(auto* Character=Cast<ACharacter>(PC->GetPawn()))Character->GetCharacterMovement()->StopMovementImmediately();
+		if(PC->PlayerCameraManager)PC->PlayerCameraManager->StartCameraFade(0.f,1.f,0.4f,FLinearColor::Black,false,true);
+	}
+	if(UWorld* World=GetWorld())
+	{
+		FTimerHandle Fade;World->GetTimerManager().SetTimer(Fade,this,&US1GameInstance::OpenPortalLoading,0.4f,false);
+	}
+}
+
+void US1GameInstance::OpenPortalLoading()
+{
+	if(!bPortalTransferActive)return;
+	if(auto* Flow=GetSubsystem<US1LevelFlowSubsystem>();Flow&&Flow->BeginPortalLoading(PortalDestination))return;
+	if(auto* Network=GetSubsystem<US1NetworkSubsystem>())Network->Disconnect(TEXT("Portal loading failed"));
+}
+
+void US1GameInstance::PortalLoadingStarted()
+{
+	if(!bPortalTransferActive||!bPortalWaitingCommit)return;
+	Protocol::C_PORTAL_TRANSFER_READY Ready;Ready.set_request_id(PortalRequestId);Ready.set_generation(PortalGeneration);
+	SendPacket(ClientPacketHandler::MakeSendBuffer(Ready));
+}
+
+void US1GameInstance::HandlePortalCommit(const Protocol::S_PORTAL_TRANSFER_COMMIT& Packet)
+{
+	if(!bPortalTransferActive||!bPortalWaitingCommit||Packet.request_id()!=PortalRequestId||
+		Packet.generation()!=PortalGeneration||Packet.destination_region()!=PortalDestination||!Packet.has_player())return;
+	auto* Flow=GetSubsystem<US1LevelFlowSubsystem>();
+	if(!Flow||Flow->GetLevelPhase()!=ES1LevelPhase::Loading)return;
+	bPortalWaitingCommit=false;Flow->SetPortalCommitted();HandleSpawn(Packet.player(),true);
+	if(bPortalMinimumElapsed)OpenMainLevel();
 }
 
 void US1GameInstance::FlushPendingSpawns()
@@ -330,6 +436,7 @@ void US1GameInstance::HandleLeaveGamePacket(
 void US1GameInstance::HandleSpawnPacket(
 	const Protocol::S_SPAWN& Packet)
 {
+	if(bPortalWaitingCommit)return;
 	UE_LOG(
 		LogTemp,
 		Warning,
@@ -355,18 +462,21 @@ void US1GameInstance::HandleSpawnPacket(
 
 void US1GameInstance::HandleLootSnapshotPacket(const Protocol::S_LOOT_SNAPSHOT& Packet)
 {
+ if(bPortalWaitingCommit)return;
  if(!IsConnectedToGameServer())return;
  if(auto* Flow=GetSubsystem<US1LevelFlowSubsystem>())
   if(Flow->GetLootState().ApplySnapshot(Packet))FlushLootPresentation();
 }
 void US1GameInstance::HandleLootCreatedPacket(const Protocol::S_LOOT_CREATED& Packet)
 {
+ if(bPortalWaitingCommit)return;
  if(!IsConnectedToGameServer())return;
  if(auto* Flow=GetSubsystem<US1LevelFlowSubsystem>())
   if(Flow->GetLootState().ApplyCreated(Packet))FlushLootPresentation();
 }
 void US1GameInstance::HandleLootRemovedPacket(const Protocol::S_LOOT_REMOVED& Packet)
 {
+ if(bPortalWaitingCommit)return;
  if(!IsConnectedToGameServer())return;
  if(auto* Flow=GetSubsystem<US1LevelFlowSubsystem>())
   if(Flow->GetLootState().ApplyRemoved(Packet))FlushLootPresentation();
@@ -383,12 +493,14 @@ void US1GameInstance::FlushLootPresentation()
 void US1GameInstance::HandleDespawnPacket(
 	const Protocol::S_DESPAWN& Packet)
 {
+	if(bPortalWaitingCommit)return;
 	HandleDeSpawn(Packet);
 }
 
 void US1GameInstance::HandleMovePacket(
 	const Protocol::S_MOVE& Packet)
 {
+	if(bPortalWaitingCommit)return;
 	HandleMove(Packet);
 }
 
@@ -401,6 +513,7 @@ void US1GameInstance::HandleChatPacket(
 void US1GameInstance::HandleCombatActionPacket(
 	const Protocol::S_COMBAT_ACTION& Packet)
 {
+	if(bPortalWaitingCommit)return;
 	if (!IsConnectedToGameServer())
 	{
 		return;
@@ -416,6 +529,7 @@ void US1GameInstance::HandleCombatActionPacket(
 void US1GameInstance::HandleCombatActionResultPacket(
 	const Protocol::S_COMBAT_ACTION_RESULT& Packet)
 {
+	if(bPortalWaitingCommit)return;
 	if (!IsConnectedToGameServer() || !SupportsCombatApproval())
 		return;
 	if (US1WorldEntitySubsystem* Entities = GetWorldEntitySubsystem())
@@ -429,6 +543,9 @@ void US1GameInstance::HandleCombatConnectionState(
 		State == ES1ConnectionState::Disconnecting ||
 		State == ES1ConnectionState::Error)
 	{
+		const bool bWasPortalTransfer=bPortalTransferActive;
+		PortalRequestId.clear();PortalGeneration=0;PortalDestination=0;
+		bPortalTransferActive=false;bPortalWaitingCommit=false;bPortalMinimumElapsed=false;
 		CombatContractVersion = 0;
 		if(auto* Inventory=GetSubsystem<US1InventorySubsystem>())Inventory->ResetSession();
 		if(auto* Flow=GetSubsystem<US1LevelFlowSubsystem>())Flow->EnterLobbyState();
@@ -438,11 +555,21 @@ void US1GameInstance::HandleCombatConnectionState(
 			Entities->ResetCombatImpactState();
 			Entities->ResetLootRegistry();
 		}
+		if(bWasPortalTransfer)
+		{
+			if(auto* PC=UGameplayStatics::GetPlayerController(this,0))
+			{
+				PC->SetIgnoreMoveInput(false);PC->SetIgnoreLookInput(false);
+				if(PC->PlayerCameraManager)PC->PlayerCameraManager->StopCameraFade();
+			}
+			TravelToLobby();
+		}
 	}
 }
 
 void US1GameInstance::HandleMonsterUpdatePacket(const Protocol::S_MONSTER_UPDATE& Packet)
 {
+	if(bPortalWaitingCommit)return;
 	if (!IsConnectedToGameServer()) return;
 	if (US1LevelFlowSubsystem* Flow = GetSubsystem<US1LevelFlowSubsystem>())
 	{
@@ -460,6 +587,7 @@ void US1GameInstance::HandleMonsterUpdatePacket(const Protocol::S_MONSTER_UPDATE
 
 void US1GameInstance::HandleMonsterAttackPacket(const Protocol::S_MONSTER_ATTACK& Packet)
 {
+	if(bPortalWaitingCommit)return;
 	if (!IsConnectedToGameServer()) return;
 	if (US1LevelFlowSubsystem* Flow = GetSubsystem<US1LevelFlowSubsystem>())
 	{
@@ -473,6 +601,7 @@ void US1GameInstance::HandleMonsterAttackPacket(const Protocol::S_MONSTER_ATTACK
 
 void US1GameInstance::HandleDamageResultPacket(const Protocol::S_DAMAGE_RESULT& Packet)
 {
+	if(bPortalWaitingCommit)return;
 	if (!IsConnectedToGameServer()) return;
 	if (US1LevelFlowSubsystem* Flow = GetSubsystem<US1LevelFlowSubsystem>())
 	{
@@ -490,6 +619,7 @@ void US1GameInstance::HandleDamageResultPacket(const Protocol::S_DAMAGE_RESULT& 
 
 void US1GameInstance::HandlePlayerStatusPacket(const Protocol::S_PLAYER_STATUS& Packet)
 {
+	if(bPortalWaitingCommit)return;
 	if (!IsConnectedToGameServer()) return;
 	if (US1LevelFlowSubsystem* Flow = GetSubsystem<US1LevelFlowSubsystem>())
 	{
@@ -503,6 +633,7 @@ void US1GameInstance::HandlePlayerStatusPacket(const Protocol::S_PLAYER_STATUS& 
 
 void US1GameInstance::HandlePlayerHealedPacket(const Protocol::S_PLAYER_HEALED& Packet)
 {
+ if(bPortalWaitingCommit)return;
  if(!IsConnectedToGameServer())return;
  auto* Flow=GetSubsystem<US1LevelFlowSubsystem>();
  if(!Flow||!Flow->IsMainLevelReady())return;

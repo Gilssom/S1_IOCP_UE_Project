@@ -21,6 +21,11 @@ bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len)
 	return false;
 }
 
+bool Handle_S_PORTAL_TRANSFER_PREPARE(PacketSessionRef& session, Protocol::S_PORTAL_TRANSFER_PREPARE& pkt)
+{ if(auto* network=GetNetworkSubsystem(session)){network->NotifyPortalPreparePacket(pkt);return true;}return false; }
+bool Handle_S_PORTAL_TRANSFER_COMMIT(PacketSessionRef& session, Protocol::S_PORTAL_TRANSFER_COMMIT& pkt)
+{ if(auto* network=GetNetworkSubsystem(session)){network->NotifyPortalCommitPacket(pkt);return true;}return false; }
+
 bool Handle_S_LOGIN(
 	PacketSessionRef& session,
 	Protocol::S_LOGIN& pkt)

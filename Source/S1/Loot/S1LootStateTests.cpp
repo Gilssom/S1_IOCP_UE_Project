@@ -41,8 +41,17 @@ bool FS1LootStateTest::RunTest(const FString& Parameters)
  InvalidSnapshot.add_drops()->CopyFrom(*Drop);
  TestFalse(TEXT("Duplicate snapshot identities rejected atomically"),State.ApplySnapshot(InvalidSnapshot));
  TestEqual(TEXT("Previous valid state retained"),State.GetDrops().Num(),1);
+ State.ResetForRegion();
+ TestTrue(TEXT("Region change preserves negotiated loot presentation"),State.IsEnabled());
+ TestEqual(TEXT("Region change clears old region drops"),State.GetDrops().Num(),0);
+ TestEqual(TEXT("Region change clears old sequence"),State.GetSequence(),uint64(0));
+ TestFalse(TEXT("Created event waits for destination snapshot"),State.ApplyCreated(Created));
+ Snapshot.set_snapshot_sequence(0);
+ TestTrue(TEXT("Destination snapshot accepted with fresh sequence"),State.ApplySnapshot(Snapshot));
+ TestTrue(TEXT("Destination create event accepted"),State.ApplyCreated(Created));
  State.Reset();TestEqual(TEXT("Session cleanup"),State.GetDrops().Num(),0);
  TestFalse(TEXT("Old packet after disconnect ignored"),State.ApplySnapshot(Snapshot));
+ State.ResetForRegion();TestFalse(TEXT("Region reset does not enable unnegotiated presentation"),State.IsEnabled());
  FS1LootPresentation Public;
  auto PublicPacket=*Drop;PublicPacket.set_source_kind(2);PublicPacket.set_count(99);
  TestTrue(TEXT("Public whole stack supported"),FS1LootState::Decode(PublicPacket,Public));

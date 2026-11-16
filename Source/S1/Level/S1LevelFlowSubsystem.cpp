@@ -22,6 +22,16 @@ void US1LevelFlowSubsystem::EnterLobbyState()
 	PendingEntitySpawns.Reset();
 	LootState.Reset();
 	InitialRegionId = 0;
+	bPortalTravel = false; bPortalCommitted = false;
+}
+
+bool US1LevelFlowSubsystem::BeginPortalLoading(uint32 DestinationRegion)
+{
+	if(LevelPhase!=ES1LevelPhase::Main||FS1RegionContract::MapFor(DestinationRegion).IsNone())return false;
+	InitialRegionId=DestinationRegion;LevelPhase=ES1LevelPhase::Loading;bMainLevelReady=false;
+	bPortalTravel=true;bPortalCommitted=false;PendingEntitySpawns.Reset();LootState.ResetForRegion();
+	UGameplayStatics::OpenLevel(GetGameInstance(),LoadingLevelName);
+	return true;
 }
 
 void US1LevelFlowSubsystem::BeginMainLevelTravel()
@@ -40,6 +50,7 @@ void US1LevelFlowSubsystem::OpenMainLevel()
 {
 	if (LevelPhase != ES1LevelPhase::Loading)
 		return;
+	if (bPortalTravel && !bPortalCommitted) return;
 	const FName Destination=FS1RegionContract::MapFor(InitialRegionId);
 	if(Destination.IsNone())return;
 
@@ -52,6 +63,7 @@ void US1LevelFlowSubsystem::CompleteMainLevelEntry()
 {
 	LevelPhase = ES1LevelPhase::Main;
 	bMainLevelReady = true;
+	bPortalTravel=false;bPortalCommitted=false;
 }
 
 void US1LevelFlowSubsystem::TravelToLobby()

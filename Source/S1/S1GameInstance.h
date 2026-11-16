@@ -33,6 +33,9 @@ public:
 	void BeginMainLevelTravel();
 	void OpenMainLevel();
 	void CompleteMainLevelEntry();
+	void RequestPortalTransfer(int32 PortalId);
+	void PortalLoadingStarted();
+	bool IsPortalTransferActive() const { return bPortalTransferActive; }
 
 	UFUNCTION(BlueprintCallable)
 	void TravelToLobby();
@@ -118,6 +121,9 @@ private:
 	void HandleLootSnapshotPacket(const Protocol::S_LOOT_SNAPSHOT& Packet);
 	void HandleLootCreatedPacket(const Protocol::S_LOOT_CREATED& Packet);
 	void HandleLootRemovedPacket(const Protocol::S_LOOT_REMOVED& Packet);
+	void HandlePortalPrepare(const Protocol::S_PORTAL_TRANSFER_PREPARE& Packet);
+	void HandlePortalCommit(const Protocol::S_PORTAL_TRANSFER_COMMIT& Packet);
+	void OpenPortalLoading();
 	void FlushLootPresentation();
 
 	UFUNCTION()
@@ -170,4 +176,10 @@ public:
 
 private:
 	uint32 CombatContractVersion = 0;
+	std::string PortalRequestId;
+	uint64 PortalGeneration=0;
+	uint32 PortalDestination=0;
+	bool bPortalTransferActive=false;
+	bool bPortalWaitingCommit=false;
+	bool bPortalMinimumElapsed=false;
 };

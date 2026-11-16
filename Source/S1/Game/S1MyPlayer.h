@@ -28,6 +28,7 @@ class S1_API AS1MyPlayer : public AS1Player
 public:
 	AS1MyPlayer();
 	void StopForDialogue();
+	void SnapCameraAfterServerPlacement();
 	void ApplyCombatActionResult(const Protocol::S_COMBAT_ACTION_RESULT& Packet);
 	void ResetPredictedCombat(bool bResetSequence = false);
 

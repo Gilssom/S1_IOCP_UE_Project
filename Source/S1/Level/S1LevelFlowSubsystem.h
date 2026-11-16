@@ -47,6 +47,8 @@ public:
 	void CompleteMainLevelEntry();
 	void TravelToLobby();
 	bool SetInitialRegion(uint32 RegionId);
+	bool BeginPortalLoading(uint32 DestinationRegion);
+	void SetPortalCommitted() { bPortalCommitted=true; }
 	uint32 GetInitialRegion() const {return InitialRegionId;}
 
 	ES1LevelPhase GetLevelPhase() const
@@ -75,6 +77,8 @@ private:
 	TMap<uint64, FS1PendingEntitySpawn> PendingEntitySpawns;
 	FS1LootState LootState;
 	uint32 InitialRegionId = 0;
+	bool bPortalTravel = false;
+	bool bPortalCommitted = false;
 
 	static const FName LobbyLevelName;
 	static const FName LoadingLevelName;

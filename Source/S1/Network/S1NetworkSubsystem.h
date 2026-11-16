@@ -39,6 +39,8 @@ namespace Protocol
 	class S_QUEST_STATE;
 	class S_QUEST_ACCEPT_RESULT;
 	class S_QUEST_TURN_IN_RESULT;
+	class S_PORTAL_TRANSFER_PREPARE;
+	class S_PORTAL_TRANSFER_COMMIT;
 }
 
 UENUM(BlueprintType)
@@ -106,6 +108,8 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1PlayerFieldDropResultPacket, const Prot
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1QuestStatePacket, const Protocol::S_QUEST_STATE&);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1QuestAcceptPacket, const Protocol::S_QUEST_ACCEPT_RESULT&);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1QuestTurnInPacket, const Protocol::S_QUEST_TURN_IN_RESULT&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1PortalPreparePacket, const Protocol::S_PORTAL_TRANSFER_PREPARE&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnS1PortalCommitPacket, const Protocol::S_PORTAL_TRANSFER_COMMIT&);
 
 UCLASS()
 class S1_API US1NetworkSubsystem : public UGameInstanceSubsystem
@@ -161,6 +165,8 @@ public:
 	void NotifyQuestStatePacket(const Protocol::S_QUEST_STATE& Packet);
 	void NotifyQuestAcceptPacket(const Protocol::S_QUEST_ACCEPT_RESULT& Packet);
 	void NotifyQuestTurnInPacket(const Protocol::S_QUEST_TURN_IN_RESULT& Packet);
+	void NotifyPortalPreparePacket(const Protocol::S_PORTAL_TRANSFER_PREPARE& Packet);
+	void NotifyPortalCommitPacket(const Protocol::S_PORTAL_TRANSFER_COMMIT& Packet);
 
 	FOnS1ConnectionStateChanged OnConnectionStateChanged;
 	FOnS1LoginPacket OnLoginPacket;
@@ -192,6 +198,8 @@ public:
 	FOnS1QuestStatePacket OnQuestStatePacket;
 	FOnS1QuestAcceptPacket OnQuestAcceptPacket;
 	FOnS1QuestTurnInPacket OnQuestTurnInPacket;
+	FOnS1PortalPreparePacket OnPortalPreparePacket;
+	FOnS1PortalCommitPacket OnPortalCommitPacket;
 
 private:
 	bool TickNetwork(float DeltaTime);

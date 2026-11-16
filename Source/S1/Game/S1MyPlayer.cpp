@@ -28,6 +28,7 @@
 #include "EngineUtils.h"
 #include "Engine/World.h"
 #include "Framework/Application/SlateApplication.h"
+#include "Camera/PlayerCameraManager.h"
 
 // Sets default values
 AS1MyPlayer::AS1MyPlayer()
@@ -61,6 +62,19 @@ AS1MyPlayer::AS1MyPlayer()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+}
+
+void AS1MyPlayer::SnapCameraAfterServerPlacement()
+{
+	if(!CameraBoom)return;
+	CameraBoom->UpdateComponentToWorld();
+	const FVector ArmOrigin=CameraBoom->GetComponentLocation()+CameraBoom->TargetOffset;
+	CameraBoom->PreviousDesiredLoc=ArmOrigin;
+	CameraBoom->PreviousArmOrigin=ArmOrigin;
+	CameraBoom->PreviousDesiredRot=CameraBoom->GetTargetRotation();
+	CameraBoom->TickComponent(0.f,LEVELTICK_All,&CameraBoom->PrimaryComponentTick);
+	if(const auto* PC=Cast<APlayerController>(GetController());PC&&PC->PlayerCameraManager)
+		PC->PlayerCameraManager->SetGameCameraCutThisFrame();
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -556,6 +570,7 @@ void AS1MyPlayer::Look(const FInputActionValue& Value)
 
 bool AS1MyPlayer::CanUseGameplayInput() const
 {
+	if(const auto* Instance=GetGameInstance<US1GameInstance>();Instance&&Instance->IsPortalTransferActive())return false;
 	if(auto* Dialogue=GetWorld()->GetSubsystem<US1DialogueSubsystem>();Dialogue&&Dialogue->IsModal())return false;
 	const APlayerController* PlayerController = Cast<APlayerController>(Controller);
 	return PlayerController != nullptr && !PlayerController->bShowMouseCursor &&

@@ -203,7 +203,9 @@ bool US1WorldEntitySubsystem::SpawnPlayer(
 			ObjectInfo.current_hp() == 0);
 		Player->SetActorLocationAndRotation(
 			SpawnLocation,
-			FRotator(0.f, ObjectInfo.pos_info().yaw(), 0.f));
+			FRotator(0.f, ObjectInfo.pos_info().yaw(), 0.f),
+			false,nullptr,ETeleportType::TeleportPhysics);
+		if(AS1MyPlayer* Local=Cast<AS1MyPlayer>(Player))Local->SnapCameraAfterServerPlacement();
 
 		MyPlayer = Player;
 		Players.Add(ObjectId, Player);
